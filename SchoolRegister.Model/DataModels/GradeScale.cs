@@ -3,5 +3,11 @@ using System;
 
 namespace SchoolRegister.BLL.DataModels
 {
-    public enum GradeScale { NDST, DST, DB, BDB };
+    public enum GradeScale : int
+    { 
+        NDST = 2, 
+        DST = 3, 
+        DB = 4, 
+        BDB = 5 
+    };
 }
