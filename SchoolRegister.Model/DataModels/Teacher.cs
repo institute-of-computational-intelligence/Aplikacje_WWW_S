@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 
 namespace SchoolRegister.BLL.DataModels
