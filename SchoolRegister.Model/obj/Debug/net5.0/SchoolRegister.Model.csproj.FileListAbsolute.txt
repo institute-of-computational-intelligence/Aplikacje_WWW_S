@@ -1,0 +1,12 @@
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.deps.json
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\ref\SchoolRegister.Model.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.pdb
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csprojAssemblyReference.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.GeneratedMSBuildEditorConfig.editorconfig
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfoInputs.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfo.cs
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csproj.CoreCompileInputs.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\ref\SchoolRegister.Model.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.pdb

@@ -1,0 +1,15 @@
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.deps.json
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\ref\SchoolRegister.DAL.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.pdb
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.Model.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.Model.pdb
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csprojAssemblyReference.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.GeneratedMSBuildEditorConfig.editorconfig
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.AssemblyInfoInputs.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.AssemblyInfo.cs
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csproj.CoreCompileInputs.cache
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csproj.CopyComplete
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\ref\SchoolRegister.DAL.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.pdb
