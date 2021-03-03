@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SchoolRegister.Model
+namespace SchoolRegister.DAL
 {
     public class Class1
     {
