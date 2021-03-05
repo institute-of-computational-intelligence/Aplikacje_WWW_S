@@ -1,8 +1,8 @@
 using System;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
-    enum GradeScale
+    public enum GradeScale
     {
         NDST = 2,
         DST = 3,

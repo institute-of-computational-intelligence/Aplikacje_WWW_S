@@ -1,8 +1,8 @@
 using System;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
-    enum RoleValue
+    public enum RoleValue
     {
         User = 1,
         Student = 2,
