@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-SchoolRegister.Web-C9FB486B-5036-48B1-B3BE-76850BEE0318</UserSecretsId>
+    <UserSecretsId>aspnet-SchoolRegister.Web-61CC019B-0682-4FE7-832F-A9515E1F118F</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
