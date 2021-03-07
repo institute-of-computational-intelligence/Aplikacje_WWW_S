@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "ArX1Dv3aqUQWaXHbxyHT9QQF356wUg+qPi/yXqbaNEh8vkLpAw/yk2yQQtKoygFvPcZFh84RQvjX6wTQkserxw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wicio\\Documents\\Studia_PCZ\\006_Szosty_semestr\\Aplikacje_WWW\\Lab\\SchoolRegister\\Aplikacje_WWW_S\\SchoolRegister.Model\\SchoolRegister.Model.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.3\\microsoft.aspnetcore.cryptography.internal.5.0.3.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.3\\microsoft.aspnetcore.cryptography.keyderivation.5.0.3.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.identity.core\\5.0.3\\microsoft.extensions.identity.core.5.0.3.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.identity.stores\\5.0.3\\microsoft.extensions.identity.stores.5.0.3.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
+    "C:\\Users\\wicio\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
