@@ -1,0 +1,12 @@
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.deps.json
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\ref\SchoolRegister.Model.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.pdb
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csprojAssemblyReference.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfoInputs.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfo.cs
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csproj.CoreCompileInputs.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\ref\SchoolRegister.Model.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.pdb

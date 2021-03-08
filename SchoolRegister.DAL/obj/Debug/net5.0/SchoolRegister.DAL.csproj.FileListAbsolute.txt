@@ -1,0 +1,15 @@
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.deps.json
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\ref\SchoolRegister.DAL.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.pdb
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.Model.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.Model.pdb
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csprojAssemblyReference.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.AssemblyInfoInputs.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.AssemblyInfo.cs
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csproj.CoreCompileInputs.cache
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.csproj.CopyComplete
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\ref\SchoolRegister.DAL.dll
+C:\Users\PC-Wojtek\Desktop\SEM6\Aplikacje_www\Laboratorium\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.pdb
