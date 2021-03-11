@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.Model.lab2
 {
-    public class Grade
+    public class Grades
     {
-        [Key]
         public DateTime DateOfIssue { get; set; }
-        public GradeScale GradeValue { get; set; }
-        public virtual Student Student { get; set; }
+        [ForeignKey("Subject")]
+        public int SubjectId { get; set; }
+        [ForeignKey("AspNetUsers")]
         public int StudentId { get; set; }
-        public virtual Subject Subject { get; set; }
-        public int SubcjectId { get; set; }
+        public int GradeValue { get; set; }
     }
 }
