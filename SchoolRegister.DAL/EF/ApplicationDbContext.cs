@@ -5,13 +5,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
 
+
+
 namespace SchoolRegister.DAL.EF
 {
     public class ApplicationDbContext : IdentityDbContext<User,Role,int>
     {
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; }
-        public virtual DbSet<Grade> Grades {get; set;}
+        public virtual DbSet<SchoolRegister.Model.DataModels.Grade> Grades {get; set;}
         public virtual DbSet<Group> Groups{get; set;} 
         public virtual DbSet<Subject> Subjects{get; set;} 
         public virtual DbSet<SubjectGroup> SubjectGroups{get; set;} 
@@ -55,13 +57,25 @@ namespace SchoolRegister.DAL.EF
             modelBuilder.Entity<SubjectGroup>()
             .HasOne(g => g.Group)
             .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(global => global.GroupId);
+            .HasForeignKey(g => g.GroupId);
 
             modelBuilder.Entity<SubjectGroup>()
             .HasOne(s => s.Subject)
             .WithMany(sg => sg.SubjectGroups)
             .HasForeignKey(s =>s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Grade>()
+            .HasOne(s => s.Subject)
+            .WithMany(g => g.Grades)
+            .HasForeignKey(s => s.SubjectId);
+
+            modelBuilder.Entity<Group>()
+            .HasKey(g => new {g.Id});
+
+            modelBuilder.Entity<Grade>()
+            .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
+            
         }
     }
 }
