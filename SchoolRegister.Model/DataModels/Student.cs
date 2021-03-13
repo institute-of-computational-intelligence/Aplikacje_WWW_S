@@ -7,11 +7,11 @@ namespace SchoolRegister.BLL.DataModels
     {
         public double AverageGrade { get; }
         public IDictionary<string, double> AverageGradePerSubject { get; }
-        public IList<Grade> Grades { get; set; }
+        public virtual IList<Grade> Grades { get; set; }
         public IDictionary<string, List<GradeScale>> GradesPerSubject { get; }
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
         public int? GroupId { get; set; }
-        public Parent Parent { get; set; }
+        public virtual Parent Parent { get; set; }
         public int? ParentId { get; set; }
     }
 }

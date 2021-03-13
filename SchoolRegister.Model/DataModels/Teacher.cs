@@ -5,7 +5,7 @@ namespace SchoolRegister.BLL.DataModels
 {
     public class Teacher : User
     {
-        public IList<Subject> Subject { get; set; }
+        public virtual IList<Subject> Subject { get; set; }
         public string Title { get; set; }
     }
 }
