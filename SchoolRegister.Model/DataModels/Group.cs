@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SchoolRegister.Models.DataModels
+namespace SchoolRegister.Model.DataModels
 {
     public class Group
     {
