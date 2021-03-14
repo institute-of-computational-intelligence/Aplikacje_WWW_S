@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;  
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System;
 
 namespace SchoolRegister.Model.DataModels
@@ -9,11 +10,14 @@ namespace SchoolRegister.Model.DataModels
     {
         public double AverageGrade {get;}
         public IDictionary<string, double> AverageGradePerSubject {get;}
-        public IList<Grade> Grades {get; set;}
+        public virtual IList<Grade> Grades {get; set;}
         public IDictionary<string, List<GradeScale>> GradesPerSubject {get;}
-        public Group Group {get; set;}
-        public int? GrupID {get; set;}
-        public Parent Parent {get; set;}
+        public virtual Group Group {get; set;}
+        public int? GroupId {get; set;}
+        public virtual Parent Parent {get; set;}
         public int? ParentId {get; set;}
+
+
+        
     }
 }
