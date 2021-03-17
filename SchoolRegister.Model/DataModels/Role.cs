@@ -12,7 +12,8 @@ namespace SchoolRegister.Model.DataModels
        {
            base.Id = (int)roleValue;
            base.Name = name;
-           
+
+           RoleValue = roleValue;     
        }
  
     }
