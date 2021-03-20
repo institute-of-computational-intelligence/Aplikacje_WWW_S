@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-namespace Zadanie_1.Models
+namespace SchoolRegister.Model.DataModels
 {
     public class Role : IdentityRole<int>
     {
