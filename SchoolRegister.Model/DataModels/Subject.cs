@@ -10,8 +10,8 @@ namespace SchoolRegister.Model.DataModels
     {
         [Key]
         public int Id { get; set; }
-        [Key]
         public int? TeacherId { get; set; }
+        [ForeignKey("TeacherId")]
         [Required]
         public string Name { get; set; }
         [Required]
