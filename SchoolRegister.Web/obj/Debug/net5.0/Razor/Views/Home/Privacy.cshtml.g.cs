@@ -21,13 +21,13 @@ using SchoolRegister.Web;
 #nullable disable
 #nullable restore
 #line 2 "C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.Web\Views\_ViewImports.cshtml"
-using SchoolRegister.Web.Models;
+using SchoolRegister.ViewModels.VM;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"55d6da9d6915d6157df92630e213ac5ae2f31d8f", @"/Views/Home/Privacy.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0679e622309d7ec2aa86494ef3a5380f37171d38", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4cf803a08bcc603de38650a214abd162194c3095", @"/Views/_ViewImports.cshtml")]
     public class Views_Home_Privacy : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

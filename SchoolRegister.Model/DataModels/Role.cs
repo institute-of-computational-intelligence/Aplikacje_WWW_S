@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
     public class Role : IdentityRole<int>
     {

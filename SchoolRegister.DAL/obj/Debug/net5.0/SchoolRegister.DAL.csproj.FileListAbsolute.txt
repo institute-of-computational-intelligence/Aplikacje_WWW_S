@@ -13,3 +13,6 @@ C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolR
 C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.dll
 C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\ref\SchoolRegister.DAL.dll
 C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.pdb
+C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.runtimeconfig.json
+C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.runtimeconfig.dev.json
+C:\Users\wicio\Documents\Studia_PCZ\006_Szosty_semestr\Aplikacje_WWW\Lab\SchoolRegister\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.genruntimeconfig.cache
