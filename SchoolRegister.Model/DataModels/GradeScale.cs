@@ -1,3 +1,5 @@
+using System;
+
 namespace SchoolRegister.BLL.DataModels
 {
     public enum GradeScale : int
