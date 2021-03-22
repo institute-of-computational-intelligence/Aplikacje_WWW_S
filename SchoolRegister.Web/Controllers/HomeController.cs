@@ -5,15 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SchoolRegister.Web.Models;
+using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Web.Controllers
 {
-    public class HomeController : Controller
+    public class oller : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<oller> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public oller(ILogger<oller> logger)
         {
             _logger = logger;
         }
