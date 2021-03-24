@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
     public class Student : User 
     {
-        public IList<Grade> Grades {get; set;}
-        public Group Group {get; set;}
+        public virtual IList<Grade> Grades {get; set;}
+        public virtual Group Group {get; set;}
         public int? GroupId {get; set;}
-        public Parent Parent {get; set;}
+        public virtual Parent Parent {get; set;}
+        public int? ParentId { get; set; }
 
         [NotMapped]
         double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d : Math.Round(Grades.Average(g => (int) g.GradeValue),2);
