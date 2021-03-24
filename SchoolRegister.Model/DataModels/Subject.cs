@@ -4,6 +4,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Subject
     {
+
         public string Description { get; set; }
         public virtual IList<Grade> Grades { get; set; }
         public int Id { get; set; }

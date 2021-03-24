@@ -8,6 +8,7 @@ namespace SchoolRegister.Model.DataModels
     public class Student : User
     {
 
+
         public virtual IList<Grade> Grades { get; set; }
         public virtual Group Group { get; set; }
         public int? GroupId { get; set; }
@@ -24,5 +25,6 @@ namespace SchoolRegister.Model.DataModels
             .GroupBy(g => g.Subject.Name)
             .Select(g => new { SubjectName = g.Key, GradeList = g.Select(x => x.GradeValue).ToList() })
             .ToDictionary(x => x.SubjectName, x => x.GradeList);
+
     }
 }
