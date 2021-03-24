@@ -1,5 +1,5 @@
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
     public enum RoleValue
     {
