@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
-    public class User: IdentityUser<int>
+    public class User : IdentityUser<int>
     {
-        public string FirstName { get; set;}
-        public string LastName { get; set;}
-        public DateTime RegistrationDate { get; set;}
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime RegistrationDate { get; set; }
     }
 }

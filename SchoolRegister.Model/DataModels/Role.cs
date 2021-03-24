@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
-    public class Role: IdentityRole<int>
+    public class Role : IdentityRole<int>
     {
-        public RoleValue RoleValue { get; set; }
+        public virtual RoleValue RoleValue { get; set; }
         public Role() {}
-        public Role(string name, RoleValue rv): base(name)
+        public Role(string name, RoleValue value) : base(name)
         {
-            this.RoleValue = rv;
+            this.RoleValue = value;
         }
     }
 }
