@@ -7,10 +7,15 @@ using SchoolRegister.Model.DataModels;
 
 
 
-namespace SchoolRegister.DAL.EF{
+namespace SchoolRegister.DAL.EF
+{
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
         public virtual DbSet<Grade> Grades { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -34,6 +39,44 @@ namespace SchoolRegister.DAL.EF{
                 .HasValue<Student>((int)RoleValue.Student)
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new {sg.GroupId, sg.SubjectId});
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(g => g.Group)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(g => g.GroupId);
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(s => s.Subject)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(s => s.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Grade>()
+                .HasKey(g => new {g.DateOfIssue, g.StudentId, g.SubjectId});
+
+            modelBuilder.Entity<Grade>()
+                .Property(g => g.GradeValue)
+                .IsRequired();
+            
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Subject)
+                .WithMany(g => g.Grades)
+                .HasForeignKey(g => g.SubjectId); 
+
+            modelBuilder.Entity<Subject>()
+                .Property(s => s.Name)
+                .IsRequired();   
+            
+            modelBuilder.Entity<Subject>()
+                .Property(s => s.Description)
+                .IsRequired();  
+
+            modelBuilder.Entity<Subject>()
+                .HasKey(s => s.Id);
+            
         }
 
     }
