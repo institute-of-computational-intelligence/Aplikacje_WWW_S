@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using SchoolRegister.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.Web
 {
@@ -32,8 +34,12 @@ namespace SchoolRegister.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options=>options.SignIn.RequireConfirmedAccount=false)
+                .AddRoles<Role>()
+                .AddRoleManager<RoleManager<Role>>()
+                .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient(typeof(ILogger),typeof(Logger<Startup>));
             services.AddControllersWithViews();
         }
 
@@ -47,7 +53,7 @@ namespace SchoolRegister.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
