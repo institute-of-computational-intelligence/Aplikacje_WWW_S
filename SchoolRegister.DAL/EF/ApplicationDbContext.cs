@@ -11,12 +11,12 @@ namespace SchoolRegister.DAL.EF
     {
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; }
-        /*
-        public virtual DbSet<Grade> Grades { get; set; }
+
+        //Tabele w bazie danych
         public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
-        */
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Grade> Grades { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -42,11 +42,11 @@ namespace SchoolRegister.DAL.EF
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
 
-            //Poniższe jest wykonane bezposrednio w SubjectGroup
-            /*
+            modelBuilder.Entity<Group>()
+                .HasKey(g => new {g.Id});
+             
             modelBuilder.Entity<SubjectGroup>()
                 .HasKey(sg => new {sg.GroupId, sg.SubjectId});
-            */
             
             modelBuilder.Entity<SubjectGroup>()
                 .HasOne(g => g.Group)
@@ -59,24 +59,22 @@ namespace SchoolRegister.DAL.EF
                 .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            /*
-            modelBuilder.Entity<Group>()
-                .HasMany(s => s.Students)
-                .WithOne(g => g.Group)
-                .HasForeignKey(x => x.GroupId)
-                .IsRequired();
+            modelBuilder.Entity<Grade>()
+                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
 
             modelBuilder.Entity<Grade>()
                 .HasOne(s => s.Subject)
                 .WithMany(g => g.Grades)
                 .HasForeignKey(s => s.SubjectId);
 
+// z instrukcji ale prawdopodobnie zbedne
+/* 
             modelBuilder.Entity<Group>()
-                .HasKey(g => new {g.Id});
-
-            modelBuilder.Entity<Grade>()
-                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
-            */
+                .HasMany(s => s.Students)
+                .WithOne(g => g.Group)
+                .HasForeignKey(x => x.GroupId)
+                .IsRequired();
+*/
         }
     }
 }
