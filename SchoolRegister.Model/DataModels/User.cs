@@ -5,9 +5,9 @@ namespace SchoolRegister.Model.DataModels
 {
     public class User : IdentityUser<int>
     {
-        public string firstName { get; set;}
-        public string lastName { get; set;}
-        public DateTime registrationDate {get; set;}
+        public string FirstName { get; set;}
+        public string LastName { get; set;}
+        public DateTime RegistrationDate {get; set;}
 
     }
 }

@@ -5,12 +5,12 @@ namespace SchoolRegister.Model.DataModels
 {    
     public class Grade
     {
-        public DateTime dateOfIssue {get; set;}
-        public GradeScale gradeValue {get; set;}
-        public Student student {get; set;}
-        public int studentId {get; set;}
-        public Subject subject {get; set;}
-        public int subjectId {get; set;}
+        public DateTime DateOfIssue {get; set;}
+        public GradeScale GradeValue {get; set;}
+        public virtual Student Student {get; set;}
+        public int StudentId {get; set;}
+        public virtual Subject Subject {get; set;}
+        public int SubjectId {get; set;}
     }
 
 }
