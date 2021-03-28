@@ -13,7 +13,7 @@ namespace SchoolRegister.Model.DataModels
         }
         public Role(string name, RoleValue roleValue)
         {
-            
+            this.RoleValue = roleValue;
         }
     }
 }
