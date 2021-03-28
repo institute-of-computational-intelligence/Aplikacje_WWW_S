@@ -8,9 +8,9 @@ namespace SchoolRegister.Model.DataModels
         {
 
         }
-        public Role(string name,RoleValue roleValue)
+        public Role(string name,RoleValue roleValue): base(name)
         {
-
+            this.RoleValue= roleValue;
         }
     }
 
