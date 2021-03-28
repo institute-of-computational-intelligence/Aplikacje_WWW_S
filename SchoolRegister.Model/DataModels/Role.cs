@@ -17,4 +17,3 @@ namespace SchoolRegister.Model.DataModels
         }
 
     }
-}
