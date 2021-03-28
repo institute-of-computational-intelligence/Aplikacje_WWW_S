@@ -21,4 +21,5 @@ namespace SchoolRegister.Model.DataModels
         public int SubjectId{get;set;}    
     }
 
+
 }

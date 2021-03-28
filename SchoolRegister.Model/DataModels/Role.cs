@@ -15,5 +15,5 @@ namespace SchoolRegister.Model.DataModels
             this.RoleValue = roleValue;
         }
     }
-    
+
 }

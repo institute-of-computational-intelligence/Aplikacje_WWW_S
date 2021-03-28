@@ -13,6 +13,6 @@ namespace SchoolRegister.Model.DataModels
         [Required]
         public string LastName { get; set; }
         public DateTime RegistrationDate { get; set; }
-        
+    
     }
 }
