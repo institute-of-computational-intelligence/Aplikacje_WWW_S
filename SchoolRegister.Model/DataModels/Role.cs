@@ -3,7 +3,7 @@ using System;
 
 namespace SchoolRegister.Model.DataModels
 {
-    public class Role : IdentityUser<int>
+    public class Role : IdentityRole<int>
     {
         public RoleValue RoleValue { get; set; }
         Role()
