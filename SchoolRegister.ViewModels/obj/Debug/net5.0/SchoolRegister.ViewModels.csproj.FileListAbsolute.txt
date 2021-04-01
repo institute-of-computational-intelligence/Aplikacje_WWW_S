@@ -1,0 +1,15 @@
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\SchoolRegister.ViewModels.deps.json
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\SchoolRegister.ViewModels.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\ref\SchoolRegister.ViewModels.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\SchoolRegister.ViewModels.pdb
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\SchoolRegister.Model.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\bin\Debug\net5.0\SchoolRegister.Model.pdb
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.csprojAssemblyReference.cache
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.AssemblyInfoInputs.cache
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.AssemblyInfo.cs
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.csproj.CoreCompileInputs.cache
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.csproj.CopyComplete
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\ref\SchoolRegister.ViewModels.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.ViewModels\obj\Debug\net5.0\SchoolRegister.ViewModels.pdb
