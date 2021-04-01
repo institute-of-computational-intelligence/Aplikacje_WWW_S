@@ -4,7 +4,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Grade
     {
-        public DateTime DateOflssue
+        public DateTime DateOfIssue
         {
             get;
             set;
@@ -16,7 +16,7 @@ namespace SchoolRegister.Model.DataModels
             set;
         }
 
-        public Student Student
+        public virtual Student Student
         {
             get;
             set;
@@ -28,7 +28,7 @@ namespace SchoolRegister.Model.DataModels
             set;
         }
 
-        public Subject Subject
+        public virtual Subject Subject
         {
             get;
             set;

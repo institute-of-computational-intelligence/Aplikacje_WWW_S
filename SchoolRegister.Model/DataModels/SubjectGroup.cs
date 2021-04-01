@@ -4,7 +4,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class SubjectGroup
     {
-        public Group Group
+        public virtual Group Group
         {
             get;
             set;
@@ -15,7 +15,7 @@ namespace SchoolRegister.Model.DataModels
             get;
             set;
         }
-        public Subject Subject
+        public virtual Subject Subject
         {
             get;
             set;

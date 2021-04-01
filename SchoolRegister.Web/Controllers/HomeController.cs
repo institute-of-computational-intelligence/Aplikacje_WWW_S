@@ -5,7 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SchoolRegister.Web.Models;
+
+
+using SchoolRegister.Model.DataModels;
+using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Web.Controllers
 {

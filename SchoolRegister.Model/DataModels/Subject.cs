@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 namespace SchoolRegister.Model.DataModels
 {
     public class Subject
@@ -10,7 +10,7 @@ namespace SchoolRegister.Model.DataModels
             set;
         }
 
-        public IList<Grade> Grades
+        public virtual IList<Grade> Grades
         {
             get;
             set;
@@ -28,13 +28,13 @@ namespace SchoolRegister.Model.DataModels
             set;
         }
 
-        public IList<SubjectGroup> SubjectGroups
+        public virtual IList<SubjectGroup> SubjectGroups
         {
             get;
             set;
         }
 
-        public Teacher Teacher
+        public virtual Teacher Teacher
         {
             get;
             set;
