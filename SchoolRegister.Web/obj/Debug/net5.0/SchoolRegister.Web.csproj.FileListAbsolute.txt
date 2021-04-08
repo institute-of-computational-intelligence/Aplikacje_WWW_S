@@ -402,3 +402,5 @@ F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\obj\Debug\ne
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\obj\Debug\net5.0\SchoolRegister.Web.genruntimeconfig.cache
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\Castle.Core.dll
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\AutoMapper.dll
+F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
