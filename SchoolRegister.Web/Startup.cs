@@ -38,6 +38,7 @@ namespace SchoolRegister.Web
             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
             services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(Startup));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
