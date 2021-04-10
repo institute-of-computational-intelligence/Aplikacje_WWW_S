@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.BLL.DataModels;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
+
 namespace SchoolRegister.Web
 {
     public class Startup
@@ -17,22 +20,25 @@ namespace SchoolRegister.Web
         {
             Configuration = configuration;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
-            );
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddRoles<Role>()
-            .AddRoleManager<RoleManager<Role>>()
-            .AddUserManager<UserManager<User>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<Role>()
+                .AddRoleManager<RoleManager<Role>>()
+                .AddUserManager<UserManager<User>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+            services.AddTransient<ITeacherService, TeacherService>();
+            services.AddTransient<IGradeService, GradeService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<ITeacherService, TeacherService>();
             services.AddControllersWithViews();
         }
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
