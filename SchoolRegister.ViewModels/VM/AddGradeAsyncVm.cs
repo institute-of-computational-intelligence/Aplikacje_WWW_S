@@ -5,6 +5,7 @@ namespace SchoolRegister.ViewModels.VM
 {
     public class AddGradeAsyncVm
     {
+
         [Required]
         public int StudentId{ get; set; }
         

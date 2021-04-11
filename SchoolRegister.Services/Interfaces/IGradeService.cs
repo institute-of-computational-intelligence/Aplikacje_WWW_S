@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SchoolRegister.Model.DataModels;
 using System.Threading.Tasks;
 
+
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IGradeService

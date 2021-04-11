@@ -5,6 +5,7 @@ namespace SchoolRegister.ViewModels.VM
 {
     public class SendEmailVm
     {
+
         [Required]
         public int SenderId { get; set; }
         

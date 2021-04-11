@@ -6,6 +6,7 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
 {
+
     public interface ISubjectService
     {
          SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm);

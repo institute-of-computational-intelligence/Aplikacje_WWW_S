@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 
+
 namespace SchoolRegister.Services.Services
 {
     public abstract class BaseService

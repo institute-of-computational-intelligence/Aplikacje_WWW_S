@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
+
 namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService

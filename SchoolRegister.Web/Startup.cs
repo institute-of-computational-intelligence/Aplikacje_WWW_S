@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 
+
 namespace SchoolRegister.Web
 {
     public class Startup

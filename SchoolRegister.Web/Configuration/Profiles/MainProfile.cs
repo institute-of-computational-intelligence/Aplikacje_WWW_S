@@ -7,6 +7,7 @@ namespace SchoolRegister.Web.Configuration.Profiles
 {
     public class MainProfile : Profile
     {
+
         public MainProfile()
         {
             //AutoMapper maps
