@@ -11,16 +11,16 @@ namespace SchoolRegister.DAL.EF {
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; } 
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<Group> Group { get; set; }
-        public virtual DbSet<Subject> Subject { get; set; }
-        public virtual DbSet<SubjectGroup> SubjectGroup { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         { 
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
             base.OnConfiguring(optionsBuilder);
             //configuration commands
