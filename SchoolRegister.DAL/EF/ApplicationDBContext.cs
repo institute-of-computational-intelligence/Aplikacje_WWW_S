@@ -12,9 +12,9 @@ namespace SchoolRegister.DAL.EF
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<Grade> Group { get; set; }
-        public virtual DbSet<Grade> SubjectGroup { get; set; }
-        public virtual DbSet<Grade> Subject { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
 
         // more properties need to added….
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
