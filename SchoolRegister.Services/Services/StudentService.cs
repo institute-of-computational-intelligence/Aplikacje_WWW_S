@@ -30,14 +30,14 @@ namespace SchoolRegister.Services.Services
 
             if (student == null)
             {
-                throw new ArgumentNullException($"Could not find user with id: {addToGroupVm.StudentId}");
+                throw new ArgumentNullException($"Nie nzleziono grupy {addToGroupVm.StudentId}");
             }
 
             var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
 
             if(group == null)
             {
-                throw new ArgumentNullException($"Could not find group with id: {addToGroupVm.GroupId}");
+                throw new ArgumentNullException($"Nie nzleziono grupy: {addToGroupVm.GroupId}");
             }
 
             student.GroupId = addToGroupVm.GroupId;
@@ -52,7 +52,7 @@ namespace SchoolRegister.Services.Services
 
             if (student == null)
             {
-                throw new ArgumentNullException($"Could not find user with id: {removeFromGroupVm.StudentId}");
+                throw new ArgumentNullException($"Nie znaleziono uzytkownika {removeFromGroupVm.StudentId}");
             }
 
             student.GroupId = null;

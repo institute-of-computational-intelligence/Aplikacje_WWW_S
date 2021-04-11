@@ -23,7 +23,7 @@ namespace SchoolRegister.Services.Services
         {
             if(string.IsNullOrEmpty(addGroupVm.Name))
             {
-                throw new ArgumentNullException("Name value cannot be null or empty!");
+                throw new ArgumentNullException("Nie moze byc pusty");
             }
 
             var groupToBeAdded = new Group() { Name = addGroupVm.Name };
@@ -40,7 +40,7 @@ namespace SchoolRegister.Services.Services
 
                 if(groupToBeDelted == null)
                 {
-                    throw new ArgumentNullException($"Could not find group with id: {deleteGroupVm.Id}");
+                    throw new ArgumentNullException($"Nie nzleziono grupy: {deleteGroupVm.Id}");
                 }
 
                 DbContext.Groups.Remove(groupToBeDelted);

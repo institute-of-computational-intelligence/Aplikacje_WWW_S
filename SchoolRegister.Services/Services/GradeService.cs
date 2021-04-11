@@ -32,7 +32,7 @@ namespace SchoolRegister.Services.Services
 
                 if (user == null)
                 {
-                    throw new ArgumentNullException($"Could not find user with id: {checkGradesVm.CurrentUserId}");
+                    throw new ArgumentNullException($"Nie znaleziono uzytkownika: {checkGradesVm.CurrentUserId}");
                 }
 
                 if(await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
@@ -43,7 +43,7 @@ namespace SchoolRegister.Services.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
+                    throw new ArgumentException("Nie masz praw dostepu.");
                 }
             }
             catch(Exception exception)

@@ -33,7 +33,7 @@ namespace SchoolRegister.Services.Services
 
                 if(teacher == null)
                 {
-                    throw new ArgumentNullException("Could not find specified teacherId.");
+                    throw new ArgumentNullException("Nie znaleziono nauczyciela.");
                 }
 
                 if(await userManager.IsInRoleAsync(teacher, "Teacher"))
@@ -42,7 +42,7 @@ namespace SchoolRegister.Services.Services
 
                     if (student == null)
                     {
-                        throw new ArgumentNullException("Could not find specified studentId.");
+                        throw new ArgumentNullException("Nie znaleziono studenta.");
                     }
 
                     var grade = new Grade() { 
@@ -57,7 +57,7 @@ namespace SchoolRegister.Services.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
+                    throw new ArgumentException("Nie masz praw dostepu.");
                 }
             }
             catch(Exception exception)
@@ -72,14 +72,14 @@ namespace SchoolRegister.Services.Services
             
             if(sender == null)
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
+                throw new ArgumentNullException("Nie znaleziono nadawcy.");
             }
             
             var recipient = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.RecipientId);
 
             if(recipient == null)
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
+                throw new ArgumentNullException("Nie znaleziono nadawcy.");
             }
 
             if (await userManager.IsInRoleAsync(sender, "Teacher") && await userManager.IsInRoleAsync(recipient, "Parent"))
