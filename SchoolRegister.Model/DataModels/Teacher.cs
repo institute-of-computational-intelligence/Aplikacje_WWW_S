@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.Model.DataModels
 {
-    public enum GradeScale
+    public class Teacher : User
     {
-        NDST,
-        DST,
-        DB,
-        BDB
+        public virtual IList<Subject> Subjects { get; set; }
+        public string Title { get; set; }
     }
 }
