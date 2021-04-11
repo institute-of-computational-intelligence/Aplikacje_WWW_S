@@ -11,6 +11,9 @@ namespace SchoolRegister.DAL.EF
     {
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
         // more properties need to added….
 
@@ -51,6 +54,7 @@ namespace SchoolRegister.DAL.EF
                 .WithMany(sg => sg.SubjectGroups)
                 .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
+                
         }
     }
 }
