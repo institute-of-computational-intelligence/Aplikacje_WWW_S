@@ -13,3 +13,6 @@ F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolReg
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.dll
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\ref\SchoolRegister.DAL.dll
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.pdb
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.runtimeconfig.json
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\bin\Debug\net5.0\SchoolRegister.DAL.runtimeconfig.dev.json
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.DAL\obj\Debug\net5.0\SchoolRegister.DAL.genruntimeconfig.cache
