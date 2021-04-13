@@ -402,3 +402,5 @@ F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\obj\Debug\net5.0\SchoolReg
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\obj\Debug\net5.0\SchoolRegister.Web.genruntimeconfig.cache
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\Castle.Core.dll
 F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\AutoMapper.dll
+F:\Solucja_na_AWWW\Aplikacje_WWW_S\SchoolRegister.Web\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
