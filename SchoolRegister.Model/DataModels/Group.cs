@@ -12,7 +12,9 @@ namespace SchoolRegister.Model.DataModels
     {
 
         [Key]
+
         public int Id {get; set;}
+
         [Required]
         public string Name {get; set;}
         public virtual IList<Student> Students {get; set;}
