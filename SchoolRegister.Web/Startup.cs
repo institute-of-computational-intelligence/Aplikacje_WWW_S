@@ -1,18 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EntityFramework;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
 
 namespace SchoolRegister.Web
 {
@@ -28,6 +25,7 @@ namespace SchoolRegister.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -36,6 +34,11 @@ namespace SchoolRegister.Web
                 .AddRoleManager<RoleManager<Role>>()
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+            services.AddTransient<ITeacherService, TeacherService>();
+            services.AddTransient<IGradeService, GradeService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<ITeacherService, TeacherService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -54,6 +57,7 @@ namespace SchoolRegister.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -65,8 +69,8 @@ namespace SchoolRegister.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
