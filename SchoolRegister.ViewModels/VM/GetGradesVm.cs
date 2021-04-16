@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class GroupVm
+    public class GetGradesVm
     {
-        public int? Id { get; set; }
+        [Required]
+        public int CallerId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public int StudentId { get; set; }
     }
 }

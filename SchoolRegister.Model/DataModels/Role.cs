@@ -5,17 +5,17 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Role : IdentityRole<int>
     {
-       public RoleValue RoleValue { get; set; }
+        public RoleValue RoleValue { get; set; }
 
-       public Role() {}
-       public Role(string name, RoleValue roleValue)
-       {
-           base.Id = (int)roleValue;
-           base.Name = name;
+        public Role() { }
+        public Role(string name, RoleValue roleValue)
+        {
+            base.Id = (int)roleValue;
+            base.Name = name;
 
-           RoleValue = roleValue;     
-       }
- 
+            RoleValue = roleValue;
+        }
+
     }
 
 }
