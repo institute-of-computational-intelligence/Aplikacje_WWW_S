@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Net;
 
+
 namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
@@ -27,13 +28,18 @@ namespace SchoolRegister.Services.Services
                 if (addGradeToStudentVm is null)
                     throw new ArgumentNullException("View model parametr is missing");
 
-                if (addGradeToStudentVm.TeacherId.HasValue || addGradeToStudentVm.StudentId.HasValue)
+                if (addGradeToStudentVm.TeacherId != 0 || addGradeToStudentVm.StudentId != 0)
                 {
-                    var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
                     var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
 
                     if (await UserManager.IsInRoleAsync(teacher, "Teacher"))
-                        await DbContext.Grades.AddAsync(gradeEntity);
+                        await DbContext.Grades.AddAsync(new Grade
+                        {
+                            DateOfIssue = DateTime.Now,
+                            GradeValue = addGradeToStudentVm.GradeValue,
+                            StudentId = addGradeToStudentVm.StudentId,
+                            SubjectId = addGradeToStudentVm.SubjectId
+                        });
                 }
                 else
                     throw new ArgumentNullException("View model paramet requires all fields to be set");
