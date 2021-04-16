@@ -12,5 +12,4 @@ namespace SchoolRegister.Model.DataModels
         public virtual Subject Subject {get; set;}
         public int SubjectId {get; set;}
     }
-
 }
