@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
-    public interface ITeacherService
+    public interface IGradeService
     {
-        void AddGrade(AddGradeVm addGradeVm);
-        void SendEMail(SendEMailVm sendEMailVm);
+        Task<IEnumerable<Grade>> GetGrades(GradeVm gradesVm);
+        
     }
 }

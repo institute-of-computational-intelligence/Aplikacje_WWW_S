@@ -11,5 +11,6 @@ namespace SchoolRegister.ViewModels.VM
         public string Description{ get; set; }
         [Required]
         public int TeacherId{ get; set; }
+        
     }
 }

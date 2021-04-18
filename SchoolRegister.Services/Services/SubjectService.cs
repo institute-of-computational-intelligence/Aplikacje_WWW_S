@@ -23,7 +23,8 @@ namespace SchoolRegister.Services.Services
             {
                 if(addOrUpdateVm==null)
                     throw new ArgumentNullException($"View model parameter is null");
-                var subjectEntity=Mapper.Map<SubjectService>(addOrUpdateVm);
+                    
+                var subjectEntity=Mapper.Map<Subject>(addOrUpdateVm);
                 if(!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id ==0)
                     DbContext.Subjects.Add(subjectEntity);
                 else
