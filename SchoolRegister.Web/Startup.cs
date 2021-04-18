@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
 namespace SchoolRegister.Web
 {
   public class Startup
@@ -20,6 +23,7 @@ namespace SchoolRegister.Web
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddAutoMapper(typeof(Startup));
       services.AddDbContext<ApplicationDbContext>(options =>
       options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
       );
@@ -31,6 +35,7 @@ namespace SchoolRegister.Web
       .AddEntityFrameworkStores<ApplicationDbContext>();
       services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
       services.AddControllersWithViews();
+
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
