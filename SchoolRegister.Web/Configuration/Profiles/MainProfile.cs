@@ -1,0 +1,28 @@
+﻿using AutoMapper;
+using SchoolRegister.Model.DataModels;
+using SchoolRegister.ViewModels.VM;
+using System.Linq;
+
+namespace SchoolRegister.Web.Configuration.Profiles
+{
+    public class MainProfiles : Profile
+    {
+        public MainProfiles()
+        {
+            CreateMap<Subject, SubjectVm>()
+                .ForMember(dest => dest.TeacherName, x => x.MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
+                .ForMember(dest => dest.Groups, x => x.MapFrom(src => src.SubjectGroups.Select(y => y.Group)));
+
+            CreateMap<AddOrUpdateSubjectVm, Subject>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TeacherId, x => x.MapFrom(src => src.TeacherId));
+
+            CreateMap<Group, GroupVm>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id));
+
+            CreateMap<SubjectVm, AddOrUpdateSubjectVm>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id))
+                .ForMember(dest => dest.TeacherId, x => x.MapFrom(src => src.TeacherId)); ;
+        }
+    }
+}
