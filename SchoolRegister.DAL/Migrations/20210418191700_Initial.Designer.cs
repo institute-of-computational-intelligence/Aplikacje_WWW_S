@@ -10,7 +10,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210328223730_Initial")]
+    [Migration("20210418191700_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,7 +161,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Role", b =>
@@ -216,7 +216,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
@@ -231,7 +231,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjectGroup");
+                    b.ToTable("SubjectGroups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.User", b =>
