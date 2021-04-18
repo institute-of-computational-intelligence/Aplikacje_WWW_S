@@ -79,7 +79,7 @@ namespace SchoolRegister.DAL.EF
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<Grade>()
-				.HasKey(gr => new {gr.DateOfissue, gr.SubjectId, gr.StudentId});
+				.HasKey(gr => new {gr.DateOfIssue, gr.SubjectId, gr.StudentId});
 
 			modelBuilder.Entity<Grade>()
 				.HasOne(s => s.Subject)

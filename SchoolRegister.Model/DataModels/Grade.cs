@@ -7,7 +7,7 @@ namespace SchoolRegister.Model.DataModels
     public class Grade
     {
         [Key]
-        public DateTime DateOfissue { get; set; }
+        public DateTime DateOfIssue { get; set; }
         public GradeScale GradeValue { get; set; }
         public virtual Student Student { get; set; }
         public int StudentId { get; set; }
