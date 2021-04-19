@@ -124,7 +124,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Grade", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Grade", b =>
                 {
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
@@ -147,7 +147,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("Grades");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Group", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,7 +162,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("Group");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Role", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,7 +194,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Subject", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,7 +217,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("Subject");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.SubjectGroup", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
                 {
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -232,7 +232,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.ToTable("SubjectGroup");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.User", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -313,16 +313,16 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasDiscriminator<int>("UserType").HasValue(0);
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Parent", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Parent", b =>
                 {
-                    b.HasBaseType("SchoolRegister.BLL.DataModels.User");
+                    b.HasBaseType("SchoolRegister.Model.DataModels.User");
 
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Student", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Student", b =>
                 {
-                    b.HasBaseType("SchoolRegister.BLL.DataModels.User");
+                    b.HasBaseType("SchoolRegister.Model.DataModels.User");
 
                     b.Property<int?>("GroupId")
                         .IsRequired()
@@ -338,9 +338,9 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Teacher", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Teacher", b =>
                 {
-                    b.HasBaseType("SchoolRegister.BLL.DataModels.User");
+                    b.HasBaseType("SchoolRegister.Model.DataModels.User");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -350,7 +350,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Role", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,7 +359,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.User", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -368,7 +368,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.User", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -377,13 +377,13 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Role", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolRegister.BLL.DataModels.User", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -392,22 +392,22 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.User", null)
+                    b.HasOne("SchoolRegister.Model.DataModels.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Grade", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Grade", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Student", "Student")
+                    b.HasOne("SchoolRegister.Model.DataModels.Student", "Student")
                         .WithMany("Grades")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolRegister.BLL.DataModels.Subject", "Subject")
+                    b.HasOne("SchoolRegister.Model.DataModels.Subject", "Subject")
                         .WithMany("Grades")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -418,24 +418,24 @@ namespace SchoolRegister.DAL.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Subject", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Teacher", "Teacher")
+                    b.HasOne("SchoolRegister.Model.DataModels.Teacher", "Teacher")
                         .WithMany("Subject")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.SubjectGroup", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Group", "Group")
+                    b.HasOne("SchoolRegister.Model.DataModels.Group", "Group")
                         .WithMany("SubjectGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolRegister.BLL.DataModels.Subject", "Subject")
+                    b.HasOne("SchoolRegister.Model.DataModels.Subject", "Subject")
                         .WithMany("SubjectGroups")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -446,15 +446,15 @@ namespace SchoolRegister.DAL.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Student", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Student", b =>
                 {
-                    b.HasOne("SchoolRegister.BLL.DataModels.Group", "Group")
+                    b.HasOne("SchoolRegister.Model.DataModels.Group", "Group")
                         .WithMany("Students")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolRegister.BLL.DataModels.Parent", "Parent")
+                    b.HasOne("SchoolRegister.Model.DataModels.Parent", "Parent")
                         .WithMany("Students")
                         .HasForeignKey("ParentId");
 
@@ -463,31 +463,31 @@ namespace SchoolRegister.DAL.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Group", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Group", b =>
                 {
                     b.Navigation("Students");
 
                     b.Navigation("SubjectGroups");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Subject", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
                     b.Navigation("Grades");
 
                     b.Navigation("SubjectGroups");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Parent", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Parent", b =>
                 {
                     b.Navigation("Students");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Student", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Student", b =>
                 {
                     b.Navigation("Grades");
                 });
 
-            modelBuilder.Entity("SchoolRegister.BLL.DataModels.Teacher", b =>
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Teacher", b =>
                 {
                     b.Navigation("Subject");
                 });

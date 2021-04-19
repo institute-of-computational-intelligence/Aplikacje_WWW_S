@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
-using SchoolRegister.BLL.DataModels;
+using SchoolRegister.Model.DataModels;
 namespace SchoolRegister.Web
 {
     public class Startup
@@ -20,6 +20,7 @@ namespace SchoolRegister.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")) //here you can define a database type.
             );

@@ -1,6 +1,6 @@
 using System;
 
-namespace SchoolRegister.BLL.DataModels
+namespace SchoolRegister.Model.DataModels
 {
     public class Grade
     {
