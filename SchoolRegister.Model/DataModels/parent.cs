@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
 
-namespace SchoolRegister.Model.DataModels {
-    class Parent : User {
-        public List<Student> Students {get; set;}
+namespace SchoolRegister.Model.DataModels
+{
+    public class Parent : User
+    {
+        public virtual IList<Student> Students {get; set;}
+        
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-SchoolRegister.Web-B7D9CDFB-3121-49EA-904D-ECB39E216622</UserSecretsId>
+    <UserSecretsId>aspnet-SchoolRegister.Web-D74A4C9A-72E6-486F-8A1E-F2CE26752902</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
- <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
- <ProjectReference Include="..\SchoolRegister.DAL\SchoolRegister.DAL.csproj" />
- <ProjectReference Include="..\SchoolRegister.ViewModels\SchoolRegister.ViewModels.csproj" />
- <ProjectReference Include="..\SchoolRegister.Services\SchoolRegister.Services.csproj" />
- </ItemGroup>
+    <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
+    <ProjectReference Include="..\SchoolRegister.DAL\SchoolRegister.DAL.csproj" />
+    <ProjectReference Include="..\SchoolRegister.ViewModels\SchoolRegister.ViewModels.csproj" />
+    <ProjectReference Include="..\SchoolRegister.Services\SchoolRegister.Services.csproj" />
+  </ItemGroup>
 
 </Project>
