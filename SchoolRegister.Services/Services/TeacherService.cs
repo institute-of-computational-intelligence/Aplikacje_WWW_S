@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace SchoolRegister.Services.Services
             this.configuration = configuration;
         }
 
-        public async void AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudentVm)
+        public async Task<Grade> AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudentVm)
         {
             try
             {
@@ -38,7 +39,7 @@ namespace SchoolRegister.Services.Services
                     throw new ArgumentNullException($"Teacher with id: {addGradeToStudentVm.TeacherId} does not exist");
 
                 if (!await userManager.IsInRoleAsync(teacher, "Teacher"))
-                    throw new UnauthorizedAccessException($"User with id {addGradeToStudentVm.TeacherId} does not have required permissions to add grade to the student");
+                    throw new UnauthorizedAccessException($"User with id {addGradeToStudentVm.StudentId} does not have required permissions to add grade to the student");
 
                 Student student = await DbContext.Users
                     .OfType<Student>()
@@ -46,6 +47,10 @@ namespace SchoolRegister.Services.Services
 
                 if (student is null)
                     throw new ArgumentNullException($"Student with id: {addGradeToStudentVm.StudentId} does not exist");
+
+                if (!DbContext.Subjects.Any(x => x.Id == addGradeToStudentVm.SubjectId))
+                    throw new ArgumentNullException($"Subject with id: {addGradeToStudentVm.SubjectId} does not exist");
+
 
                 Grade grade = new Grade()
                 {
@@ -58,6 +63,8 @@ namespace SchoolRegister.Services.Services
 
                 await DbContext.Grades.AddAsync(grade);
                 await DbContext.SaveChangesAsync();
+
+                return grade;
             }
             catch (Exception ex)
             {

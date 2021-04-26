@@ -25,14 +25,17 @@ namespace SchoolRegister.Services.Services
         {
             try
             {
-                User user = await DbContext.Users
+                User student = await DbContext.Users
                     .FirstOrDefaultAsync(u => u.Id == getGradesVm.StudentId);
 
-                if (user is null)
+                User user = await DbContext.Users
+                    .FirstOrDefaultAsync(u => u.Id == getGradesVm.UserId);
+
+                if (student is null)
                     throw new ArgumentNullException($"User with id: {getGradesVm.StudentId} does not exist");
 
                 if (!(await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student")))
-                    throw new UnauthorizedAccessException("Insufficient permissions, only student or parent can access the grades");
+                    throw new UnauthorizedAccessException("Insufficient permissions, only student and parent can access the grades");
 
                 List<Grade> grades = DbContext.Grades.Where(g => g.StudentId == getGradesVm.StudentId).ToList();
 
