@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SchoolRegister.Model",
+    "\\SchoolRegister.Model\\DataModels",
+    "\\SchoolRegister.Services",
+    "\\SchoolRegister.Services\\Interfaces",
+    "\\SchoolRegister.Services\\Services"
   ],
+  "SelectedNode": "\\SchoolRegister.Services\\Interfaces\\IGroupService.cs",
   "PreviewInSolutionExplorer": false
 }
