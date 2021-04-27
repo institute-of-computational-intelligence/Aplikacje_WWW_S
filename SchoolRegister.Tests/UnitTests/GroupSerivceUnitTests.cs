@@ -19,14 +19,12 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void Given_NullParameter_When_CallingAddGroupAsync_Then_ThrowsArgumentNullException()
         {
-
             Assert.Throws<ArgumentNullException>(() => _groupService.AddGroupAsync(null));         
         }
 
         [Fact]
         public void Given_NullParameter_When_CallingDeleteGroupAsync_Then_ThrowsArgumentNullException()
-        {
-
+        {         
             Assert.Throws<ArgumentNullException>(() => _groupService.DeleteGroupAsync(null));         
         }
 

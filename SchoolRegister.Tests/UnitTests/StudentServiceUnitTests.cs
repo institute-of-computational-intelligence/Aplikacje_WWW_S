@@ -35,22 +35,17 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void Given_ValidParameter_When_CallingAddToGroupAsync_Then_AddingStudent()
         {
-            
+            var countBefore = DbContext.Users.Count();
             var getStudentToAdd = new AddToGroupVm()
             {
                 GroupId = 1,
-                StudentId = 2
+                StudentId = 1
             };
             
-            try
-            {
-                _studentService.AddToGroupAsync(getStudentToAdd);
-                Assert.True(true);
-            }
-            catch
-            {
-                Assert.True(false);
-            }          
+            _studentService.AddToGroupAsync(getStudentToAdd);
+
+            var countAfter = DbContext.Users.Count();
+            Assert.Equal(countAfter, countBefore);
         }
 
         [Fact]
@@ -58,18 +53,12 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var getStudentToRemove = new RemoveFromGroupVm()
             {
-                StudentId = 2
+                StudentId = 1
             };
                       
-            try
-            {
-                _studentService.RemoveFromGroupAsync(getStudentToRemove);
-                Assert.True(true);
-            }
-            catch
-            {
-                Assert.True(false);
-            }   
+            _studentService.RemoveFromGroupAsync(getStudentToRemove);
+
+            Assert.Null(DbContext.Users.OfType<Student>().First(x => x.Id == 2).GroupId);
         }      
     }
 }

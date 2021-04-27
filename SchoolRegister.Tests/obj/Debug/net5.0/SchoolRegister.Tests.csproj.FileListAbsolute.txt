@@ -6,7 +6,6 @@ F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\SchoolRegister.Web.runtimeconfig.dev.json
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\appsettings.Development.json
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\appsettings.json
-F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\SchoolRegister.Web.StaticWebAssets.xml
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\SchoolRegister.Web.exe
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\testhost.exe
 F:\Studia\Semestr_6\AplikacjeWWW\Aplikacje_WWW_S\SchoolRegister.Tests\bin\Debug\net5.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll

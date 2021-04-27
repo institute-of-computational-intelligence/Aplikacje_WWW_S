@@ -33,13 +33,6 @@ namespace SchoolRegister.Tests.UnitTests
             Assert.Throws<ArgumentNullException>(() => _subjectService.GetSubject(null));         
         }
 
-        [Fact]
-        public void Given_NullParameter_When_CallingGetSubjects_Then_ThrowsArgumentNullException()
-        {
-
-            Assert.Throws<ArgumentNullException>(() => _subjectService.GetSubjects(null));         
-        }
-
         // do poprawy po uzyksaniu info 
         [Fact]
         public void Given_ValidParameter_When_CallingAddOrUpdateSubject_Then_AddingOrUpdateSubject()
@@ -60,31 +53,18 @@ namespace SchoolRegister.Tests.UnitTests
 
         [Fact]
         public void Given_ValidParameter_When_GetSubject_Then_GetingSubject()
-        {
-            var getSubject = new SubjectVm()
-            {
-                Id  = 2,
-                Name = "Biology",       
-                Description = "Very imporatnt subject",    
-                TeacherName = "Jan Kowalski",
-                TeacherId  = 5
-            };
-            
-            var subjectToGet = _subjectService.GetSubject(subject => subject.Equals(getSubject.Name));
+        {        
+            var subjectToGet = _subjectService.GetSubject(subject => subject.Name.Equals("Biology"));
             Assert.NotNull(subjectToGet);
         }
 
-        /*[Fact]
+        [Fact]
         public void Given_ValidParameter_When_GetSubjects_Then_GetingSubjects()
         {
-            var getSubject = new List<SubjectVm>()
-            {
-                new SubjectVm(){ Name = "History"},
-                new SubjectVm(){ Name = "Biology"},
-                new SubjectVm(){ Name = "Math"}
-            };
-
-            var subjectsToGet = _subjectService.GetSubjects(subject )
-        }*/
+            var subjects = _subjectService.GetSubjects(x => x.Id > 2 && x.Id <= 4);
+            Assert.NotNull(subjects);
+            Assert.NotEmpty(subjects);
+            Assert.Equal(2, subjects.Count());
+        }
     }
 }
