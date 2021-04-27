@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,7 +7,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-
+using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
@@ -26,44 +24,47 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
-        public async void AddGradeAsync(AddGradeAsyncVm addGradeVm)
+        public async Task<Grade> AddGradeAsync(AddGradeAsyncVm addGradeVm)
         {
             try
             {
                 var teacher = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == addGradeVm.TeacherId);
 
-                if(teacher == null)
-                {
+                if(teacher == null)       
                     throw new ArgumentNullException("Could not find specified teacherId.");
-                }
 
-                if(await userManager.IsInRoleAsync(teacher, "Teacher"))
+                if (!await userManager.IsInRoleAsync(teacher, "Teacher"))
+                    throw new UnauthorizedAccessException($"User with id {addGradeVm.StudentId} does not have required permissions to add grade to the student");
+
+                Student student = await DbContext.Users
+                    .OfType<Student>()
+                    .FirstOrDefaultAsync(u => u.Id == addGradeVm.StudentId);
+
+                if (student is null)
+                    throw new ArgumentNullException($"Student with id: {addGradeVm.StudentId} does not exist");
+
+                if (!DbContext.Subjects.Any(x => x.Id == addGradeVm.SubjectId))
+                    throw new ArgumentNullException($"Subject with id: {addGradeVm.SubjectId} does not exist");
+
+
+                Grade grade = new Grade()
                 {
-                    var student = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == addGradeVm.StudentId);
+                    StudentId = addGradeVm.StudentId,
+                    SubjectId = addGradeVm.SubjectId,
+                    GradeValue = addGradeVm.GradeValue,
+                    DateOfIssue = DateTime.Now
 
-                    if (student == null)
-                    {
-                        throw new ArgumentNullException("Could not find specified studentId.");
-                    }
+                };
 
-                    var grade = new Grade() { 
-                        DateOfIssue = DateTime.Now, 
-                        GradeValue = addGradeVm.GradeValue, 
-                        StudentId = addGradeVm.StudentId, 
-                        SubjectId = addGradeVm.SubjectId
-                    };
+                await DbContext.Grades.AddAsync(grade);
+                await DbContext.SaveChangesAsync();
 
-                    await DbContext.Grades.AddAsync(grade);
-                    await DbContext.SaveChangesAsync();
-                }
-                else
-                {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
-                }
+                return grade;
             }
             catch(Exception exception)
             {
                 Logger.LogError(exception.Message);
+                throw;
             }
         }
 
