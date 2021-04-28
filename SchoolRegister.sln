@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.ViewModels",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Web", "SchoolRegister.Web\SchoolRegister.Web.csproj", "{C7C3B5B6-CBC0-4A55-A876-6B83462F25EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{71EEF80A-E68E-4EE3-8AB9-299DD283E319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{C7C3B5B6-CBC0-4A55-A876-6B83462F25EA}.Release|x64.Build.0 = Release|Any CPU
 		{C7C3B5B6-CBC0-4A55-A876-6B83462F25EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{C7C3B5B6-CBC0-4A55-A876-6B83462F25EA}.Release|x86.Build.0 = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|x64.Build.0 = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Debug|x86.Build.0 = Debug|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|x64.ActiveCfg = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|x64.Build.0 = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|x86.ActiveCfg = Release|Any CPU
+		{71EEF80A-E68E-4EE3-8AB9-299DD283E319}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

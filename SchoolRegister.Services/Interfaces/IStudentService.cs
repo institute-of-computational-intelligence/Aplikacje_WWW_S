@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
@@ -8,7 +9,7 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IStudentService
     {
-        void AddToGroupAsync(AddToGroupVm addToGroupVm);
-        void RemoveFromGroupAsync(RemoveFromGroupVm removeFromGroupVm);
+        IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterPredicate = null);
+        StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate);
     }
-} 
+}
