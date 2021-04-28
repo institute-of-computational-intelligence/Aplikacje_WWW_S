@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        void DeleteGroupAsync(DeleteGroupVm deleteGroupVm);
-        void AddGroupAsync(AddGroupVm addGroupVm);
+        Task<GroupVm> DeleteGroupAsync(DeleteGroupVm deleteGroupVm);
+        Task<GroupVm> AddGroupAsync(AddGroupVm addGroupVm);
     }
 }
