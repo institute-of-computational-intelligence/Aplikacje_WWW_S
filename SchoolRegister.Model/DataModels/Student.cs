@@ -13,5 +13,7 @@ namespace SchoolRegister.Model.DataModels
         public IDictionary<string, double> AverageGradePerSubject { get; }
         public IDictionary<string, List<GradeScale>> GradesPerSubject { get; }
         public int? GroupId { get; set; }
+
+        public int? ParentId { get; set; } //dodane tylko czy nie brak tu czegoś?
     }
 }

@@ -15,9 +15,9 @@ namespace SchoolRegister.Services.Services
 {
     public class StudentService : BaseService, IStudentService
     {
-        private readonly UserManager<User> userManager;
+        //private readonly UserManager<User> userManager;
 
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger){}
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger) { }
 
         public async void AddToGroupAsync(AddToGroupVm addToGroupVm)
         {
@@ -30,7 +30,7 @@ namespace SchoolRegister.Services.Services
 
             var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
 
-            if(group == null)
+            if (group == null)
             {
                 throw new ArgumentNullException($"Could not find group with id: {addToGroupVm.GroupId}");
             }
@@ -56,4 +56,4 @@ namespace SchoolRegister.Services.Services
             await DbContext.SaveChangesAsync();
         }
     }
-} 
+}

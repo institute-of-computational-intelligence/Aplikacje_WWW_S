@@ -52,5 +52,11 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        // jak sie nie ma co się lubi to się lubi co się ma
+        public Grade AddGradeAsync(AddGradeAsyncVm gradeVm)
+        {
+            return null;
+        }
     }
 } 
