@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using SchoolRegister.Model.DataModels;
+using System.Text;
 using SchoolRegister.ViewModels.VM;
-using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IGradeService
     {
-        Task<IEnumerable<Grade>> GetGrades(CheckGradesVm checkGradesVm);
+        GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
+        GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm);        
     }
 }

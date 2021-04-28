@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.ViewModels.VM;
 
+
 namespace SchoolRegister.Web.Controllers
 {
     public class HomeController : Controller
