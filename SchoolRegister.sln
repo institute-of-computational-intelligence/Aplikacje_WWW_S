@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.ViewModels",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Web", "SchoolRegister.Web\SchoolRegister.Web.csproj", "{56E5E947-B379-495E-9FF6-5DBCE9864678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{56E5E947-B379-495E-9FF6-5DBCE9864678}.Release|x64.Build.0 = Release|Any CPU
 		{56E5E947-B379-495E-9FF6-5DBCE9864678}.Release|x86.ActiveCfg = Release|Any CPU
 		{56E5E947-B379-495E-9FF6-5DBCE9864678}.Release|x86.Build.0 = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|x64.Build.0 = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Debug|x86.Build.0 = Debug|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|x64.ActiveCfg = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|x64.Build.0 = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|x86.ActiveCfg = Release|Any CPU
+		{D913F2D0-9D16-4834-A72A-2DCBA5D9AADE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
