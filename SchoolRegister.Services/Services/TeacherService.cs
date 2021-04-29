@@ -19,7 +19,7 @@ namespace SchoolRegister.Services.Services
         private readonly UserManager<User> userType;
         public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { userType = userManager; }
 
-        public async void AddGradeToStudent(AddOrUpdateGradeVm addGradeToStudentVm)
+        public async void AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace SchoolRegister.Services.Services
 
         }
 
-        public void AddOrUpdateGrade(AddOrUpdateGradeVm addOrUpdateGradeVm)
+        public void AddOrUpdateGrade(AddGradeToStudentVm addOrUpdateGradeVm)
         {
             throw new NotImplementedException();
         }
@@ -98,9 +98,6 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public void SendMailVm(SendMailVm sendMailVm)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

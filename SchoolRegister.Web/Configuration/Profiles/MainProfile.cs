@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace SchoolRegister.Web.Configuration.Profiles
 {
-    public class MainProfiles : Profile
+    public class MainProfile : Profile
     {
-        public MainProfiles()
+        public MainProfile()
         {
             CreateMap<Subject, SubjectVm>()
                 .ForMember(dest => dest.TeacherName, x => x.MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
