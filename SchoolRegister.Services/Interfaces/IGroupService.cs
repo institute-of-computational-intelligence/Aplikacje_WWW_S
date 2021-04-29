@@ -1,10 +1,12 @@
+using System.Threading.Tasks;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        void AddGroupAsync(AddGroupVm addGroupVm);
-        void DeleteGroupAsync(DeleteGroupVm deleteGroupVm);
+        Task<GroupVm> AddGroupAsync(AddGroupVm addGroupVm);
+        Task<GroupVm> DeleteGroupAsync(DeleteGroupVm deleteGroupVm);
     }
 }

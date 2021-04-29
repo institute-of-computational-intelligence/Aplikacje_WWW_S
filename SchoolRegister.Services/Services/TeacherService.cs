@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -21,7 +22,7 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
-        public async void AddGradeAsync(AddGradeVm addGradeVm)
+        public async Task<Grade> AddGradeAsync(AddGradeVm addGradeVm)
         {
             try {
                 if (addGradeVm == null)
@@ -45,6 +46,7 @@ namespace SchoolRegister.Services.Services
                     };
                     await DbContext.Grades.AddAsync(grade);
                     await DbContext.SaveChangesAsync();
+                    return grade;
                 }
                 else
                     throw new ArgumentNullException("Only teacher can add grades");

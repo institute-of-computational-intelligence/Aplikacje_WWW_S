@@ -6,6 +6,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -15,7 +16,7 @@ namespace SchoolRegister.Services.Services
         {
         }
 
-        public async void AddGroupAsync(AddGroupVm addGroupVm)
+        public async Task<GroupVm> AddGroupAsync(AddGroupVm addGroupVm)
         {
             try
             {
@@ -29,8 +30,12 @@ namespace SchoolRegister.Services.Services
 
                 group = new Group() { Name = addGroupVm.Name };
 
+                var groupVm = Mapper.Map<GroupVm>(group);
                 await DbContext.Groups.AddAsync(group);
                 await DbContext.SaveChangesAsync();
+
+                return groupVm;
+
             }catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
@@ -38,7 +43,7 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
+        public async Task<GroupVm> DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
         {
             try
             {
@@ -49,11 +54,15 @@ namespace SchoolRegister.Services.Services
                 if (group is null)
                     throw new ArgumentNullException("Group with this id doesn't exist");
 
+                var groupVm = Mapper.Map<GroupVm>(group);
                 DbContext.Groups.Remove(group);
                 await DbContext.SaveChangesAsync();
+
+                return groupVm;
             }catch (Exception exception)
             {
                 Logger.LogError(exception.Message);
+                throw;
             }
         }
     }
