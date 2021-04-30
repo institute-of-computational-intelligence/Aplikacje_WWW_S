@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class AddStudentVm
+    public class AddStudentToGroupVm
     {
         [Required]
         public int StudentId { get; set; }
