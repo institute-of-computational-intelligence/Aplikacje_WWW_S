@@ -52,8 +52,6 @@ namespace SchoolRegister.Tests.UnitTests
 
         [Fact]
         public async void DeleteGroupNonExisting() {
-            var countBefore = DbContext.Groups.Count();
-
             var removeGroup = new DeleteGroupVm()
             {
                 Id = 20,
