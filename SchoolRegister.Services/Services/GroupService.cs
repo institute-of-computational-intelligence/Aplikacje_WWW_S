@@ -22,15 +22,24 @@ namespace SchoolRegister.Services.Services
         {
             try
             {
-                if (groupVm is null || !groupVm.Id.HasValue || groupVm.Id == 0)
+                if (groupVm is null)
                     throw new ArgumentNullException("View model parametr is missing");
 
                 var group = Mapper.Map<Group>(groupVm);
 
-                if (DbContext.Groups.Any(g => g.Id == groupVm.Id))
-                    DbContext.Groups.Remove(group);
-                else
+                if (!groupVm.Id.HasValue || groupVm.Id == 0)
+                {
+                    if (String.IsNullOrEmpty(group.Name))
+                        throw new ArgumentNullException("Provide valid group name.");
                     DbContext.Groups.Add(group);
+                }
+                else
+                {
+                    if (DbContext.Groups.Any(g => g.Id == groupVm.Id))
+                        DbContext.Groups.Remove(group);
+                    else
+                        throw new ArgumentNullException("Group with specified Id does not exist.");
+                }
 
                 DbContext.SaveChanges();
             }

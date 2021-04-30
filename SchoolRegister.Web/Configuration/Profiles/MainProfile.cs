@@ -19,6 +19,10 @@ namespace SchoolRegister.Web.Configuration.Profiles
 
             CreateMap<Group, GroupVm>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id));
+            //.ForMember(dest => dest.Students, x => x.MapFrom(src => src.Students))
+
+            CreateMap<GroupVm, Group>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id.HasValue ? src.Id : 0));
 
             CreateMap<SubjectVm, AddOrUpdateSubjectVm>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id))

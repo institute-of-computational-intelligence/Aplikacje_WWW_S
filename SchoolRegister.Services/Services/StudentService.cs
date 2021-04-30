@@ -73,6 +73,8 @@ namespace SchoolRegister.Services.Services
                 DbContext.Users.Update(student);
 
                 group.Students.Add(student);
+                DbContext.Groups.Update(group);
+
                 DbContext.SaveChanges();
             }
             catch (Exception e)

@@ -33,8 +33,8 @@ namespace SchoolRegister.Services.Services
                     DbContext.Subjects.Update(subjectEntity);
 
                 DbContext.SaveChanges();
-                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
 
+                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
                 return subjectVm;
             }
             catch (Exception e)
