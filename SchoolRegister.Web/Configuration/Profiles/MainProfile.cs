@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace SchoolRegister.Web.Configuration.Profiles
 {
-    public class MainProfiles : Profile
+    public class MainProfile : Profile
     {
-        public MainProfiles()
+        public MainProfile()
         {
             CreateMap<Subject, SubjectVm>()
                 .ForMember(dest => dest.TeacherName, x => x.MapFrom(src => $"{src.Teacher.FirstName} {src.Teacher.LastName}"))
@@ -19,6 +19,9 @@ namespace SchoolRegister.Web.Configuration.Profiles
 
             CreateMap<Group, GroupVm>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id));
+
+            CreateMap<GroupVm, Group>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id));    
 
             CreateMap<SubjectVm,AddOrUpdateSubjectVm>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.Id))

@@ -22,13 +22,18 @@ namespace SchoolRegister.Services.Services
         {
             try{
                 if(groupVm == null)
-                    throw new ArgumentNullException($"Viev model parameter is null");
+                    throw new ArgumentNullException($"View model parameter is null");
 
                 var groupEntity = Mapper.Map<Group>(groupVm);
-                if(groupVm.Id != 0)
+                if(groupVm.Id == 0  || !groupVm.Id.HasValue)
                 {
-                    DbContext.Groups.Add(groupEntity);
+                    if(!string.IsNullOrEmpty(groupVm.Name))
+                        DbContext.Groups.Add(groupEntity);
+                    else
+                        throw new ArgumentNullException("Please specify new group name!");
                 }else{
+                    if(!DbContext.Groups.Any(g => g.Id == groupVm.Id))
+                        throw new ArgumentException("You can't remove non existing group!");
                     DbContext.Groups.Remove(groupEntity);  
                 }
                 DbContext.SaveChanges();

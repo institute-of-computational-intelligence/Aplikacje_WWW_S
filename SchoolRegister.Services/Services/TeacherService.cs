@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -19,31 +20,33 @@ namespace SchoolRegister.Services.Services
         private readonly UserManager<User> userType;
         public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { userType = userManager; }
 
-        public async void AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
+        public async Task<Grade> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
+            Grade grade = null;
             try
             {   
                 if(addGradeToStudentVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
                 
-                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id ==  addGradeToStudentVm.TeacherId);
+                var teacher = DbContext.Users.FirstOrDefault(t => t.Id ==  addGradeToStudentVm.TeacherId);
+                var subject = DbContext.Subjects.FirstOrDefault(sub => sub.Id == addGradeToStudentVm.SubjectId);
+                if(!addGradeToStudentVm.TeacherId.HasValue)
+                    throw new ArgumentNullException("TeacherId have no values!");
                 if(await userType.IsInRoleAsync(teacher,"Teacher"))
-                {
-                    if(addGradeToStudentVm.TeacherId.HasValue && addGradeToStudentVm.StudentId == 0)
-                    {
-                        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
-                        await DbContext.Grades.AddAsync(new Grade()
-                            { DateOfIssue = DateTime.Now, GradeValue = addGradeToStudentVm.Grade, StudentId = addGradeToStudentVm.StudentId, SubjectId = addGradeToStudentVm.StudentId });
-                        await DbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("TeacherId or StudentId have no values!");
-                    }
+                {   
+                    if(teacher.Id != subject.TeacherId)
+                        throw new ArgumentException("You can only add grades to subject that You Are teaching!");
+
+                    var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
+                    grade = new Grade()
+                        { DateOfIssue = DateTime.Now, GradeValue = addGradeToStudentVm.Grade, StudentId = addGradeToStudentVm.StudentId, SubjectId = addGradeToStudentVm.StudentId };
+                    await DbContext.Grades.AddAsync(grade);
+                    await DbContext.SaveChangesAsync();
+                    return grade;
                 }
                 else
                 {
-                    throw new ArgumentNullException ("You don't have permission to add grades!");
+                    throw new UnauthorizedAccessException("You Don't have permission to add grades!");
                 }
 
             }catch (Exception ex) {
@@ -59,18 +62,20 @@ namespace SchoolRegister.Services.Services
             {
                 if(sendMailToStudentParent == null)
                     throw new ArgumentNullException($"View model paramaeter is null");
-                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == sendMailToStudentParent.TeacherId);
-                var parent = DbContext.Users.OfType<Parent>().FirstOrDefault(p => p.Id == sendMailToStudentParent.ParentId);
+                var teacher = DbContext.Users.FirstOrDefault(t => t.Id == sendMailToStudentParent.TeacherId);
+                var parent = DbContext.Users.FirstOrDefault(p => p.Id == sendMailToStudentParent.ParentId);
                 if(await userType.IsInRoleAsync(teacher,"Teacher") && await userType.IsInRoleAsync(parent,"Parent"))
                 {
-                    if((sendMailToStudentParent.TeacherId.HasValue) || (sendMailToStudentParent.ParentId.HasValue))
+                    if((sendMailToStudentParent.TeacherId.HasValue) || sendMailToStudentParent.ParentId.HasValue)
                     {
+                        MailMessage message = new MailMessage(teacher.Email,parent.Email,sendMailToStudentParent.MailTitle,sendMailToStudentParent.MailContent);
+                        
                         SmtpClient client = new SmtpClient()
                         {
                             EnableSsl = true, 
                             Credentials = CredentialCache.DefaultNetworkCredentials
                         };
-                        await client.SendMailAsync(teacher.Email, parent.Email, sendMailToStudentParent.MailTitle, sendMailToStudentParent.MailContent);
+                        await client.SendMailAsync(message);
                         client.Dispose();
                     }
                     else
@@ -80,7 +85,7 @@ namespace SchoolRegister.Services.Services
                 }
                 else
                 {
-                    throw new ArgumentNullException("You have valid role to sending emails, or You are not sending email to vaild user type!");
+                    throw new UnauthorizedAccessException("You have valid role to sending emails, or You are not sending email to vaild user type!");
                 }
 
             }catch (Exception ex) {

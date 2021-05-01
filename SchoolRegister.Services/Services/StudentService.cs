@@ -33,7 +33,9 @@ namespace SchoolRegister.Services.Services
                 if(group == null)
                     throw new ArgumentNullException("Specifed group doesn't exist");
                 if(!group.Students.Any(s => s.Id == student.Id))
-                {
+                {   
+                    var ExGroup = DbContext.Groups.FirstOrDefault(g => g.Id == student.GroupId);
+                    ExGroup.Students.Remove(student);
                     student.GroupId = studentVm.GroupId;
                     DbContext.Update(student);
                     group.Students.Add(student);
