@@ -26,16 +26,31 @@ namespace SchoolRegister.Services.Services
         {
             try
             {
-                if(gradesVm is null)
+                if (gradesVm == null)
                     throw new ArgumentNullException($"View model parametr is missing");
 
                 var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == gradesVm.UserId);
 
-                List <Grade> grades;
-                if (await UserManager.IsInRoleAsync(user, "Parent") || await UserManager.IsInRoleAsync(user, "Student"))
+                List<Grade> grades;
+                if (user is null)
+                    throw new ArgumentNullException("User doesn't exist");
+
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == gradesVm.StudentId);
+
+                if (await UserManager.IsInRoleAsync(user, "Parent"))
+                {
+
+                    if (student.ParentId != gradesVm.UserId)
+                        throw new UnauthorizedAccessException("You can only check your own child's grades");
+
+                    grades = DbContext.Grades.Where(g => g.StudentId == gradesVm.StudentId).ToList();
+                    return grades;
+                }
+                else if (await UserManager.IsInRoleAsync(user, "Student"))
                 {
                     grades = DbContext.Grades.Where(g => g.StudentId == gradesVm.StudentId).ToList();
                     return grades;
+
                 }
                 else
                 {

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -22,10 +23,11 @@ namespace SchoolRegister.Services.Services
         }
 
 
-        public async void AddGrade(AddGradeVm addGradeVm)
+        public async Task<Grade> AddGrade(AddGradeVm addGradeVm)
         {
             try
             {
+                Grade gr=null;
                 if (addGradeVm == null)
                     throw new ArgumentNullException("View model parametr is null");
 
@@ -36,7 +38,7 @@ namespace SchoolRegister.Services.Services
 
                 if (await UserManager.IsInRoleAsync(teacher, "Teacher"))
                 {
-                    Grade gr = new Grade()
+                    gr = new Grade()
                     {
                         DateOfIssue = DateTime.Now,
                         GradeValue = addGradeVm.GradeValue,
@@ -46,10 +48,8 @@ namespace SchoolRegister.Services.Services
                     await DbContext.Grades.AddAsync(gr);
                     await DbContext.SaveChangesAsync();
                 }
-                else
-                {
-                    throw new UnauthorizedAccessException("You dont have permision to add grades");
-                }
+
+                return gr;
 
             }
             catch (Exception ex)
@@ -69,7 +69,9 @@ namespace SchoolRegister.Services.Services
 
                 var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == sendEMailVm.TeacherId);
                 var parent = DbContext.Users.OfType<Parent>().FirstOrDefault(t => t.Id == sendEMailVm.ParentId);
-                
+                if (teacher == null)
+                    throw new ArgumentNullException("Can't find teacher");
+                    
                 if (await UserManager.IsInRoleAsync(teacher, "Teacher"))
                 {
                     SmtpClient client = new SmtpClient();

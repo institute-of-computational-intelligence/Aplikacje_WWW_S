@@ -64,13 +64,19 @@ namespace SchoolRegister.Services.Services
                 if (student == null || group == null)
                     throw new ArgumentNullException("User or group doesn't exist");
 
-                if (group.Students.Any(s => s.Id == studentVm.StudentId))
-                    throw new ArgumentException("This student already has group");
-                student.GroupId = studentVm.GroupId;
-                DbContext.Users.Update(student);
-                group.Students.Add(student);
-                DbContext.Groups.Update(group);
-                DbContext.SaveChanges();
+                if(group.Students.Any(s => s.Id == student.Id))
+                {
+                    student.GroupId = null;
+                    DbContext.Users.Update(student);
+                    group.Students.Remove(student);
+                    DbContext.Groups.Update(group);
+                    DbContext.SaveChanges();
+                }
+                else
+                {
+                    throw new ArgumentException("This user doesn't exist in this group");
+                }
+
 
             }
             catch (Exception ex)

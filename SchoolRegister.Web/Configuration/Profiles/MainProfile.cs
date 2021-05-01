@@ -17,6 +17,10 @@ namespace SchoolRegister.Web.Configuration.Profiles
 
             CreateMap<AddOrUpdateSubjectVm, Subject>();
             CreateMap<Group, GroupVm>();
+                //.ForMember(dest =>dest.Id, x=>x.MapFrom(src=>src.Id));
+
+            CreateMap<GroupVm,Group>();
+                //.ForMember(dest => dest.Id, x=>x.MapFrom(src=>src.Id));
             CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
             //other maps...
         }
