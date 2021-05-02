@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
-
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
@@ -18,35 +17,32 @@ namespace SchoolRegister.Services.Services
     {
         private readonly UserManager<User> userManager;
 
-        public GradeService(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, ILogger logger) 
-            : base(dbContext, mapper, logger)
+        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger)
         {
             this.userManager = userManager;
         }
-
-        public async Task<IEnumerable<Grade>> GetGrades(CheckGradesVm checkGradesVm)
+        public async Task<IEnumerable<Grade>> ShowGrades(CheckGradesVm showGradesVm)
         {
             try
             {
-                var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == checkGradesVm.CurrentUserId); 
+                if (showGradesVm == null)
+                    throw new ArgumentNullException ($"View model parameter is null");
+                var student = await DbContext.Users.FirstOrDefaultAsync(s => s.Id == showGradesVm.StudentId);
 
-                if (user == null)
-                {
-                    throw new ArgumentNullException($"Could not find user with id: {checkGradesVm.CurrentUserId}");
-                }
+                if (student is null)
+                    throw new ArgumentNullException("Can't find student ID");
+                
+                var StudentOrParent = await DbContext.Users.FirstOrDefaultAsync(s => s.Id == showGradesVm.CurrentUserId);
 
-                if(await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
-                {
-                    var grades = DbContext.Grades.Where(g => g.StudentId == checkGradesVm.StudentId).ToList();
+                if (StudentOrParent is null)
+                    throw new ArgumentNullException("Can't find student or parent ID");
 
-                    return grades; 
-                }
-                else
-                {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
-                }
-            }
-            catch(Exception exception)
+                if (!await userManager.IsInRoleAsync(StudentOrParent, "Student") || (await userManager.IsInRoleAsync(StudentOrParent, "Parent")))
+                    throw new UnauthorizedAccessException("You can't show grades");
+
+                List<Grade> grades = DbContext.Grades.Where(g => g.StudentId == showGradesVm.StudentId).ToList();
+                return grades;
+            }catch (Exception exception)
             {
                 Logger.LogError(exception.Message);
                 throw;
