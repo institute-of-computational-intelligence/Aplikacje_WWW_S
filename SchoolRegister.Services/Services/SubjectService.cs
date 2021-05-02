@@ -53,18 +53,22 @@ namespace SchoolRegister.Services.Services
             }
         }
 
+
         public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null)
         {
             try {
+                    
                 var subjectEntities = DbContext.Subjects.AsQueryable ();
                 if (filterExpression != null)
                     subjectEntities = subjectEntities.Where (filterExpression);
                 var subjectVms = Mapper.Map<IEnumerable<SubjectVm>> (subjectEntities);
                 return subjectVms;
             } catch (Exception ex) {
-                Logger.LogError (ex, ex.Message);
+                Logger.LogError (ex, ex.Message);   
                 throw;
+                   
             }
+                
         }
     }
 }

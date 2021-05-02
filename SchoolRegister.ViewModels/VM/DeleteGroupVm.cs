@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class AddGroupVm
+    public class DeleteGroupVm
     {
         [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
     }
-              
+         
 }

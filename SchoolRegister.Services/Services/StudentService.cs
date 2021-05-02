@@ -19,53 +19,70 @@ namespace SchoolRegister.Services.Services
         public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
         {
         }
+   
 
-        public void AddStudentToGroup(AddOrRemStudentGroupVm addStudentToGroup)
+       public async Task<GroupVm> AddStudentToGroupAsync(AddOrRemStudentGroupVm addStudentToGroupVm)
         {
-             try{
-                if(addStudentToGroup == null)
+            try 
+            {
+                if (addStudentToGroupVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
-                 Student student = DbContext.Users.OfType<Student>().FirstOrDefault( t => t.Id == addStudentToGroup.StudentId);
-                if(student == null)
-                throw new ArgumentNullException ($"Wrong StudentId");
-                 Group group = DbContext.Groups.FirstOrDefault( t => t.Id == addStudentToGroup.GroupId);
-                 if (group == null)
-                    throw new ArgumentNullException ($"wrong GorupId");
+
+                var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addStudentToGroupVm.GroupId);
+
+                if(group == null)
+                    throw new ArgumentNullException("Can't find group ID");
+
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == addStudentToGroupVm.StudentId);
+
+                if (student == null)
+                    throw new ArgumentNullException("Can't find student ID");
                 
-                student.GroupId = addStudentToGroup.GroupId;
+                var groupVm = Mapper.Map<GroupVm>(group);
+                student.GroupId = addStudentToGroupVm.GroupId;
                 group.Students.Add(student);
-
-                DbContext.Groups.Update(group);
                 DbContext.Users.Update(student);
-                DbContext.SaveChanges();
-              } catch (Exception ex) {
+                DbContext.Groups.Update(group);
+                await DbContext.SaveChangesAsync();
+                return groupVm;
+
+            } catch (Exception ex) 
+            {
                 Logger.LogError (ex, ex.Message);
-                throw;  
+                throw;
             }
         }
 
-         public void RemoveStudentFromGroup(AddOrRemStudentGroupVm removeStudentFromGroup)
+        public async Task<GroupVm> RemoveStudentFromGroupAsync(AddOrRemStudentGroupVm removeStudentFromGroupVm)
         {
-             try{
-                if(removeStudentFromGroup == null)
+            try 
+            {
+                if (removeStudentFromGroupVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
-                 Student student = DbContext.Users.OfType<Student>().FirstOrDefault( t => t.Id == removeStudentFromGroup.StudentId);
-                if(student == null)
-                throw new ArgumentNullException ($"Wrong StudentId");
-                 Group group = DbContext.Groups.FirstOrDefault( t => t.Id == removeStudentFromGroup.GroupId);
-                 if (group == null)
-                    throw new ArgumentNullException ($"wrong GorupId");
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == removeStudentFromGroupVm.StudentId);
+
+                if (student == null)
+                    throw new ArgumentNullException("Can't find student ID");
+
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);   
                 
-               
-                group.Students.Remove(student);
+
+                if (group is null)
+                    throw new ArgumentNullException("Can't find group ID");
+
+
+                var groupVm = Mapper.Map<GroupVm>(group);
                 student.GroupId = null;
-                DbContext.Groups.Update(group);
                 DbContext.Users.Update(student);
-                DbContext.SaveChanges();
-              } catch (Exception ex) {
-                Logger.LogError (ex, ex.Message);
-                throw;  
+                await DbContext.SaveChangesAsync();
+                return groupVm;
+            } catch (Exception ex) 
+            {
+                  
+                Logger.LogError (ex, ex.Message);  
+                throw;
             }
         }
+     
     }
 }

@@ -10,6 +10,8 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
@@ -19,34 +21,80 @@ namespace SchoolRegister.Services.Services
         private readonly UserManager<User> userManager;
         public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger)
         {
-            this.userManager = userManager;
+            this.userManager = userManager;        
+                     
         }
 
-    public async void AddGrade(AddGradeVm addGradeVm)
-    {
-        try{
-            if (addGradeVm == null)
-                throw new ArgumentNullException ($"View model parameter is null");
-            User teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault( t => t.Id == addGradeVm.teacherId);
 
-            if(!await userManager.IsInRoleAsync(teacher, "teacher"))
-                throw new ArgumentNullException ($"No permissions");
+  public async Task<Grade> AddGrade(AddGradeVm addGradeVm)
+        {
+            try {
 
-            Grade grade = new Grade(){
-            DateOfIssue = addGradeVm.DateOfIssue,
-            GradeValue = addGradeVm.GradeValue,
-            StudentId = addGradeVm.StudentId,
-            SubjectId = addGradeVm.SubjectId,
-            };
+                if (addGradeVm == null)
+                    throw new ArgumentNullException ($"View model parameter is null");       
 
-            await DbContext.Grades.AddAsync(grade);
-            await DbContext.SaveChangesAsync();
+                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeVm.TeacherId);
+                if(teacher is null) 
+                    throw new ArgumentNullException("Can't find teacher ID");      
+
+                if(await userManager.IsInRoleAsync(teacher, "Teacher"))
+     
+                {
+                               
+                    var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == addGradeVm.StudentId);
+                    if(student is null) 
+                        throw new ArgumentNullException("Can't find student ID");
+                                
+                    Grade grade = new Grade(){
+                        DateOfIssue = DateTime.Now,
+                        GradeValue = addGradeVm.GradeValue,
+                        StudentId = addGradeVm.StudentId,        
+                        SubjectId = addGradeVm.SubjectId
+                    };
+                    await DbContext.Grades.AddAsync(grade);
+                    await DbContext.SaveChangesAsync();
+                    return grade;
+                }
+                else
+                    throw new ArgumentNullException("You can't add grades");
+                
             } catch (Exception ex) {
                 Logger.LogError (ex, ex.Message);
-                throw;  
+                throw;
+                   
+            }
+        }  
 
-            
-          }
-         }
+
+      public async void SendEmail(SendEmailVm SendEmailVm)
+        {
+            try
+            {
+                if (SendEmailVm == null)
+                    throw new ArgumentNullException ($"View model parameter is null");
+                var sender = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == SendEmailVm.SenderId);
+
+                if (sender is null)   
+                    throw new ArgumentNullException("Can't find sender ID");  
+
+                var recipient = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == SendEmailVm.RecipientId);  
+
+                if (recipient is null)
+                    throw new ArgumentNullException("Can't find recipient ID"); 
+
+                if (await userManager.IsInRoleAsync(sender, "Teacher") && await userManager.IsInRoleAsync(recipient, "Parent"))
+                {
+                    var client = new SmtpClient();
+                    var message = new MailMessage(sender.Email, recipient.Email, SendEmailVm.EmailSubject, SendEmailVm.EmailBody);
+                    client.Send(message); 
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }  
+
     }
 }

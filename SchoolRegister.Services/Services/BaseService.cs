@@ -14,7 +14,8 @@ namespace SchoolRegister.Services.Services
         {
             DbContext = dbContext;
             Logger = logger;
-            Mapper = mapper;
+            Mapper = mapper;  
+            
 
         }
     }

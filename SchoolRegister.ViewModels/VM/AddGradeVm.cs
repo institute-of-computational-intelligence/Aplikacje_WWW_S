@@ -8,7 +8,7 @@ namespace SchoolRegister.ViewModels.VM
     public class AddGradeVm
     {
         [Required]
-        public int teacherId { get; set; }
+        public int TeacherId { get; set; }
         [Required]
         public DateTime DateOfIssue { get; set; }
         [Required]
@@ -17,6 +17,7 @@ namespace SchoolRegister.ViewModels.VM
         public int StudentId { get; set; }
         [Required]
         public int SubjectId { get; set; }
+                      
         
 
     }

@@ -22,6 +22,7 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
+   
         public async Task<IEnumerable<Grade>> GetGrades(GetGradesVm getGradesVm)
         {
             try{
@@ -33,11 +34,14 @@ namespace SchoolRegister.Services.Services
                     var grades = DbContext.Grades.Where(g => g.StudentId == getGradesVm.StudentId).ToList();
                     return grades;
                 }
+                   
                 else
                     throw new ArgumentNullException ($"No permissions");
             } catch (Exception ex) {
-                Logger.LogError (ex, ex.Message);
+                Logger.LogError (ex, ex.Message);  
                 throw;
+
+                
             }
         }
     }

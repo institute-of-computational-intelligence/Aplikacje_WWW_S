@@ -10,6 +10,9 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        public void AddGrade(AddGradeVm addGradeVm);
+        public void SendEmail(SendEmailVm SendEmailVm);   
+          
+        Task<Grade> AddGrade(AddGradeVm addGradeVm);  
     }
-}
+
+}   
