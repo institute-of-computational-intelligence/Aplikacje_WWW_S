@@ -16,40 +16,40 @@ namespace SchoolRegister.Tests.UnitTests
         }
 
         [Fact]
-        public void AddNewSubjectWithNoIdValue()
+        public void AddNewSubjectWithNoId()
         {
             var subject = new AddOrUpdateSubjectVm()
             {
-                Name = "Advanced Data Base systems",
-                Description = "Subject about creating and managing data bases in SQL",
-                TeacherId = 12
+                Name = "Strony internetowe",
+                Description = "Tworzenie stron...",
+                TeacherId = 1
             };
             var subjectReport = _subjectService.AddOrUpdateSubject(subject);
             Assert.NotNull(subjectReport);
         }
 
         [Fact]
-        public void AddNewSubjectWithIdZero()
+        public void AddNewSubjec()
         {
             var subject = new AddOrUpdateSubjectVm()
             {
-                Id = 0,
-                Name = "Advanced Data Base systems",
-                Description = "Subject about creating and managing data bases in SQL",
-                TeacherId = 12
+                Id = 1,
+                Name = "Aplikacje www",
+                Description = "Tworzenie aplikacji www...",
+                TeacherId = 2
             };
             var subjectReport = _subjectService.AddOrUpdateSubject(subject);
             Assert.NotNull(subjectReport);
         }
 
         [Fact]
-        public void UpdateExistingSubjectWithCorrectId()
+        public void UpdateSubject()
         {
             var subject = new AddOrUpdateSubjectVm()
             {
-                Id = 5,
-                Name = "Advanced Data Base systems",
-                Description = "Subject about creating and managing data bases in SQL",
+                Id = 1,
+                Name = "Aplikacje www1",
+                Description = "tworzenie aplikacji wwww",
                 TeacherId = 2
             };
             var subjectReport = _subjectService.AddOrUpdateSubject(subject);
@@ -60,12 +60,12 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void GetSubject()
         {
-            var subjectReport = _subjectService.GetSubject(sb => sb.Name == "Advanced Internet Programming");
+            var subjectReport = _subjectService.GetSubject(sb => sb.Name == "Aplikacje www");
             Assert.NotNull(subjectReport);
         }
 
         [Fact]
-        public void GetSubjects()
+        public void GetSubject1()
         {
             var subjectReport = _subjectService.GetSubjects(sb => sb.TeacherId == 1);
             Assert.NotNull(subjectReport);
@@ -73,7 +73,7 @@ namespace SchoolRegister.Tests.UnitTests
         }
 
         [Fact]
-        public void GetTheAllSubjects()
+        public void GetAllSubjects()
         {
             var subjectReport = _subjectService.GetSubjects(null);
             Assert.NotNull(subjectReport);
