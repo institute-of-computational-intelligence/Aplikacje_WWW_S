@@ -20,6 +20,7 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var getGroupToAdd = new AddGroupVm()
             {
+                
                 Name = "Pai"
             };
 
@@ -34,6 +35,31 @@ namespace SchoolRegister.Tests.UnitTests
             }
 
         }
+
+      
+
+        [Fact]
+        public void Remove()
+        {
+            var group = new AddGroupVm()
+            {
+                Name = "Pai"
+             
+            };
+
+            try
+            {
+                _groupService.AddGroupAsync(group);
+                Assert.True(true);
+            }
+            catch
+            {
+                Assert.True(false);
+            }
+
+        }
+
+     
     }
 
         
