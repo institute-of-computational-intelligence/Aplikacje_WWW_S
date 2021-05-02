@@ -18,24 +18,24 @@ namespace SchoolRegister.Services.Services
         private readonly UserManager<User> userType;
         public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { userType = userManager; }
 
-        public async Task<IEnumerable<Grade>> ShowGrades(GradesVm gradesVm)
+        public async Task<IEnumerable<Grade>> GetGrades(CheckGradesVm gradesVm)
         {
             try
             {
                 if (gradesVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
-                var StudentParent = DbContext.Users.FirstOrDefault(ps => ps.Id == gradesVm.CallerId);
+                var StudentParent = DbContext.Users.FirstOrDefault(ps => ps.Id == gradesVm.CurrentUserId);
                 List<Grade> gradesEntity;
                 if (await userType.IsInRoleAsync(StudentParent, "Student") || await userType.IsInRoleAsync(StudentParent, "Parent"))
                 {
 
-                    if (gradesVm.SubjectId != 0)
+                    if (gradesVm.StudentId != 0)
                     {
                         gradesEntity = DbContext.Grades.Where(g => g.StudentId == gradesVm.StudentId).ToList();
                     }
                     else
                     {
-                        gradesEntity = DbContext.Grades.Where(g => (g.StudentId == gradesVm.StudentId && g.SubjectId == gradesVm.SubjectId)).ToList();
+                        gradesEntity = DbContext.Grades.Where(g => (g.StudentId == gradesVm.StudentId && g.StudentId == gradesVm.StudentId)).ToList();
                     }
                 }
                 else

@@ -20,40 +20,52 @@ namespace SchoolRegister.Services.Services
     {
         public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger) { }
 
-        public void AddOrRemoveStudentGroup(StudentVm studentVm)
+        public async void AddToGroupAsync(AddToGroupVm addToGroupVm)
         {
             try
             {
-                if (studentVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
-                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == studentVm.StudentId);
-                var group = DbContext.Groups.FirstOrDefault(g => g.Id == studentVm.GroupId);
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(u => u.Id == addToGroupVm.StudentId);
 
-                if (student == null)
-                    throw new ArgumentNullException("Specifed student doesn't exist");
-                if (group == null)
-                    throw new ArgumentNullException("Specifed group doesn't exist");
-                if (!group.Students.Any(s => s.Id == student.Id))
-                {
-                    student.GroupId = studentVm.GroupId;
-                    DbContext.Update(student);
-                    group.Students.Add(student);
-                }
-                else
-                {
-                    student.GroupId = null;
-                    DbContext.Update(student);
-                    group.Students.Remove(student);
-                }
-                DbContext.SaveChanges();
+            if (student == null)
+            {
+                throw new ArgumentNullException($"Could not find user with id: {addToGroupVm.StudentId}");
+            }
+
+            var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
+
+            if(group == null)
+            {
+                throw new ArgumentNullException($"Could not find group with id: {addToGroupVm.GroupId}");
+            }
+
+            student.GroupId = addToGroupVm.GroupId;
+
+            DbContext.Users.Update(student);
+            await DbContext.SaveChangesAsync();
 
             }
+            
             catch (Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
-        }
 
+
+        }
+         public async void RemoveFromGroupAsync(RemoveFromGroupVm removeFromGroupVm)
+        {
+            var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(u => u.Id == removeFromGroupVm.StudentId);
+
+            if (student == null)
+            {
+                throw new ArgumentNullException($"Could not find user with id: {removeFromGroupVm.StudentId}");
+            }
+
+            student.GroupId = null;
+
+            DbContext.Users.Update(student);
+            await DbContext.SaveChangesAsync();
+        }
     }
 }

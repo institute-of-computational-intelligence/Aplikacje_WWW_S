@@ -16,30 +16,41 @@ namespace SchoolRegister.Services.Services
 {
     public class GroupService : BaseService, IGroupService
     {
-        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { }
+        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
+        {
 
-        public void AddRemoveGroup(GroupVm groupVm)
+        }
+
+        public async void AddGroupAsync(AddGroupVm addGroupVm)
+        {
+            if(string.IsNullOrEmpty(addGroupVm.Name))
+            {
+                throw new ArgumentNullException("Name value cannot be null or empty!");
+            }
+
+            var groupToBeAdded = new Group() { Name = addGroupVm.Name };
+
+            await DbContext.AddAsync(groupToBeAdded);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public async void DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
         {
             try
             {
-                if (groupVm == null)
-                    throw new ArgumentNullException($"Viev model parameter is null");
+                var groupToBeDelted = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == deleteGroupVm.Id);    
 
-                var groupEntity = Mapper.Map<Group>(groupVm);
-                if (groupVm.Id != 0)
+                if(groupToBeDelted == null)
                 {
-                    DbContext.Groups.Add(groupEntity);
+                    throw new ArgumentNullException($"Could not find group with id: {deleteGroupVm.Id}");
                 }
-                else
-                {
-                    DbContext.Groups.Remove(groupEntity);
-                }
-                DbContext.SaveChanges();
+
+                DbContext.Groups.Remove(groupToBeDelted);
+                await DbContext.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch(Exception exception)
             {
-                Logger.LogError(ex, ex.Message);
-                throw;
+                Logger.LogError(exception.Message);
             }
         }
     }

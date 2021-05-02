@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
@@ -8,7 +10,7 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        void AddOrUpdateGrade(AddOrUpdateGradeVm addOrUpdateGradeVm);
-        void SendMailToStudentParent(SendMailVm sendMailVm);
+        void AddGradeAsync(AddGradeAsyncVm AddGradeVm);
+        Task<bool> SendEmailToParent(SendMailVm SendMailVm);
     }
 }
