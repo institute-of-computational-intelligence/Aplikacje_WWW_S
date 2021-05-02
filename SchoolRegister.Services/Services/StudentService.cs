@@ -16,7 +16,7 @@ namespace SchoolRegister.Services.Services
     public class StudentService : BaseService, IStudentService
     {
 
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) 
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
             : base(dbContext, mapper, logger)
         {
 
@@ -33,7 +33,7 @@ namespace SchoolRegister.Services.Services
 
             var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
 
-            if(group == null)
+            if (group == null)
             {
                 throw new ArgumentNullException($"Could not find group with id: {addToGroupVm.GroupId}");
             }

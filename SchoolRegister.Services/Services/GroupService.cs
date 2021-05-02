@@ -15,6 +15,7 @@ namespace SchoolRegister.Services.Services
         public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper,
             logger)
         {
+
         }
 
         public async void AddGroupAsync(AddGroupVm addGroupVm)
@@ -26,7 +27,7 @@ namespace SchoolRegister.Services.Services
                 if (!(group is null))
                     throw new DuplicateNameException($"Group with name: {addGroupVm.Name} already exists");
 
-                var newGroup = new Group {Name = addGroupVm.Name};
+                var newGroup = new Group { Name = addGroupVm.Name };
                 await DbContext.Groups.AddAsync(newGroup);
                 await DbContext.SaveChangesAsync();
             }
