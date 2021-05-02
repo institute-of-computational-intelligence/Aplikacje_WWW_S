@@ -5,47 +5,39 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SchoolRegister.Services.Services
 {
     public class GradeService : BaseService, IGradeService
     {
-        private readonly UserManager<User> userType;
+        private readonly UserManager<User> userManager;
         public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) 
         { 
-            userType = userManager; 
+            this.userManager = userManager; 
         }
 
         public async Task<IEnumerable<Grade>> ViewGrades(GradesVm gradesVm)
         {
             try
             {
-                if (gradesVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
-                var StudentParent = DbContext.Users.FirstOrDefault(ps => ps.Id == gradesVm.UserId);
-                List<Grade> gradesEntity;
-                if (await userType.IsInRoleAsync(StudentParent, "Student") || await userType.IsInRoleAsync(StudentParent, "Parent"))
+                var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == gradesVm.UserId);
+                if (user == null)
                 {
-
-                    if (gradesVm.SubjectId != 0)
-                    {
-                        gradesEntity = DbContext.Grades.Where(g => g.StudentId == gradesVm.StudentId).ToList();
-                    }
-                    else
-                    {
-                        gradesEntity = DbContext.Grades.Where(g => (g.StudentId == gradesVm.StudentId && g.SubjectId == gradesVm.SubjectId)).ToList();
-                    }
+                    throw new ArgumentNullException($"Could not find user with id: {gradesVm.SubjectId}");
                 }
-                else
+                if (await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
                 {
-                    throw new ArgumentNullException("You need to have role 'Student' or 'Parent'.");
+                    var grades = DbContext.Grades.Where(g => g.StudentId == gradesVm.StudentId).ToList();
+                    return grades;
+                }else
+                {
+                    throw new ArgumentException("No permission!");
                 }
-                return gradesEntity;
-
             }
             catch (Exception ex)
             {

@@ -3,7 +3,7 @@ using SchoolRegister.Model.DataModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
-{  public class AddOrUpdateGradeVm
+{  public class AddGradeToStudentVm
     {
         [Required]
         public int? TeacherId {get;set;}

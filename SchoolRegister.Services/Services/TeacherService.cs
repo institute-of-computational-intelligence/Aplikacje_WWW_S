@@ -22,7 +22,7 @@ namespace SchoolRegister.Services.Services
             userType = userManager;
         }
 
-        public async void AddGrade(AddOrUpdateGradeVm addGradeVm)
+        public async void AddGrade(AddGradeToStudentVm addGradeVm)
         {
             try
             {
