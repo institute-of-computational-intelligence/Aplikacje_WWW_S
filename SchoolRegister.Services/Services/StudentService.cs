@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,7 @@ namespace SchoolRegister.Services.Services
 
         }
 
-        public async void AddToGroupAsync(AddToGroupVm addToGroupVm)
+        public async void AddToGroup(AddStudentToGroupVm addToGroupVm)
         {
             try
             {
@@ -54,7 +53,7 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void RemoveFromGroupAsync(RemoveFromGroupVm removeFromGroupVm)
+        public async void RemoveFromGroup(RemoveStudentFromGroupVm removeFromGroupVm)
         {
             try
             {

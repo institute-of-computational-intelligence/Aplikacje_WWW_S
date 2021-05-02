@@ -24,7 +24,7 @@ namespace SchoolRegister.Services.Services
         {
             this.userManager = userManager;
         }
-        public async void AddGradeAsync(AddGradeAsyncVm addGradeVm)
+        public async void AddGrade(AddGradeVm addGradeVm)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
-        public async void SendEmailToParent(SendEmailVm sendEmailVm)
+        public async void SendEmail(SendEmailVm sendEmailVm)
         {
             try{
             var sender = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.SenderId);
@@ -83,7 +83,7 @@ namespace SchoolRegister.Services.Services
 
             if (await userManager.IsInRoleAsync(sender, "Teacher") && await userManager.IsInRoleAsync(recipient, "Parent"))
             {
-                var message = new MailMessage(sender.Email, recipient.Email, sendEmailVm.EmailSubject, sendEmailVm.EmailBody);
+                var message = new MailMessage(sender.Email, recipient.Email, sendEmailVm.EmailTitle, sendEmailVm.MailContent);
                 
                 string sendEmailsFrom = "emailAddress@gmail.com";             
                 string sendEmailsFromPassword = "strongPassword";

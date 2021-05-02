@@ -24,20 +24,20 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
-        public async Task<IEnumerable<Grade>> GetGrades(CheckGradesVm checkGradesVm)
+        public async Task<IEnumerable<Grade>> GetGrades(GradeVm gradeVm)
         {
             try
             {
-                var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == checkGradesVm.CurrentUserId); 
+                var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == gradeVm.UserId); 
 
                 if (user == null)
                 {
-                    throw new ArgumentNullException($"Could not find user with id: {checkGradesVm.CurrentUserId}");
+                    throw new ArgumentNullException($"Could not find user with id: {gradeVm.UserId}");
                 }
 
                 if(await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
                 {
-                    var grades = DbContext.Grades.Where(g => g.StudentId == checkGradesVm.StudentId).ToList();
+                    var grades = DbContext.Grades.Where(g => g.StudentId == gradeVm.StudentId).ToList();
 
                     return grades; 
                 }
