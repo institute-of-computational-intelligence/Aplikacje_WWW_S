@@ -17,7 +17,7 @@ namespace SchoolRegister.DAL.EF
         // more properties need to added….
 
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<SubjectGroup> SubjetctGroups { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
 
@@ -44,13 +44,13 @@ namespace SchoolRegister.DAL.EF
             .HasValue<Teacher>((int)RoleValue.Teacher);
 
             modelBuilder.Entity<SubjectGroup>()
-            .HasKey(sg => new {sg.GroupId, sg.SubjectId});
+            .HasKey(sg => new { sg.GroupId, sg.SubjectId });
 
             modelBuilder.Entity<SubjectGroup>()
             .HasOne(g => g.Group)
             .WithMany(sg => sg.SubjectGroups)
             .HasForeignKey(g => g.GroupId);
-            
+
             modelBuilder.Entity<SubjectGroup>()
             .HasOne(s => s.Subject)
             .WithMany(sg => sg.SubjectGroups)
@@ -58,7 +58,7 @@ namespace SchoolRegister.DAL.EF
             .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Grade>()
-            .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
+            .HasKey(g => new { g.DateOfIssue, g.SubjectId, g.StudentId });
 
             modelBuilder.Entity<Grade>()
             .HasOne(g => g.Subject)
