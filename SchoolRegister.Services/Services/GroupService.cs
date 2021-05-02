@@ -17,29 +17,17 @@ namespace SchoolRegister.Services.Services
     {
         public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { }
 
-        public void AddRemoveGroup(GroupVm groupVm)
+        public async void AddGroup(AddGroupVm addGroupVm)
         {
-            try
+            if (string.IsNullOrEmpty(addGroupVm.Name))
             {
-                if (groupVm == null)
-                    throw new ArgumentNullException($"Viev model parameter is null");
+                throw new ArgumentNullException("Name value cannot be null or empty!");
+            }
 
-                var groupEntity = Mapper.Map<Group>(groupVm);
-                if (groupVm.Id != 0)
-                {
-                    DbContext.Groups.Add(groupEntity);
-                }
-                else
-                {
-                    DbContext.Groups.Remove(groupEntity);
-                }
-                DbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, ex.Message);
-                throw;
-            }
+            var groupToBeAdded = new Group() { Name = addGroupVm.Name };
+
+            await DbContext.AddAsync(groupToBeAdded);
+            await DbContext.SaveChangesAsync();
         }
     }
 }

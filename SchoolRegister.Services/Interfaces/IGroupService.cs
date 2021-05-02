@@ -8,6 +8,6 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        void AddRemoveGroup(GroupVm groupVm);
+        public void AddGroup(AddGroupVm addGroupVm);
     }
 }
