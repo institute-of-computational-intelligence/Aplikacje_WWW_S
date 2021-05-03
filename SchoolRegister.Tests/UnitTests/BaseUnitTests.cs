@@ -8,3 +8,4 @@ namespace SchoolRegister.Tests.UnitTests {
         }
     }
 }
+

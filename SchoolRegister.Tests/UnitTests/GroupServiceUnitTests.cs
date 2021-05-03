@@ -1,46 +1,57 @@
 using System;
 using System.Linq;
 using SchoolRegister.DAL.EF;
-using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using SchoolRegister.Tests;
 using Xunit;
+using System.Data;
 
-
-namespace SchoolRegister.Tests.UnitTests
+namespace SchoolRegister.Tests.UnitTests 
 {
-    public class GroupServiceUnitTests : BaseUnitTests
+    public class GroupServiceUnitTests: BaseUnitTests 
     {
         private readonly IGroupService _groupService;
-        public GroupServiceUnitTests(ApplicationDbContext dbContext, IGroupService groupService) : base(dbContext)
+
+        public GroupServiceUnitTests(ApplicationDbContext dbContext, IGroupService groupService): base(dbContext) 
         {
             _groupService = groupService;
         }
 
         [Fact]
-        public async void AddGroupTest()
+        public async void AddGroup() 
         {
-            int groupCount=DbContext.Groups.Count();
-            var group=new GroupVm(){
-                Id=4,
-                Name="Group4"
+            var countBefore = DbContext.Groups.Count();
+
+            var addGroup = new AddGroupVm() {
+                Name = "GrupaName",
+                                
             };
-            _groupService.AddGroup(group);
-            Assert.Equal(groupCount+1, DbContext.Groups.Count());
+
+            await _groupService.AddGroup(addGroup);
+            var countAfter = DbContext.Groups.Count();
+
+            Assert.NotNull(addGroup);
+            Assert.Contains("GrupaName", DbContext.Groups.Select(x => x.Name));
+            Assert.True(countAfter > countBefore);              
+                            
         }
         [Fact]
-        public void DeleteGroupTest()
+        public async void DeleteGroup() 
         {
-            int groupCount=DbContext.Groups.Count();
-            var group=new  GroupVm(){
-                Id=3,
-                Name=""
+            var countBefore = DbContext.Groups.Count();  
+
+            var deleteGroup = new DeleteGroupVm() {
+                Id = 2,
+
             };
-            _groupService.DeleteGroup(group);
-            Assert.Equal(groupCount-1, DbContext.Groups.Count());
+
+            var group = await _groupService.DeleteGroup(deleteGroup);
+            var countAfter = DbContext.Groups.Count();
+                              
+            Assert.DoesNotContain(2, DbContext.Groups.Select(x => x.Id));
+            Assert.True(countAfter < countBefore);
+
         }
-        
- 
+                        
     }
 }

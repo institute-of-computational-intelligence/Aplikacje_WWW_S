@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -5,16 +9,8 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Net;
 using Microsoft.AspNetCore.Identity;
-
-
-
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -24,50 +20,56 @@ namespace SchoolRegister.Services.Services
         {
         }
 
-        public void AddGroup(GroupVm groupVm)
+ public async Task<GroupVm> AddGroup(AddGroupVm addGroupVm)
+        {
+            try 
+            {
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Name == addGroupVm.Name);
+
+                if (!(group is null))
+                      throw new ArgumentNullException ($"View model parameter is null");
+                        
+
+                var groupToBeAdded = new Group() { Name = addGroupVm.Name };
+                var groupVm = Mapper.Map<GroupVm>(groupToBeAdded);
+
+                await DbContext.AddAsync(groupToBeAdded);
+                await DbContext.SaveChangesAsync();  
+                   
+
+                return groupVm;
+            }
+            catch(Exception ex) 
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }      
+        }
+
+
+        public async Task<GroupVm> DeleteGroup(DeleteGroupVm deleteGroupVm)
         {
             try
             {
-                if (groupVm is null)
-                    throw new ArgumentNullException($"View model parametr is missing");
+                var groupToBeDeleted = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == deleteGroupVm.Id);    
 
-                var group = Mapper.Map<Group>(groupVm);
+                if(groupToBeDeleted == null)
+                {
+                    throw new ArgumentNullException($"Could not find group with id: {deleteGroupVm.Id}");
+                }
+                var groupVm = Mapper.Map<GroupVm>(groupToBeDeleted);
 
-                if (DbContext.Groups.Any(g => g.Id == groupVm.Id))
-                    throw new ArgumentException("This group already exist");
-                else
-                    DbContext.Groups.Add(group);
-                DbContext.SaveChanges();
-
+                DbContext.Groups.Remove(groupToBeDeleted);
+                await DbContext.SaveChangesAsync();
+                
+                return groupVm;
             }
-            catch (Exception e)
+            catch(Exception exception)
             {
-                Logger.LogError(e, e.Message);
+                Logger.LogError(exception.Message);
                 throw;
             }
-        }
-        public void DeleteGroup(GroupVm groupVm)
-        {
-            try
-            {
-                if (groupVm is null)
-                    throw new ArgumentNullException($"View model parametr is missing");
-
-                var group = Mapper.Map<Group>(groupVm);
-
-                if (DbContext.Groups.Any(g => g.Id == groupVm.Id))
-                    DbContext.Groups.Remove(group);
-                else
-                    throw new ArgumentException("This group doesn't exist");
-                DbContext.SaveChanges();
-
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, e.Message);
-                throw;
-            }
-        }
-
+        }   
     }
-}
+    
+} 

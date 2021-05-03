@@ -1,27 +1,27 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class StudentService : BaseService, IStudentService
     {
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-            : base(dbContext, mapper, logger)
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
         {
-
         }
+   
 
-        public async Task<GroupVm> AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm)
+       public async Task<GroupVm> AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm)
         {
             try 
             {
@@ -53,7 +53,7 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-    public async Task<GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm)
+        public async Task<GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm)
         {
             try 
             {
@@ -64,7 +64,7 @@ namespace SchoolRegister.Services.Services
                 if (student == null)
                     throw new ArgumentNullException("Can't find student ID");
 
-                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);  
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);   
                 
 
                 if (group is null)
@@ -83,5 +83,6 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+     
     }
 }
