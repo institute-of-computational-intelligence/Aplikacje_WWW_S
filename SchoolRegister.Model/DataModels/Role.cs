@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace SchoolRegister.Model.DataModels
 {
@@ -7,12 +8,11 @@ namespace SchoolRegister.Model.DataModels
     {
         public RoleValue RoleValue {get; set;}
 
-        public Role()
-        {}
-
+        public Role() {}
         public Role(string name, RoleValue roleValue)
         {
-            this.RoleValue = roleValue;
+            roleValue = RoleValue;
         }
+
     }
 }
