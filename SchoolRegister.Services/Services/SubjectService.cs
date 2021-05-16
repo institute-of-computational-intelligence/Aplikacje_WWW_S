@@ -23,7 +23,7 @@ namespace SchoolRegister.Services.Services
             try
             {
                 if (addOrUpdateSubjectVm is null)
-                    throw new ArgumentNullException("addOrUpdateSubjectVm");
+                    throw new ArgumentNullException("View model parameter is null");
 
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateSubjectVm);
                 if (!addOrUpdateSubjectVm.Id.HasValue || addOrUpdateSubjectVm.Id == 0)
@@ -48,7 +48,7 @@ namespace SchoolRegister.Services.Services
             try
             {
                 if (filterExpression is null)
-                    throw new ArgumentNullException("filterExpression");
+                    throw new ArgumentNullException("FilterExpression is null");
 
                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);

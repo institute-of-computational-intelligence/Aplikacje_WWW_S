@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ namespace SchoolRegister.Services.Services
         {
         }
 
-        public async void AddGroupAsync(AddGroupVm addGroupVm)
+        public async Task<GroupVm> AddGroupAsync(AddGroupVm addGroupVm)
         {
             try
             {
@@ -27,8 +28,12 @@ namespace SchoolRegister.Services.Services
                     throw new DuplicateNameException($"Group with name: {addGroupVm.Name} already exists");
 
                 var newGroup = new Group {Name = addGroupVm.Name};
+                var groupVm = Mapper.Map<GroupVm>(newGroup);
+
                 await DbContext.Groups.AddAsync(newGroup);
                 await DbContext.SaveChangesAsync();
+
+                return groupVm;
             }
             catch (Exception ex)
             {
@@ -37,7 +42,7 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void DeleteGroupAsync(RemoveGroupVm deleteGroupVm)
+        public async Task<GroupVm> DeleteGroupAsync(RemoveGroupVm deleteGroupVm)
         {
             try
             {
@@ -46,12 +51,17 @@ namespace SchoolRegister.Services.Services
                 if (group is null)
                     throw new ArgumentNullException($"Group with id: {deleteGroupVm.Id} does not exist");
 
+                var groupVm = Mapper.Map<GroupVm>(group);
+
                 DbContext.Groups.Remove(group);
                 await DbContext.SaveChangesAsync();
+
+                return groupVm;
             }
             catch (Exception exception)
             {
                 Logger.LogError(exception.Message);
+                throw;
             }
         }
     }

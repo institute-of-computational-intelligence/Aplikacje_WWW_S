@@ -1,10 +1,12 @@
+using System.Threading.Tasks;
+using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        void SendEmailAsync(SendEmailVm sendEmailVm);
-        void AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudenVm);
+        void SendEmailAsync(SendEmailVm SendEmailVm);
+        Task<Grade> AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudenVm);
     }
 }

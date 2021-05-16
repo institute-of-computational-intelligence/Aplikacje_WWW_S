@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,31 +17,31 @@ namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
     {
-        private readonly IConfiguration _configuration;
-        private readonly UserManager<User> _userManager;
+        private readonly IConfiguration configuration;
+        private readonly UserManager<User> userManager;
 
         public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger,
             UserManager<User> userManager, IConfiguration configuration) : base(dbContext, mapper, logger)
         {
-            this._userManager = userManager;
-            this._configuration = configuration;
+            this.userManager = userManager;
+            this.configuration = configuration;
         }
 
-        public async void AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudentVm)
+        public async Task<Grade> AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudentVm)
         {
             try
             {
                 if (addGradeToStudentVm is null)
-                    throw new ArgumentNullException("addGradeToStudentVm");
+                    throw new ArgumentNullException("View model parameter is null");
 
                 var teacher = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == addGradeToStudentVm.TeacherId);
 
                 if (teacher is null)
                     throw new ArgumentNullException($"Teacher with id: {addGradeToStudentVm.TeacherId} does not exist");
 
-                if (!await _userManager.IsInRoleAsync(teacher, "Teacher"))
+                if (!await userManager.IsInRoleAsync(teacher, "Teacher"))
                     throw new UnauthorizedAccessException(
-                        $"User with id {addGradeToStudentVm.TeacherId} does not have required permissions to add grade to the student");
+                        $"User with id {addGradeToStudentVm.StudentId} does not have required permissions to add grade to the student");
 
                 var student = await DbContext.Users
                     .OfType<Student>()
@@ -48,6 +49,10 @@ namespace SchoolRegister.Services.Services
 
                 if (student is null)
                     throw new ArgumentNullException($"Student with id: {addGradeToStudentVm.StudentId} does not exist");
+
+                if (!DbContext.Subjects.Any(x => x.Id == addGradeToStudentVm.SubjectId))
+                    throw new ArgumentNullException($"Subject with id: {addGradeToStudentVm.SubjectId} does not exist");
+
 
                 var grade = new Grade
                 {
@@ -59,6 +64,8 @@ namespace SchoolRegister.Services.Services
 
                 await DbContext.Grades.AddAsync(grade);
                 await DbContext.SaveChangesAsync();
+
+                return grade;
             }
             catch (Exception ex)
             {
@@ -67,35 +74,35 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void SendEmailAsync(SendEmailVm sendEmailVm)
+        public async void SendEmailAsync(SendEmailVm SendEmailVm)
         {
             try
             {
-                var teacher = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.TeacherId);
+                var teacher = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == SendEmailVm.TeacherId);
 
                 if (teacher is null)
-                    throw new ArgumentNullException($"Teacher with id: {sendEmailVm.TeacherId} does not exist");
+                    throw new ArgumentNullException($"Teacher with id: {SendEmailVm.TeacherId} does not exist");
 
-                var parent = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.ParentId);
+                var parent = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == SendEmailVm.ParentId);
 
                 if (parent is null)
-                    throw new ArgumentNullException($"Parent with id: {sendEmailVm.ParentId} does not exist");
+                    throw new ArgumentNullException($"Parent with id: {SendEmailVm.ParentId} does not exist");
 
-                if (!(await _userManager.IsInRoleAsync(teacher, "Teacher") &&
-                      await _userManager.IsInRoleAsync(parent, "Parent")))
+                if (!(await userManager.IsInRoleAsync(teacher, "Teacher") &&
+                      await userManager.IsInRoleAsync(parent, "Parent")))
                     throw new UnauthorizedAccessException(
                         "Insufficient permissions, teacher or parent does not have required permissions");
 
 
-                var emailUsername = _configuration.GetValue<string>("EmailSettings:Username");
-                var emailPassword = _configuration.GetValue<string>("EmailSettings:Password");
-                var emailClientAddress = _configuration.GetValue<string>("EmailSettings:ClientAddress");
-                var emailClientPort = _configuration.GetValue<int>("EmailSettings:ClientPort");
-                var emailClientTimeout = _configuration.GetValue<int>("EmailSettings:ClientTimeout");
+                var emailUsername = configuration.GetValue<string>("EmailSettings:Username");
+                var emailPassword = configuration.GetValue<string>("EmailSettings:Password");
+                var emailClientAddress = configuration.GetValue<string>("EmailSettings:ClientAddress");
+                var emailClientPort = configuration.GetValue<int>("EmailSettings:ClientPort");
+                var emailClientTimeout = configuration.GetValue<int>("EmailSettings:ClientTimeout");
 
                 var accessCredentials = new NetworkCredential(emailUsername, emailPassword);
-                var message = new MailMessage(teacher.Email, parent.Email, sendEmailVm.EmailSubject,
-                    sendEmailVm.EmailContent);
+                var message = new MailMessage(teacher.Email, parent.Email, SendEmailVm.EmailSubject,
+                    SendEmailVm.EmailContent);
 
                 var client = new SmtpClient(emailClientAddress, emailClientPort);
 
