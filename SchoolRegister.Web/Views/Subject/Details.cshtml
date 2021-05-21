@@ -1,0 +1,37 @@
+﻿@using SchoolRegister.ViewModels.VM
+@model SubjectVm
+@{
+    ViewData["Title"] = "Details";
+}
+<h2>@ViewData["Title"]</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TeacherName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TeacherName)
+        </dd>
+    </dl>
+    <partial name="_GroupsDetailsPartial" model="@Model.Groups" />
+</div>
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "AddOrEditSubject", new {id = Model.Id}) @:|
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

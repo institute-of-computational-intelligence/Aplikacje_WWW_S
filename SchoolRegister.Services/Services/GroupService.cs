@@ -82,13 +82,8 @@ namespace SchoolRegister.Services.Services {
             if (student == null || !_userManager.IsInRoleAsync (student, "Student").Result) {
                 throw new ArgumentNullException ($"Student is null or user is not student");
             }
-            var group = DbContext.Groups.FirstOrDefault (x => x.Id == detachStudentToGroupVm.GroupId);
-            if (group == null) {
-                throw new ArgumentNullException ($"group is null");
-            }
             student.GroupId = null;
             student.Group = null;
-            group.Students.Remove (student);
             DbContext.SaveChanges ();
             var studentVm = Mapper.Map<StudentVm> (student);
             return studentVm;
