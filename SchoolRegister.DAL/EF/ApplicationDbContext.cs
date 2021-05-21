@@ -9,6 +9,7 @@ namespace SchoolRegister.DAL.EF
 {
   public class ApplicationDbContext : IdentityDbContext<User, Role, int>
   {
+    // table properties
     public virtual DbSet<Grade> Grades { get; set; }
     public virtual DbSet<Group> Groups { get; set; }
     public virtual DbSet<Subject> Subjects { get; set; }
@@ -22,7 +23,8 @@ namespace SchoolRegister.DAL.EF
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       base.OnConfiguring(optionsBuilder);
-      optionsBuilder.UseLazyLoadingProxies();
+      //configuration commands            
+      optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,14 +39,8 @@ namespace SchoolRegister.DAL.EF
           .HasValue<Parent>((int)RoleValue.Parent)
           .HasValue<Teacher>((int)RoleValue.Teacher);
 
-      modelBuilder.Entity<Group>()
-          .HasMany(g => g.Students)
-          .WithOne(s => s.Group)
-          .HasForeignKey(x => x.GroupId)
-          .IsRequired();
-
       modelBuilder.Entity<SubjectGroup>()
-          .HasKey(sg => new { sg.GroupId, sg.SubjectId });
+         .HasKey(sg => new { sg.GroupId, sg.SubjectId });
 
       modelBuilder.Entity<SubjectGroup>()
           .HasOne(g => g.Group)
@@ -58,15 +54,13 @@ namespace SchoolRegister.DAL.EF
           .OnDelete(DeleteBehavior.Restrict);
 
       modelBuilder.Entity<Grade>()
-          .HasOne(s => s.Subject)
-          .WithMany(g => g.Grades)
-          .HasForeignKey(s => s.SubjectId);
-
-      modelBuilder.Entity<Group>()
-          .HasKey(g => new { g.Id });
+          .HasKey(g => new { g.DateOfIssue, g.StudentId, g.SubjectId });
 
       modelBuilder.Entity<Grade>()
-          .HasKey(g => new { g.DateOfIssue, g.SubjectId, g.StudentId });
+          .HasOne(s => s.Student)
+          .WithMany(sg => sg.Grades)
+          .HasForeignKey(s => s.StudentId)
+          .OnDelete(DeleteBehavior.Restrict);
     }
   }
 }
