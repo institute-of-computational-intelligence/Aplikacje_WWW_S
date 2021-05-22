@@ -9,6 +9,7 @@ using SchoolRegister.Tests;
 
 namespace SchoolRegister.Tests.UnitTests 
 {
+
     public class GradeServiceUnitTests: BaseUnitTests 
     {
         private readonly IGradeService _gradeService;

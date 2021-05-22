@@ -1,0 +1,117 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<table id="tabela" class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th class="d-none">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th class="col-2">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th class="col-2">
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="d-none">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td class="align-middle text-right">
+                    <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="dropdown-item modalLink" href="#">
+                                    Delete
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            }
+                            @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Parent"))
+                            {
+
+                                <a class="dropdown-item" asp-action="Details" asp-route-studentId="@item.Id">
+                                    Details
+                                </a>
+                                @if (!User.IsInRole("Parent"))
+                                {
+                                    @if (User.IsInRole("Teacher"))
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" asp-controller="Grade" asp-action="AddGradeToStudent"
+                            asp-route-studentId="@item.Id">
+                                            Add Grade
+                                        </a>
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Group" asp-action="AttachStudentToGroup"
+                            asp-route-studentId="@item.Id">
+                                        Attach to group
+                                    </a>
+                                    @if (item.GroupId != null)
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" asp-controller="Group" asp-action="DetachStudentFromGroup"
+                            asp-route-studentId="@item.Id">
+                                            Detach from group
+                                        </a>
+                                    }
+
+                                }
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="Modalpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+
+    </div>
+</div>
+
+@section Scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".modalLink").click(function () {
+            var $currentId = $(this).closest("tr").children('td:first').text();
+            console.log($currentId)
+            $.ajax({
+                url: "@Url.Action("GetIdToDelete", "Student")",
+                data: {
+                    studentId: $currentId
+                },
+                success: function (data) {
+                    $(".modal-dialog").html(data);
+                    $("#Modalpopup").modal('show');
+                }
+            });
+        })
+    })
+</script>
+}

@@ -1,0 +1,41 @@
+@model SchoolRegister.ViewModels.VM.GroupVm
+
+@{
+    ViewData["Title"] = "Group details";
+}
+
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th class="col-1">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Name)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
