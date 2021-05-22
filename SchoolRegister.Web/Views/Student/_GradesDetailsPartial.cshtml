@@ -1,0 +1,29 @@
+﻿@using SchoolRegister.Model.DataModels
+@model IDictionary<string, List<GradeScale>>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                SubjectName
+            </th>
+            <th>
+                Grades
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Key)
+                </td>
+                <td>
+                    @string.Join(", ", item.Value.Select( g=> ((int)g).ToString()))
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>

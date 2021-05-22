@@ -4,56 +4,60 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
-using System.Data;
-using System.Threading.Tasks;
-using SchoolRegister.Model.DataModels;
 
-namespace SchoolRegister.Tests.UnitTests
-{
-    public class TeacherServiceUnitTests : BaseUnitTests
-    {
+namespace SchoolRegister.Tests.UnitTests {
+
+    public class TeacherServiceUnitTests : BaseUnitTests {
         private readonly ITeacherService _teacherService;
+        public TeacherServiceUnitTests (ApplicationDbContext dbContext, ITeacherService teacherService) : base (dbContext) {
 
-        public TeacherServiceUnitTests(ApplicationDbContext dbContext, ITeacherService teacherService) : base(dbContext)
-        {
             _teacherService = teacherService;
         }
 
         [Fact]
-        public async void AddGradeToStudentByTeacher()
-        {
-            var countBefore = DbContext.Grades.Count();
-
-            var addGradeToStudent = new AddGradeAsyncVm()
-            {
-                StudentId = 5,
-                TeacherId = 2,
-                SubjectId = 3,
-                GradeValue = GradeScale.DST
+        public async void SentEmailToPartentTest () {
+            var sendEmailToParent = new SendEmailToParentVm () {
+                Content = "This is test email",
+                Title = "Test",
+                SenderId = 1,
+                StudentId = 7
             };
-            var grade = await _teacherService.AddGradeAsync(addGradeToStudent);
-            var countAfter = DbContext.Grades.Count();
-
-            Assert.NotNull(grade);
-            Assert.Contains(grade, DbContext.Grades);
-            Assert.Equal(GradeScale.DST, grade.GradeValue);
-            Assert.Equal(5, grade.StudentId);
-            Assert.True(countAfter > countBefore);
+            var result = await _teacherService.SendEmailToParentAsync (sendEmailToParent);
+            Assert.True (result);
         }
+
         [Fact]
-        public async void SendEmailByTeacherToParent()
-        {
-            var sendEmail = new SendEmailVm()
-            {
-                SenderId = 2,
-                RecipientId = 3,
-                EmailSubject = "??",
-                EmailBody = ""
-            };
-
-            var exception = await Record.ExceptionAsync(() => Task.Run(() => _teacherService.SendEmailToParent(sendEmail)));
-
-            Assert.Null(exception);
+        public void GetTeacher () {
+            var teacher = _teacherService.GetTeacher (x => x.UserName == "t1@eg.eg");
+            Assert.NotNull (teacher);
         }
+
+        [Fact]
+        public void GetTeachers () {
+            var teachers = _teacherService.GetTeachers (x => x.UserName.Contains ("@eg.eg"));
+            Assert.NotNull (teachers);
+            Assert.NotEmpty (teachers);
+            Assert.Equal (3, teachers.Count ());
+        }
+
+        [Fact]
+        public void GetAllTeachers () {
+            var teachers = _teacherService.GetTeachers ();
+            Assert.NotNull (teachers);
+            Assert.NotEmpty (teachers);
+            Assert.Equal (3, teachers.Count ());
+        }
+
+        [Fact]
+        public void GetTeachersGroups () {
+            var getTeachersGroup = new TeachersGroupsVm {
+                TeacherId = 1
+            };
+            var teachersGroups = _teacherService.GetTeachersGroups (getTeachersGroup);
+            Assert.NotNull (teachersGroups);
+            Assert.NotEmpty (teachersGroups);
+            Assert.Equal (5, teachersGroups.Count ());
+        }
+
     }
 }
