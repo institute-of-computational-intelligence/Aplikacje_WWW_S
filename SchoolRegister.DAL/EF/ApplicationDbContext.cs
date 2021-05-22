@@ -4,39 +4,42 @@ using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
+
 namespace SchoolRegister.DAL.EF
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
+    public class ApplicationDbContext : IdentityDbContext<User,Role,int>
     {
-        // Table properties e.g
-        // public virtual DbSet<Entity> TableName { get; set; }
+        // table properties
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<Group> Groups{get; set;} 
-        public virtual DbSet<Subject> Subjects{get; set;} 
-        public virtual DbSet<SubjectGroup> SubjectGroups{get; set;} 
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+            : base(options)
         {
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            //configuration commands
+            //configuration commands            
             optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+             base.OnModelCreating(modelBuilder);
             // Fluent API commands
             modelBuilder.Entity<User>()
-            .ToTable("AspNetUsers")
-            .HasDiscriminator<int>("UserType")
-            .HasValue<User>((int)RoleValue.User)
-            .HasValue<Student>((int)RoleValue.Student)
-            .HasValue<Parent>((int)RoleValue.Parent)
-            .HasValue<Teacher>((int)RoleValue.Teacher);
-
-            modelBuilder.Entity<SubjectGroup>()
+                .ToTable("AspNetUsers")
+                .HasDiscriminator<int>("UserType")
+                .HasValue<User>((int)RoleValue.User)
+                .HasValue<Student>((int)RoleValue.Student)
+                .HasValue<Parent>((int)RoleValue.Parent)
+                .HasValue<Teacher>((int)RoleValue.Teacher);
+                
+             modelBuilder.Entity<SubjectGroup>()
                 .HasKey(sg => new {sg.GroupId, sg.SubjectId});
 
             modelBuilder.Entity<SubjectGroup>()
@@ -51,26 +54,13 @@ namespace SchoolRegister.DAL.EF
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Grade>()
-                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
-            
-            modelBuilder.Entity<Grade>()
-                .HasOne(s => s.Subject)
-                .WithMany(g => g.Grades)
-                .HasForeignKey(s => s.SubjectId);
+                .HasKey(g => new  { g.DateOfIssue, g.StudentId, g.SubjectId});
 
             modelBuilder.Entity<Grade>()
-                .HasOne(st => st.Student)
-                .WithMany(g => g.Grades)
-                .HasForeignKey(st => st.StudentId)
+                .HasOne(s => s.Student)
+                .WithMany(sg => sg.Grades)
+                .HasForeignKey(s => s.StudentId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Group>()
-                .HasKey(g => new { g.Id });
-
-            modelBuilder.Entity<Subject>()
-                .HasOne(t => t.Teacher)
-                .WithMany(s => s.Subjects)
-                .HasForeignKey(s => s.TeacherId);
         }
     }
 }

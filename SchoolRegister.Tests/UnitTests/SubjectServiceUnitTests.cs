@@ -1,100 +1,69 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
-using SchoolRegister.Tests;
-using System.Linq.Expressions;
 
-namespace SchoolRegister.Tests.UnitTests 
-{
-    public class SubjectServiceUnitTests: BaseUnitTests 
-    {
+namespace SchoolRegister.Tests.UnitTests {
+    public class SubjectServiceUnitTests: BaseUnitTests {
+
         private readonly ISubjectService _subjectService;
-        public SubjectServiceUnitTests(ApplicationDbContext dbContext, ISubjectService subjectService): base(dbContext) 
-        {
-             _subjectService = subjectService;
+        public SubjectServiceUnitTests (ISubjectService subjectService, ApplicationDbContext dbContext)
+            :base(dbContext) {
+            _subjectService = subjectService;           
         }
+
         [Fact]
-        public void UpdateSubject() 
-        {
-            var addOrUpdateSubject = new AddOrUpdateSubjectVm() {
-                Id = 1,
-                    Name = "Aplikacje WWW",
-                    Description = "Aplikacje webowe .NET",
-                    TeacherId = 2
+        public void GetSubject () {
+            var subject = _subjectService.GetSubject (x => x.Name == "Programowanie obiektowe");
+            Assert.NotNull (subject);
+        }
+
+        [Fact]
+        public void GetSubjects () {
+            var subjects = _subjectService.GetSubjects (x => x.Id > 2 && x.Id <= 4);
+            Assert.NotNull (subjects);
+            Assert.NotEmpty(subjects);
+            Assert.Equal (2, subjects.Count ());
+        }
+
+        [Fact]
+        public void GetAllSubjects () {
+            var subjects = _subjectService.GetSubjects ();
+            Assert.NotNull (subjects);
+            Assert.NotEmpty(subjects);
+            Assert.Equal (DbContext.Subjects.Count (), subjects.Count ());
+        }
+
+        [Fact]
+        public void AddNewSubject () {
+            var newSubjectVm = new AddOrUpdateSubjectVm () {
+                Name = "Zaawansowane programowanie internetowe",
+                Description = "W ramach przedmiotu studenci tworzą rozwiazania w bibliotekach SPA",
+                TeacherId = 1
             };
-
-            var updatedSubject = _subjectService.AddOrUpdateSubject(addOrUpdateSubject);
-            var countAfter = DbContext.Subjects.Count();
-
-            Assert.NotNull(updatedSubject);
-            Assert.Equal("Aplikacje webowe .NET", updatedSubject.Description);
-            Assert.Equal(2, updatedSubject.TeacherId);
-
+            var createdSubject = _subjectService.AddOrUpdateSubject (newSubjectVm);
+            Assert.NotNull (createdSubject);
+            Assert.Equal ("Zaawansowane programowanie internetowe", createdSubject.Name);
         }
+
         [Fact]
-        public void AddSubject() 
-        {
-            var addSubject = new AddOrUpdateSubjectVm() {
+        public void EditSubject () {
+            var editSubjectVm = new AddOrUpdateSubjectVm () {
                 Id = 1,
-                    Name = "Matematyka",
-                    Description = "Królowa nauk",
-                    TeacherId = 3
+                Name = "Aplikacje webowe",
+                Description = null,
+                TeacherId = 1
             };
-            var subjectReport = _subjectService.AddOrUpdateSubject(addSubject);
-            Assert.NotNull(subjectReport);
-        }
-        [Fact]
-        public void GetSubjectForTeacher() 
-        {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.Name == "Advanced Internet Programming";
-            var subjectReport = _subjectService.GetSubject(filterSubject);
-            Assert.NotNull(subjectReport);
-        }
-        [Fact]
-        public void GetSubjectFound() 
-        {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.Name == "Advanced Internet Programming";
-            var getSubject = _subjectService.GetSubject(filterSubject);
-            Assert.NotNull(getSubject);
-        }
+            var editedSubjectVm = _subjectService.AddOrUpdateSubject (editSubjectVm);
+            Assert.NotNull (editedSubjectVm);
+            Assert.Equal ("Aplikacje webowe", editedSubjectVm.Name);
+            Assert.Null (editedSubjectVm.Description);
 
-        [Fact]
-        public void GetSubjectNotFound() 
-        {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.Name == "Zaawansowane programowanie obiektowe";
-            var getSubject = _subjectService.GetSubject(filterSubject);
-            Assert.Null(getSubject);
-        }
-
-        [Fact]
-        public void GetSubjectsFound() 
-        {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.TeacherId == 2;
-            var getSubjects = _subjectService.GetSubjects(filterSubject);
-            Assert.NotNull(getSubjects);
-            Assert.Equal(2, getSubjects.Count());
-        }
-
-        [Fact]
-        public void GetSubjectsZero() {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.Id == -1;
-            var getSubjects = _subjectService.GetSubjects(filterSubject);
-            Assert.NotNull(getSubjects);
-            Assert.Empty(getSubjects); // Collection should be empty
-        }
-        [Fact]
-        public void GetSubjectsCollectionCheck() {
-            Expression < Func < Subject, bool >> filterSubject = subject => subject.Name.StartsWith("Programowanie");
-            var getSubjects = _subjectService.GetSubjects(filterSubject);
-            Assert.NotNull(getSubjects);
-            Assert.Equal(new [] {
-                "Programowanie obiektowe",
-                "Programowanie interaktywnej grafiki dla stron WWW"
-            }, getSubjects.Select(s => s.Name).ToArray());
         }
 
     }

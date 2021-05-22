@@ -1,0 +1,67 @@
+﻿@using SchoolRegister.ViewModels.VM
+@model IEnumerable<StudentVm>
+@{
+    ViewData["Title"] = "Students";
+}
+<h2>@ViewData["Title"]</h2>
+<table class="table students-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageGrade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageGrade)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Student" asp-action="AttachStudentToGroup" asp-route-studentId="@item.Id">Attach Student to Group</a> @:|
+                        <form method="post" asp-action="DetachStudentToGroup">
+                            <input type="hidden" name="studentId" asp-for="@item.Id"/>
+                            <button type="submit" class="btn btn-link">Detach Student from Group</button>
+                        </form>
+                        <a asp-controller="Student" asp-action="DetachStudentToGroup" asp-route-studentId="@item.Id"></a> @:|
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                    {
+                        <a asp-controller="Teacher" asp-action="SendEmailToParent" asp-route-studentId="@item.Id">Send Email to Parent</a> @:|
+                        <a asp-controller="Teacher" asp-action="AddGrade" asp-route-studentId="@item.Id">Add Grade</a> @:|
+                    }
+                    <a asp-action="Details" asp-route-studentId="@item.Id">Details</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

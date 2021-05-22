@@ -1,0 +1,45 @@
+﻿@using SchoolRegister.ViewModels.VM
+@model GradesReportVm
+@{
+    ViewData["Title"] = "Student Details";
+}
+<h2>@ViewData["Title"] </h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentFirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentLastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentLastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AverageGrade)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AverageGrade)
+        </dd>
+    </dl>
+    <partial name="_GradesDetailsPartial" model="@Model.StudentGradesPerSubject"/>
+</div>
+<div>
+    <a asp-action="Index" >Back to List</a>
+</div>

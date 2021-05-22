@@ -2,12 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class RemoveFromGroupVm
+    public class AttachDetachSubjectGroupVm
     {
         [Required]
-        public int StudentId { get; set; }
-
+        public int SubjectId { get; set; }
         [Required]
         public int GroupId { get; set; }
     }
-} 
+}

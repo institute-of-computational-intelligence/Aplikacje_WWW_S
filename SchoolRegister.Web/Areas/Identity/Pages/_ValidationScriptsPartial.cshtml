@@ -16,3 +16,18 @@
             integrity="sha384-ifv0TYDWxBHzvAk2Z0n8R434FL1Rlv/Av18DXE43N/1rvHyOG4izKst0f2iSLdds">
     </script>
 </environment>
+<script>
+    jQuery(document).ready(function () {
+        $(".student-selected, .teacher-selected").hide();
+    });
+    jQuery("#Input_RoleId").change(function (data) {
+        $(".student-selected, .teacher-selected").hide(500);
+        if ($(this).find(":selected").text() === "Teacher") {
+            $(".teacher-selected").show(500);
+        }
+        if ($(this).find(":selected").text() === "Student") {
+            $(".student-selected").show(500);
+        }
+    });
+</script>
+

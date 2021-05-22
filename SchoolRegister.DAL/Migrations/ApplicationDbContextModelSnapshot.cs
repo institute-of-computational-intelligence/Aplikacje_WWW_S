@@ -129,21 +129,18 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GradeValue")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Group")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.HasKey("DateOfIssue");
+                    b.Property<int>("GradeValue")
+                        .HasColumnType("int");
 
-                    b.HasIndex("Group");
+                    b.HasKey("DateOfIssue", "StudentId", "SubjectId");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
 
@@ -163,7 +160,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Role", b =>
@@ -206,7 +203,6 @@ namespace SchoolRegister.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -220,7 +216,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
@@ -235,7 +231,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjectGroup");
+                    b.ToTable("SubjectGroups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.User", b =>
@@ -408,7 +404,9 @@ namespace SchoolRegister.DAL.Migrations
                 {
                     b.HasOne("SchoolRegister.Model.DataModels.Student", "Student")
                         .WithMany("Grades")
-                        .HasForeignKey("Group");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SchoolRegister.Model.DataModels.Subject", "Subject")
                         .WithMany("Grades")
@@ -456,7 +454,7 @@ namespace SchoolRegister.DAL.Migrations
                         .HasForeignKey("GroupId");
 
                     b.HasOne("SchoolRegister.Model.DataModels.Parent", "Parent")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Group");
@@ -476,6 +474,11 @@ namespace SchoolRegister.DAL.Migrations
                     b.Navigation("Grades");
 
                     b.Navigation("SubjectGroups");
+                });
+
+            modelBuilder.Entity("SchoolRegister.Model.DataModels.Parent", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Student", b =>
