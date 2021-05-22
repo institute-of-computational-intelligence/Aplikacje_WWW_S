@@ -1,0 +1,38 @@
+﻿@using SchoolRegister.ViewModels.VM
+@model AddGradeToStudentVm
+@{
+    ViewData["Title"] = "Add Grade";
+}
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddGrade">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Student</label>
+                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentsList"></select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Subject</label>
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.SubjectList"></select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GradeValue" class="control-label"></label>
+                <select asp-for="GradeValue" class="form-control" asp-items="ViewBag.GradeScale"></select>
+                <span asp-validation-for="GradeValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Student">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

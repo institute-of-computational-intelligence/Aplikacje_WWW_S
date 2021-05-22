@@ -7,69 +7,60 @@ using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.DAL.EF
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
+    public class ApplicationDbContext : IdentityDbContext<User,Role,int>
     {
-        // Table properties e.g
-        // public virtual DbSet<Entity> TableName { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
+        // table properties
         public virtual DbSet<Grade> Grades { get; set; }
-        // more properties need to added
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+            : base(options)
         {
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            //configuration commands
+            //configuration commands            
             optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+             base.OnModelCreating(modelBuilder);
             // Fluent API commands
             modelBuilder.Entity<User>()
-            .ToTable("AspNetUsers")
-            .HasDiscriminator<int>("UserType")
-            .HasValue<User>((int)RoleValue.User)
-            .HasValue<Student>((int)RoleValue.Student)
-            .HasValue<Parent>((int)RoleValue.Parent)
-            .HasValue<Teacher>((int)RoleValue.Teacher);
-
-            modelBuilder.Entity<Group>()
-                       .HasMany(g => g.Students)
-                       .WithOne(s => s.Group)
-                       .HasForeignKey(x => x.GroupId)
-                       .IsRequired();
+                .ToTable("AspNetUsers")
+                .HasDiscriminator<int>("UserType")
+                .HasValue<User>((int)RoleValue.User)
+                .HasValue<Student>((int)RoleValue.Student)
+                .HasValue<Parent>((int)RoleValue.Parent)
+                .HasValue<Teacher>((int)RoleValue.Teacher);
+                
+             modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new {sg.GroupId, sg.SubjectId});
 
             modelBuilder.Entity<SubjectGroup>()
-            .HasKey(sg => new { sg.GroupId, sg.SubjectId });
+                .HasOne(g => g.Group)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(g => g.GroupId);
 
             modelBuilder.Entity<SubjectGroup>()
-            .HasOne(g => g.Group)
-            .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(g => g.GroupId);
-
-            modelBuilder.Entity<SubjectGroup>()
-            .HasOne(s => s.Subject)
-            .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(s => s.SubjectId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(s => s.Subject)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(s => s.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Grade>()
-            .HasOne(s => s.Subject)
-            .WithMany(g => g.Grades)
-            .HasForeignKey(s => s.SubjectId);
-
-            modelBuilder.Entity<Group>()
-            .HasKey(g => new { g.Id });
+                .HasKey(g => new  { g.DateOfIssue, g.StudentId, g.SubjectId});
 
             modelBuilder.Entity<Grade>()
-            .HasKey(g => new { g.DateOfIssue, g.SubjectId, g.StudentId });
-
-
+                .HasOne(s => s.Student)
+                .WithMany(sg => sg.Grades)
+                .HasForeignKey(s => s.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

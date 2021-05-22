@@ -1,0 +1,58 @@
+@using SchoolRegister.ViewModels.VM
+@model IEnumerable<SubjectVm>
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>Subject</h2>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="AddOrEditSubject">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherName)
+            </th>
+            <th>
+                <label>Groups Count</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Groups.Count)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
+                        <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">Attach Subject to Group</a> @:|
+                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-route-subjectId="@item.Id">Detach Subject from Group</a> @:|
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

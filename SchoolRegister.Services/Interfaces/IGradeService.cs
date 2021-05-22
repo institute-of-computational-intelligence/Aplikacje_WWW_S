@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
