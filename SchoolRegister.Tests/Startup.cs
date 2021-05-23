@@ -1,7 +1,3 @@
-using System;
-using System.IO;
-using System.Net;
-using System.Net.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,12 +8,18 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Services.Services;
 using SchoolRegister.Web.Configuration.Profiles;
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Mail;
+
 namespace SchoolRegister.Tests
 {
     public class Startup
     {
         public Startup()
         {
+
         }
         public void ConfigureServices(IServiceCollection services)
         {
@@ -33,12 +35,11 @@ namespace SchoolRegister.Tests
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireNonAlphanumeric = false;
             })
-            .AddRoleManager<RoleManager<Role>>()
+           .AddRoleManager<RoleManager<Role>>()
             .AddUserManager<UserManager<User>>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
             services.AddTransient<ISubjectService, SubjectService>();
-            services.AddTransient<IEmailSenderService, EmailSenderService>();
             services.AddTransient<IGradeService, GradeService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IStudentService, StudentService>();

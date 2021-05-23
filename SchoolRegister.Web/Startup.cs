@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.Services.Services;
 
 namespace SchoolRegister.Web
 {
@@ -39,6 +41,11 @@ namespace SchoolRegister.Web
                 .AddUserManager<UserManager<User>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddTransient(typeof(ILogger), typeof(Logger<Startup>));
+            services.AddScoped<ISubjectService, SubjectService>();
+            services.AddScoped<IGradeService, GradeService>();
+            services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<ITeacherService, TeacherService>();
             services.AddControllersWithViews();
         }
 
