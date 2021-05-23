@@ -13,7 +13,7 @@ namespace SchoolRegister.Model.DataModels
         public int? GroupId { get; set; }
         public virtual IList<Grade> Grades { get; set; }
         public virtual Parent Parent { get; set; }
-        public int? ParentID{get;set;}
+        public int? ParentId{get;set;}
 
         [NotMapped]
         public double AverageGrade => Grades == null || Grades.Count == 0 ? 0.0d : Math.Round(Grades.Average(g => (int)g.GradeValue), 1);

@@ -9,6 +9,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -19,7 +20,7 @@ namespace SchoolRegister.Services.Services
 
         }
 
-        public async void AddGroupAsync(AddGroupVm addGroupVm)
+        public async Task<GroupVm> AddGroupAsync(AddGroupVm addGroupVm)
         {
             if(string.IsNullOrEmpty(addGroupVm.Name))
             {
@@ -28,16 +29,20 @@ namespace SchoolRegister.Services.Services
 
             var groupToBeAdded = new Group() { Name = addGroupVm.Name };
 
+            var groupVm = Mapper.Map<GroupVm>(groupToBeAdded);
             await DbContext.AddAsync(groupToBeAdded);
             await DbContext.SaveChangesAsync();
+
+            return groupVm;
         }
 
-        public async void DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
+        public async Task<GroupVm> DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
         {
             try
             {
                 var groupToBeDeleted = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == deleteGroupVm.Id);    
 
+                var groupVM=Mapper.Map<GroupVm>(groupToBeDeleted);
                 if(groupToBeDeleted == null)
                 {
                     throw new ArgumentNullException($"Could not find group with id: {deleteGroupVm.Id}");
@@ -45,6 +50,7 @@ namespace SchoolRegister.Services.Services
 
                 DbContext.Groups.Remove(groupToBeDeleted);
                 await DbContext.SaveChangesAsync();
+                return groupVM;
             }
             catch(Exception ex)
             {
@@ -53,4 +59,4 @@ namespace SchoolRegister.Services.Services
             }
         }
     }
-}
+} 

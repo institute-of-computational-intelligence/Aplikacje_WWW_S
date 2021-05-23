@@ -4,13 +4,14 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
 
     public interface ITeacherService
     {
-        void AddGradeAsync(AddGradeAsyncVm addGradeVm);
+        Task<Grade> AddGradeAsync(AddGradeAsyncVm addGradeVm);
         void SendEmailToParent(SendEmailVm sendEmailVm);
     }
 }

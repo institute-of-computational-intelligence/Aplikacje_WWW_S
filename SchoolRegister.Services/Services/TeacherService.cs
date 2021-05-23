@@ -12,6 +12,7 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
@@ -25,7 +26,7 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
-        public async void AddGradeAsync(AddGradeAsyncVm addGradeVm)
+        public async Task<Grade> AddGradeAsync(AddGradeAsyncVm addGradeVm)
         {
             try
             {
@@ -54,6 +55,7 @@ namespace SchoolRegister.Services.Services
 
                     await DbContext.Grades.AddAsync(grade);
                     await DbContext.SaveChangesAsync();
+                    return grade;
                 }
                 else
                 {
