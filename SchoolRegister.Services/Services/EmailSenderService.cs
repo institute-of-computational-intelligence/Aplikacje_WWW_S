@@ -37,7 +37,7 @@ namespace SchoolRegister.Services.Services
         public async Task SendEmailAsync(string to, string from, string subject, string message)
         {
             if (string.IsNullOrWhiteSpace(to) || string.IsNullOrWhiteSpace(subject) || string.IsNullOrWhiteSpace(message))
-                throw new ArgumentNullException("Email, subject or message is null");
+                throw new ArgumentNullException($"Email, subject or message is null");
 
             try
             {

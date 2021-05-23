@@ -17,12 +17,15 @@ namespace SchoolRegister.Services.Services
     {
         private readonly IEmailSenderService _emailService;
         private readonly UserManager<User> _userManager;
-        private readonly IGroupService _groupService;
-        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager, IGroupService groupService, IEmailSenderService emailService) 
+
+        public TeacherService(ApplicationDbContext dbContext, 
+                                IMapper mapper, 
+                                ILogger logger, 
+                                UserManager<User> userManager,
+                                IEmailSenderService emailService) 
         : base(dbContext,  mapper, logger)
         {
             _userManager = userManager;
-            _groupService = groupService;
             _emailService = emailService;
         }
 
@@ -87,7 +90,7 @@ namespace SchoolRegister.Services.Services
                 throw new ArgumentNullException($"Vm is null");
             }
             var teacher = _userManager.Users.OfType<Teacher>().FirstOrDefault(x => x.Id == getTeachersGroups.TeacherId);
-            var teacherGroups = teacher.Subjects.SelectMany(s=>s.SubjectGroups.Select(gr=>gr.Group));
+            var teacherGroups = teacher?.Subjects.SelectMany(s=>s.SubjectGroups.Select(gr=>gr.Group));
             var teacherGroupsVm = Mapper.Map<IEnumerable<GroupVm>>(teacherGroups); 
             return teacherGroupsVm;
         }
