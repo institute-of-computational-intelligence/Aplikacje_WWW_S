@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace SchoolRegister.Services.Services
 {
@@ -57,6 +58,11 @@ namespace SchoolRegister.Services.Services
         }
 
         public void AddOrUpdateGrade(AddGradeToStudentVm addOrUpdateGradeVm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
         {
             throw new NotImplementedException();
         }
