@@ -11,7 +11,5 @@ namespace SchoolRegister.ViewModels.VM
         [Required]
         public string Name { get; set; }
 
-
-
     }
 }

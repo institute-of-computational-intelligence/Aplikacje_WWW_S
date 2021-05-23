@@ -18,7 +18,7 @@ namespace SchoolRegister.Services.Services
         {
         }
 
-        public async Task<IEnumerable<Grade>> DisplayGrades(GetGradesVm gradesVm)
+        public async Task<IEnumerable<DisplayGradeVm>> DisplayGrades(GetGradesVm gradesVm)
         {
             try
             {
@@ -43,7 +43,8 @@ namespace SchoolRegister.Services.Services
                 else
                     throw new UnauthorizedAccessException("Access denied. Only your parent or student himself have permissions to view grades");
 
-                return grades;
+                var displayGradesVm = Mapper.Map<List<DisplayGradeVm>>(grades);
+                return displayGradesVm;
             }
             catch (Exception e)
             {

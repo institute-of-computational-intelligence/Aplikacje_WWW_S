@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace SchoolRegister.Services.Services
 {
@@ -49,5 +50,44 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        public GroupVm GetGroup(Expression<Func<Group, bool>> filterExpression)
+        {
+            try
+            {
+                if (filterExpression == null)
+                    throw new ArgumentNullException($" FilterExpression is null");
+
+                var groupEntity = DbContext.Groups.FirstOrDefault(filterExpression);
+                var groupVm = Mapper.Map<GroupVm>(groupEntity);
+
+                return groupVm;
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filterExpression = null)
+        {
+            try
+            {
+                var groupEntities = DbContext.Groups.AsQueryable();
+                if (filterExpression != null)
+                    groupEntities = groupEntities.Where(filterExpression);
+
+                var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groupEntities);
+
+                return groupVms;
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+                throw;
+            }
+        }
+
     }
 }

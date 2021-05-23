@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Mail;
 using System.Net;
-
+using System.Linq.Expressions;
 
 namespace SchoolRegister.Services.Services
 {
@@ -37,6 +37,13 @@ namespace SchoolRegister.Services.Services
                     if (teacher is null)
                         throw new ArgumentNullException("Could not find Teacher with specified Id.");
 
+                    var subject = DbContext.Subjects.FirstOrDefault(s => s.Id == addGradeToStudentVm.SubjectId);
+                    if (subject is null)
+                        throw new ArgumentNullException("Subject is null");
+
+                    if (subject.TeacherId != addGradeToStudentVm.TeacherId)
+                        throw new UnauthorizedAccessException("This teacher cannot add grades to specified subject");
+
                     if (await UserManager.IsInRoleAsync(teacher, "Teacher"))
                     {
                         grade = new Grade()
@@ -48,6 +55,8 @@ namespace SchoolRegister.Services.Services
                         };
 
                         await DbContext.Grades.AddAsync(grade);
+                        await DbContext.SaveChangesAsync();
+
                     }
                     else
                         throw new UnauthorizedAccessException("Only Teacher can add grades.");
@@ -55,7 +64,6 @@ namespace SchoolRegister.Services.Services
                 else
                     throw new ArgumentNullException("View model paramet requires all fields to be set");
 
-                await DbContext.SaveChangesAsync();
                 return grade;
 
             }
@@ -102,5 +110,25 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpression = null)
+        {
+            try
+            {
+                var teacherEntities = DbContext.Users.OfType<Teacher>().AsQueryable();
+                if (filterExpression != null)
+                    teacherEntities = teacherEntities.Where(filterExpression);
+
+                var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+
+                return teacherVms;
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, e.Message);
+                throw;
+            }
+        }
+
     }
 }
