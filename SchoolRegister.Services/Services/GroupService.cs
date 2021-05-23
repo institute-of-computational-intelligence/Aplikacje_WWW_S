@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,19 +17,74 @@ namespace SchoolRegister.Services.Services
 {
     public class GroupService : BaseService, IGroupService
     {
-        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { }
-
-        public async void AddGroup(AddGroupVm addGroupVm)
+        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
         {
-            if (string.IsNullOrEmpty(addGroupVm.Name))
+        }
+
+        public async Task<GroupVm> AddGroup(AddGroupVm addGroupVm)
+        {
+            try
             {
-                throw new ArgumentNullException("Name value cannot be null or empty!");
+
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Name == addGroupVm.Name);
+
+                if (!(group is null))
+                    throw new DuplicateNameException($"Group with name: {addGroupVm.Name} already exists");
+
+                Group newGroup = new Group() { Name = addGroupVm.Name };
+                var groupVm = Mapper.Map<GroupVm>(newGroup);
+
+                await DbContext.Groups.AddAsync(newGroup);
+                await DbContext.SaveChangesAsync();
+
+                return groupVm;
             }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
 
-            var groupToBeAdded = new Group() { Name = addGroupVm.Name };
+        public async Task<GroupVm> DeleteGroup(RemoveGroupVm deleteGroupVm)
+        {
+            try
+            {
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == deleteGroupVm.Id);
 
-            await DbContext.AddAsync(groupToBeAdded);
-            await DbContext.SaveChangesAsync();
+                if (group is null)
+                    throw new ArgumentNullException($"Group with id: {deleteGroupVm.Id} does not exist");
+
+                var groupVm = Mapper.Map<GroupVm>(group);
+
+                DbContext.Groups.Remove(group);
+                await DbContext.SaveChangesAsync();
+
+                return groupVm;
+            }
+            catch (Exception exception)
+            {
+                Logger.LogError(exception.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var groupEntities = DbContext.Groups.AsQueryable();
+
+                if (!(filterExpressions is null))
+                    groupEntities = groupEntities.Where(filterExpressions);
+                var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groupEntities);
+                return groupVms;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
 }

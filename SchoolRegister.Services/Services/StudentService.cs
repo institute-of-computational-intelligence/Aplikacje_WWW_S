@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,35 +17,23 @@ namespace SchoolRegister.Services.Services
 
     public class StudentService : BaseService, IStudentService
     {
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger) { }
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
+        {
+        }
 
-        public void AddOrRemoveStudentGroup(StudentVm studentVm)
+        public async Task<bool> RemoveStudent(int studentId)
         {
             try
             {
-                if (studentVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
-                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == studentVm.StudentId);
-                var group = DbContext.Groups.FirstOrDefault(g => g.Id == studentVm.GroupId);
+                var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(x => x.Id == studentId);
 
-                if (student == null)
-                    throw new ArgumentNullException("Specifed student doesn't exist");
-                if (group == null)
-                    throw new ArgumentNullException("Specifed group doesn't exist");
-                if (!group.Students.Any(s => s.Id == student.Id))
+                if (!(studentEntity is null))
                 {
-                    student.GroupId = studentVm.GroupId;
-                    DbContext.Update(student);
-                    group.Students.Add(student);
+                    DbContext.Remove(studentEntity);
+                    await DbContext.SaveChangesAsync();
+                    return true;
                 }
-                else
-                {
-                    student.GroupId = null;
-                    DbContext.Update(student);
-                    group.Students.Remove(student);
-                }
-                DbContext.SaveChanges();
-
+                throw new ArgumentNullException($"Student with Id: {studentId} does not exist");
             }
             catch (Exception ex)
             {
@@ -52,5 +42,111 @@ namespace SchoolRegister.Services.Services
             }
         }
 
+        public async Task<Student> GetStudent(Expression<Func<Student, bool>> filterExpressions)
+        {
+            try
+            {
+                if (filterExpressions is null)
+                    throw new ArgumentNullException("Filter expression is null");
+
+                var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(filterExpressions);
+
+                return studentEntity;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<GroupVm> AddStudentToGroup(AddStudentToGroupVm addStudentToGroup)
+        {
+            try
+            {
+                Student student = await DbContext.Users
+                    .OfType<Student>()
+                    .FirstOrDefaultAsync(u => u.Id == addStudentToGroup.StudentId);
+
+                if (student is null)
+                    throw new ArgumentNullException($"Student with id: {addStudentToGroup.StudentId} does not exist");
+
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addStudentToGroup.GroupId);
+
+                if (group is null)
+                    throw new ArgumentNullException($"Group with id: {addStudentToGroup.GroupId} does not exist");
+
+
+                if (group.Students.Any(x => x.Id == student.Id))
+                    throw new DuplicateNameException($"Group with id: {addStudentToGroup.GroupId} already contains student with id: ${addStudentToGroup.StudentId}");
+
+                student.GroupId = addStudentToGroup.GroupId;
+                group.Students.Add(student);
+
+                DbContext.Groups.Update(group);
+                DbContext.Users.Update(student);
+                await DbContext.SaveChangesAsync();
+
+                var groupVm = Mapper.Map<GroupVm>(group);
+                return groupVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroup)
+        {
+            try
+            {
+                Student student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(u => u.Id == removeStudentFromGroup.StudentId);
+
+                if (student is null)
+                    throw new ArgumentNullException($"Student with id: {removeStudentFromGroup.StudentId} does not exist");
+
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroup.GroupId);
+
+                if (group is null)
+                    throw new ArgumentNullException($"Group with id: {removeStudentFromGroup.StudentId} does not exist");
+
+                var groupVm = Mapper.Map<GroupVm>(group);
+
+                if (!group.Students.Remove(student))
+                    return null;
+
+                student.GroupId = null;
+                DbContext.Groups.Update(group);
+                DbContext.Users.Update(student);
+                await DbContext.SaveChangesAsync();
+
+                return groupVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var studentEntities = DbContext.Users.OfType<Student>().AsQueryable();
+
+                if (filterExpressions != null)
+                    studentEntities = studentEntities.Where(filterExpressions);
+
+                var studentVms = Mapper.Map<IEnumerable<StudentVm>>(studentEntities);
+                return studentVms;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
     }
 }
