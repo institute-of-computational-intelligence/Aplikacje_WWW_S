@@ -12,4 +12,4 @@ namespace SchoolRegister.ViewModels.VM
         public int? TeacherId { get; set; }
         
     }
-}
+}          

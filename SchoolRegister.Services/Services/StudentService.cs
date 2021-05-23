@@ -84,5 +84,38 @@ namespace SchoolRegister.Services.Services
             }
         }
      
+  public IEnumerable<StudentVm> GetStudents (Expression<Func<Student, bool>> filterPredicate = null) {
+            var studentsEntities = DbContext.Users.OfType<Student> ().AsQueryable ();
+            if (filterPredicate != null)
+                studentsEntities = studentsEntities.Where (filterPredicate);
+            var studentsVm = Mapper.Map<IEnumerable<StudentVm>> (studentsEntities);
+            return studentsVm;
+        }
+
+        public StudentVm GetStudent (Expression<Func<Student, bool>> filterPredicate) {
+            if (filterPredicate == null) throw new ArgumentNullException ($"filterPredicate is null");
+            var studentEntity = DbContext.Users.OfType<Student> ().FirstOrDefault (filterPredicate);
+            var studentVm = Mapper.Map<StudentVm> (studentEntity);
+            return studentVm;
+        }
+
+  public async Task<Student> GetStudentAsync(Expression<Func<Student, bool>> filterExpressions)
+        {       
+            try
+            {
+                if (filterExpressions == null)
+                    throw new ArgumentNullException("filterExpressions is null");
+
+                var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(filterExpressions);
+
+                //var studentVm = Mapper.Map<StudentVm>(studentEntity);
+                return studentEntity;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
     }
 }

@@ -10,5 +10,8 @@ namespace SchoolRegister.ViewModels.VM
         public int UserId { get; set; }
         [Required]
         public int StudentId { get; set; }
+
+        [Required]
+        public int GetterUserId { get; set; }
     }
-}
+}         

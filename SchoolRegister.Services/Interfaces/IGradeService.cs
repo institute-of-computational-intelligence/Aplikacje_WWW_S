@@ -12,6 +12,7 @@ namespace SchoolRegister.Services.Interfaces
     {
 
         Task<IEnumerable<Grade>> GetGrades(GetGradesVm getGradesVm);  
-
+        GradeVm AddGrade(AddGradeVm addGradeVm);
+        Task<GradeVm> AddGradeAsync(AddGradeVm addGradeAsync);
     }  
 }

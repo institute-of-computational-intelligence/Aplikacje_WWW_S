@@ -11,7 +11,7 @@ namespace SchoolRegister.Model.DataModels
     {
         public virtual IList<Subject> Subjects {get; set;}
         [Required]
-        public string Titile {get; set;}
+        public string Title {get; set;}
     }
 
 }
