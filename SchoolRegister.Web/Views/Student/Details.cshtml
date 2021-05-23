@@ -1,0 +1,23 @@
+@using SchoolRegister.Model.DataModels
+@using SchoolRegister.ViewModels.VM
+@model GradesRaportVm
+@{
+    ViewData["Fname"] = $"{ViewBag.FirstName}";
+    ViewData["Lname"] = $"{ViewBag.LastName}";
+    ViewData["Title"] = $"{ViewBag.ActionType}";
+}
+<h2>@ViewData["Fname"] @ViewData["Lname"] @ViewData["Title"]</h2>
+<div>
+    <tbody>
+    </tr>
+        <partial name="_partialDetails" model="@Model.StudentGradesPerSubject"/>
+        <td>
+            @Html.DisplayFor(model => model.AverageGrade)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4>Marks average: @Html.DisplayFor(model => model.AverageGradePerSubject)</h4>
+<div>
+    <a asp-action="Index" >Back to List</a>
+</div>

@@ -1,0 +1,92 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageGrade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageGrade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @if (User.IsInRole("Admin") && String.IsNullOrEmpty(item.GroupName))
+                { 
+                    <a asp-action="RemoveFromAddToGroup" asp-route-id="@item.Id">Add group</a> @:
+                }
+                @if (User.IsInRole("Admin") && !String.IsNullOrEmpty(item.GroupName))
+                { 
+                    <a asp-action="RemoveFromAddToGroup" asp-route-id="@item.Id" asp-route-name="@item.GroupName">Remove group</a> @:
+                }
+                @if(User.IsInRole("Parent"))
+                {
+                    <a asp-action="Details" asp-route-id="@item.Id" asp-route-name="@item.GroupName">Details</a>
+                }
+
+                @if(User.IsInRole("Teacher"))
+                {
+                    <a asp-action="AddGrade" asp-route-id="@item.Id">Add grade</a>
+                }
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

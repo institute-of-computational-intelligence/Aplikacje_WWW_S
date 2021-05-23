@@ -6,6 +6,7 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using System;
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace SchoolRegister.Services.Services
             try{
                 if(studentVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
-                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == studentVm.StudentId);
-                var group = DbContext.Groups.FirstOrDefault(g => g.Id == studentVm.GroupId);
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == studentVm.Id);
+                var group = DbContext.Groups.FirstOrDefault(g => g.Name == studentVm.GroupName);
 
                 if(student == null)
                     throw new ArgumentNullException("Specifed student doesn't exist");
@@ -34,9 +35,7 @@ namespace SchoolRegister.Services.Services
                     throw new ArgumentNullException("Specifed group doesn't exist");
                 if(!group.Students.Any(s => s.Id == student.Id))
                 {   
-                    var ExGroup = DbContext.Groups.FirstOrDefault(g => g.Id == student.GroupId);
-                    ExGroup.Students.Remove(student);
-                    student.GroupId = studentVm.GroupId;
+                    student.GroupId = group.Id;
                     DbContext.Update(student);
                     group.Students.Add(student);
                 }else{
@@ -51,6 +50,20 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
-        
+
+        public IEnumerable<StudentVm> GetStudents (Expression<Func<Student, bool>> filterPredicate = null) {
+            var studentsEntities = DbContext.Users.OfType<Student> ().AsQueryable ();
+            if (filterPredicate != null)
+                studentsEntities = studentsEntities.Where (filterPredicate);
+            var studentsVm = Mapper.Map<IEnumerable<StudentVm>> (studentsEntities);
+            return studentsVm;
+        }
+
+        public StudentVm GetStudent (Expression<Func<Student, bool>> filterPredicate) {
+            if (filterPredicate == null) throw new ArgumentNullException ($"filterPredicate is null");
+            var studentEntity = DbContext.Users.OfType<Student> ().FirstOrDefault (filterPredicate);
+            var studentVm = Mapper.Map<StudentVm> (studentEntity);
+            return studentVm;
+        }
     }
 }

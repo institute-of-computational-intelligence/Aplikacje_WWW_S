@@ -7,9 +7,7 @@ namespace SchoolRegister.ViewModels.VM
     public class GradesVm
     {
         public int CallerId { get; set;}
-        public int StudentId { get; set;}
-        public int SubjectId { get; set;}
-        
+        public int StudentId { get; set;}        
     }
 
 }

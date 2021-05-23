@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,12 +19,18 @@ namespace SchoolRegister.Model.DataModels
         public virtual IList<Grade> Grades {get; set;}
 
         [NotMapped]
-        public double AvarageGrade  {get;}
+        public double AvarageGrade => Grades == null || Grades.Count ==0 ? 0.0d : Math.Round(Grades.Average(g => (int)g.GradeValue), 1);
         [NotMapped]
-        public IDictionary<string, double> AvarageGradePerSubject  { get;}
-        
-        public IDictionary<String, List<GradeScale>> GradesPerSubject  {get;}
-        
+        public IDictionary<string, double> AvarageGradePerSubject => Grades == null ? new Dictionary<string, double>() : 
+            Grades.GroupBy(g => g.Subject.Name)
+            .Select(g => new {SubjectName = g.Key, AvgGrade = Math.Round(g.Average(avg => (int) avg.GradeValue), 1)})
+            .ToDictionary(avg => avg.SubjectName, avg => avg.AvgGrade);
+            
+        [NotMapped]
+        public IDictionary<String, List<GradeScale>> GradesPerSubject  => Grades == null ? new Dictionary<String, List<GradeScale>>(): Grades
+            .GroupBy(g => g.Subject.Name)
+            .Select(g => new {SubjectName = g.Key, GradeList = g.Select(x => x.GradeValue).ToList()})
+            .ToDictionary(x=>x.SubjectName, x=>x.GradeList);        
     }
 
 }

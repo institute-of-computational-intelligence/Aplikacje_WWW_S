@@ -1,0 +1,63 @@
+@model SchoolRegister.ViewModels.VM.StudentVm
+
+@{
+    @if (ViewBag.ActionType == "Remove")
+    {
+        ViewData["Title"] = $"{ViewBag.ActionType} from group";
+    }
+
+    @if (ViewBag.ActionType == "Add")
+    {
+        ViewData["Title"] = $"{ViewBag.ActionType} to group";
+    }
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RemoveFromAddToGroup">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewBag.ActionType == "Remove")
+            {
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GroupName" class="control-label"></label>
+                    <input asp-for="GroupName" class="form-control" />
+                    <span asp-validation-for="GroupName" class="text-danger"></span>
+                </div>
+            }
+
+            @if (ViewBag.ActionType == "Add")
+            {
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GroupName" class="control-label"></label>
+                    <input asp-for="GroupName" class="form-control" />
+                    <span asp-validation-for="GroupName" class="text-danger"></span>
+                </div>
+
+            }
+            <div class="form-group">
+                <input type="submit" value="@ViewBag.ActionType" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
