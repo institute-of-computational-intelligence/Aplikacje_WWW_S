@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +37,24 @@ namespace SchoolRegister.Services.Services
                 await DbContext.SaveChangesAsync();
 
                 return groupVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<GroupVm> GetGroups(Expression<Func<Group, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var groupEntities = DbContext.Groups.AsQueryable();
+
+                if (!(filterExpressions is null))
+                    groupEntities = groupEntities.Where(filterExpressions);
+                var groupVms = Mapper.Map<IEnumerable<GroupVm>>(groupEntities);
+                return groupVms;
             }
             catch (Exception ex)
             {

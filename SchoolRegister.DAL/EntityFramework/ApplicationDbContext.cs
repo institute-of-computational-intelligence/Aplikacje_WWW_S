@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Model.DataModels;
 
@@ -9,6 +6,11 @@ namespace SchoolRegister.DAL.EntityFramework
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
         // Table properties e.g
         // public virtual DbSet<Entity> TableName { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
@@ -16,15 +18,10 @@ namespace SchoolRegister.DAL.EntityFramework
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLazyLoadingProxies(); 
+            optionsBuilder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,10 +31,10 @@ namespace SchoolRegister.DAL.EntityFramework
             modelBuilder.Entity<User>()
                 .ToTable("AspNetUsers")
                 .HasDiscriminator<int>("UserType")
-                .HasValue<User>((int)RoleValue.User)
-                .HasValue<Student>((int)RoleValue.Student)
-                .HasValue<Parent>((int)RoleValue.Parent)
-                .HasValue<Teacher>((int)RoleValue.Teacher);
+                .HasValue<User>((int) RoleValue.User)
+                .HasValue<Student>((int) RoleValue.Student)
+                .HasValue<Parent>((int) RoleValue.Parent)
+                .HasValue<Teacher>((int) RoleValue.Teacher);
 
             modelBuilder.Entity<Group>()
                 .HasMany(g => g.Students)
@@ -46,7 +43,7 @@ namespace SchoolRegister.DAL.EntityFramework
                 .IsRequired();
 
             modelBuilder.Entity<SubjectGroup>()
-                .HasKey(sg => new { sg.GroupId, sg.SubjectId });
+                .HasKey(sg => new {sg.GroupId, sg.SubjectId});
 
             modelBuilder.Entity<SubjectGroup>()
                 .HasOne(g => g.Group)
@@ -65,10 +62,10 @@ namespace SchoolRegister.DAL.EntityFramework
                 .HasForeignKey(s => s.SubjectId);
 
             modelBuilder.Entity<Group>()
-                .HasKey(g => new { g.Id });
+                .HasKey(g => new {g.Id});
 
             modelBuilder.Entity<Grade>()
-                .HasKey(g => new { g.DateOfIssue, g.SubjectId, g.StudentId });
+                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
         }
     }
 }

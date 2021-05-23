@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using SchoolRegister.DAL.EntityFramework;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SchoolRegister.Tests
@@ -23,7 +23,7 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Grades.Count();
 
-            var addGradeToStudent = new AddGradeToStudentVm()
+            var addGradeToStudent = new AddGradeToStudentVm
             {
                 StudentId = 5,
                 TeacherId = 2,
@@ -46,7 +46,7 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Grades.Count();
 
-            var addGradeToStudent = new AddGradeToStudentVm()
+            var addGradeToStudent = new AddGradeToStudentVm
             {
                 StudentId = 3,
                 TeacherId = 2,
@@ -54,7 +54,8 @@ namespace SchoolRegister.Tests
                 Grade = GradeScale.DST
             };
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _teacherService.AddGradeToStudentAsync(addGradeToStudent));
+            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                _teacherService.AddGradeToStudentAsync(addGradeToStudent));
             var countAfter = DbContext.Grades.Count();
             Assert.Equal(countBefore, countAfter);
         }
@@ -64,7 +65,7 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Grades.Count();
 
-            var addGradeToStudent = new AddGradeToStudentVm()
+            var addGradeToStudent = new AddGradeToStudentVm
             {
                 StudentId = 5,
                 TeacherId = 3,
@@ -72,7 +73,8 @@ namespace SchoolRegister.Tests
                 Grade = GradeScale.DST
             };
 
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _teacherService.AddGradeToStudentAsync(addGradeToStudent));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+                _teacherService.AddGradeToStudentAsync(addGradeToStudent));
             var countAfter = DbContext.Grades.Count();
             Assert.Equal(countBefore, countAfter);
         }
@@ -83,7 +85,7 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Grades.Count();
 
-            var addGradeToStudent = new AddGradeToStudentVm()
+            var addGradeToStudent = new AddGradeToStudentVm
             {
                 StudentId = 5,
                 TeacherId = 5,
@@ -91,7 +93,8 @@ namespace SchoolRegister.Tests
                 Grade = GradeScale.DST
             };
 
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _teacherService.AddGradeToStudentAsync(addGradeToStudent));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+                _teacherService.AddGradeToStudentAsync(addGradeToStudent));
             var countAfter = DbContext.Grades.Count();
             Assert.Equal(countBefore, countAfter);
         }
@@ -101,7 +104,7 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Grades.Count();
 
-            var addGradeToStudent = new AddGradeToStudentVm()
+            var addGradeToStudent = new AddGradeToStudentVm
             {
                 StudentId = 5,
                 TeacherId = 2,
@@ -109,7 +112,8 @@ namespace SchoolRegister.Tests
                 Grade = GradeScale.DST
             };
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _teacherService.AddGradeToStudentAsync(addGradeToStudent));
+            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                _teacherService.AddGradeToStudentAsync(addGradeToStudent));
             var countAfter = DbContext.Grades.Count();
             Assert.Equal(countBefore, countAfter);
         }
@@ -117,7 +121,7 @@ namespace SchoolRegister.Tests
         [Fact]
         public async void SendEmailByTeacherToParent()
         {
-            var sendEmail = new SendEmailVm()
+            var sendEmail = new SendEmailVm
             {
                 TeacherId = 2,
                 ParentId = 3,
@@ -125,7 +129,8 @@ namespace SchoolRegister.Tests
                 EmailContent = ""
             };
 
-            var exception = await Record.ExceptionAsync(() => Task.Run(() => _teacherService.SendEmailAsync(sendEmail)));
+            var exception =
+                await Record.ExceptionAsync(() => Task.Run(() => _teacherService.SendEmailAsync(sendEmail)));
 
             Assert.Null(exception);
         }
@@ -133,7 +138,7 @@ namespace SchoolRegister.Tests
         [Fact]
         public void SendEmailByParentToStudent()
         {
-            var sendEmail = new SendEmailVm()
+            var sendEmail = new SendEmailVm
             {
                 TeacherId = 12,
                 ParentId = 6,
@@ -141,13 +146,14 @@ namespace SchoolRegister.Tests
                 EmailContent = ""
             };
 
-            Assert.ThrowsAsync<UnauthorizedAccessException>(() => Task.Run(() => _teacherService.SendEmailAsync(sendEmail)));
+            Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
+                Task.Run(() => _teacherService.SendEmailAsync(sendEmail)));
         }
 
         [Fact]
         public void SendEmailByNonExistingUser()
         {
-            var sendEmail = new SendEmailVm()
+            var sendEmail = new SendEmailVm
             {
                 TeacherId = -1,
                 ParentId = 3,

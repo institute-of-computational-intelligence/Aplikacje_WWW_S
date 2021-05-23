@@ -1,9 +1,9 @@
-using SchoolRegister.DAL.EntityFramework;
-using SchoolRegister.Services.Interfaces;
-using SchoolRegister.ViewModels.VM;
 using System;
 using System.Data;
 using System.Linq;
+using SchoolRegister.DAL.EntityFramework;
+using SchoolRegister.Services.Interfaces;
+using SchoolRegister.ViewModels.VM;
 using Xunit;
 
 namespace SchoolRegister.Tests
@@ -22,9 +22,9 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Groups.Count();
 
-            var addGroup = new AddGroupVm()
+            var addGroup = new AddGroupVm
             {
-                Name = "SK",
+                Name = "SK"
             };
 
             var group = await _groupService.AddGroupAsync(addGroup);
@@ -40,9 +40,9 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Groups.Count();
 
-            var addGroup = new AddGroupVm()
+            var addGroup = new AddGroupVm
             {
-                Name = "IO",
+                Name = "IO"
             };
 
             await Assert.ThrowsAsync<DuplicateNameException>(() => _groupService.AddGroupAsync(addGroup));
@@ -56,9 +56,9 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Groups.Count();
 
-            var removeGroup = new RemoveGroupVm()
+            var removeGroup = new RemoveGroupVm
             {
-                Id = 2,
+                Id = 2
             };
 
             var group = await _groupService.DeleteGroupAsync(removeGroup);
@@ -73,9 +73,9 @@ namespace SchoolRegister.Tests
         {
             var countBefore = DbContext.Groups.Count();
 
-            var removeGroup = new RemoveGroupVm()
+            var removeGroup = new RemoveGroupVm
             {
-                Id = 4,
+                Id = 4
             };
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => _groupService.DeleteGroupAsync(removeGroup));

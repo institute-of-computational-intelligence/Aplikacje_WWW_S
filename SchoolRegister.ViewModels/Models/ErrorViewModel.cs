@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SchoolRegister.ViewModels.Models
+﻿namespace SchoolRegister.ViewModels.Models
 {
     public class ErrorViewModel
     {

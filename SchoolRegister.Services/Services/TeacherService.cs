@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -74,7 +76,26 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void SendEmailAsync(SendEmailVm SendEmailVm)
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var teacherEntities = DbContext.Users.OfType<Teacher>().AsQueryable();
+                if (!(filterExpressions is null))
+                    teacherEntities = teacherEntities.Where(filterExpressions);
+
+                var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+
+                return teacherVms;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public async Task SendEmailAsync(SendEmailVm SendEmailVm)
         {
             try
             {
@@ -111,7 +132,7 @@ namespace SchoolRegister.Services.Services
                 client.Timeout = emailClientTimeout;
                 client.Credentials = accessCredentials;
 
-                client.Send(message);
+                await client.SendMailAsync(message);
             }
             catch (Exception ex)
             {
