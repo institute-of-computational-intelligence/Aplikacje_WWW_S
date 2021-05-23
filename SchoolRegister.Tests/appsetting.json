@@ -1,19 +1,28 @@
 {
+    "buildOptions": {
+        "copyToOutput": {
+            "include": [
+                "appsettings.Development.json"
+            ]
+        }
+    },
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=Mateusz_MalecAppDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+    },
     "Logging": {
-    "LogLevel": {
-    "Default": "Information",
-    "Microsoft": "Warning",
-    "Microsoft.Hosting.Lifetime": "Information"
-    }
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
     },
     "Email": {
-    "Smtp": {
-    "Host": "host_domain_name",
-    "Port": 587,
-    "Username": "username",
-    "Password": "password"
-    }
+        "Smtp": {
+            "Host": "host_domain_name",
+            "Port": 587,
+            "Username": "username",
+            "Password": "password"
+        }
     },
     "AllowedHosts": "*"
-   }
-   
+}

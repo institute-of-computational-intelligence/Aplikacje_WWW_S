@@ -12,5 +12,6 @@ namespace SchoolRegister.Services.Interfaces
     {
         Task<bool> SendEmailToParent(SendEmailVm sendEmailVm);
         void AddGradeToStudentAsync(AddGradeToStudentVm addGradeToStudenVm);
+        IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpressions = null);
     }
 }
