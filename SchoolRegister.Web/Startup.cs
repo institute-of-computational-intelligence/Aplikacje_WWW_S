@@ -18,6 +18,7 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Services.Services;
 using SchoolRegister.Web.Controllers;
+
 namespace SchoolRegister.Web
 {
     public class Startup
@@ -77,11 +78,11 @@ namespace SchoolRegister.Web
             });
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews()
-            .AddViewLocalization()
-            .AddDataAnnotationsLocalization();
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -98,13 +99,13 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            var localizationOption = app.ApplicationServices.GetService < IOptions < RequestLocalizationOptions >> ();
+            var localizationOption = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(localizationOption.Value);
             app.UseEndpoints(endpoints =>
             {
-            endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Subject}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Subject}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
