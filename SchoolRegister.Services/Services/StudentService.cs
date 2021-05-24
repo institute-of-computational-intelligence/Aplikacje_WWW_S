@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -80,6 +82,43 @@ namespace SchoolRegister.Services.Services
                 await DbContext.SaveChangesAsync();
 
                 return groupVm;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<Student> ShowStudentAsync(Expression<Func<Student, bool>> filterExpressions)
+        {
+            try
+            {
+                if (filterExpressions is null)
+                    throw new ArgumentNullException("Filter expression is null");
+
+                var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(filterExpressions);
+
+                return studentEntity;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<StudentVm> ShowStudents(Expression<Func<Student, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var studentEntities = DbContext.Users.OfType<Student>().AsQueryable();
+
+                if (filterExpressions != null)
+                    studentEntities = studentEntities.Where(filterExpressions);
+
+                var studentVms = Mapper.Map<IEnumerable<StudentVm>>(studentEntities);
+                return studentVms;
             }
             catch (Exception ex)
             {

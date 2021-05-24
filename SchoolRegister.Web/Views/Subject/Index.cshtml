@@ -1,0 +1,120 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.SubjectVm>
+
+    @{
+    ViewData["Title"] = "Index";
+    }
+
+    <h2>Subject</h2>
+    @if (User.IsInRole("Admin"))
+    {
+    <p>
+        <a asp-action="AddOrEditSubject">Create New</a>
+    </p>
+    }
+
+    <table id="tabela" class="table table-responsive table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="d-none">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th class="col-5">
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.TeacherName)
+                </th>
+                <th class="col-2">
+                    Groups Count
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="d-none">
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td class="col-2">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="col-5">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td class="col-2">
+                    @Html.DisplayFor(modelItem => item.TeacherName)
+                </td>
+
+                <td class="col-2">
+                    @Html.DisplayFor(modelItem => item.Groups.Count)
+                </td>
+                <td class="align-middle text-center">
+                    <div class="dropdown show">
+                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    @if (User.IsInRole("Admin"))
+                    {
+
+                            <a class="dropdown-item" asp-action="AddOrEditSubject" asp-route-id="@item.Id">
+                                Edit
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">
+                                Attach
+                                Subject to Group
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" asp-controller="Group" asp-action="DetachSubjectFromGroup" asp-route-subjectId="@item.Id">
+                                Detach
+                                subject from Group
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item modalLink" >
+                                Delete
+                            </a>                            
+                        
+                    
+                    }
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    </div>
+                    </div>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="modal fade" id="Modalpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+
+        </div>
+    </div>
+
+    @section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".modalLink").click(function () {
+                var $currentId = $(this).closest("tr").children('td:first').text();
+                console.log($currentId)
+                $.ajax({
+                    url: "@Url.Action("GetIdToDelete", "Subject")",
+                    data: {
+                        subjectId: $currentId
+                    },
+                    success: function (data) {
+                        $(".modal-dialog").html(data);
+                        $("#Modalpopup").modal('show');
+                    }
+                });
+            })
+        })
+    </script>
+    }

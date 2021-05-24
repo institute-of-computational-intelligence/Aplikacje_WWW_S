@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -106,6 +108,25 @@ namespace SchoolRegister.Services.Services
                     
                     client.Send(message); 
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        public IEnumerable<TeacherVm> ShowTeachers(Expression<Func<Teacher, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var teacherEntities = DbContext.Users.OfType<Teacher>().AsQueryable();
+                if (!(filterExpressions is null))
+                    teacherEntities = teacherEntities.Where(filterExpressions);
+
+                var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+
+                return teacherVms;
             }
             catch (Exception ex)
             {

@@ -1,0 +1,34 @@
+@model SchoolRegister.ViewModels.VM.GetGradesVm
+
+@{
+    ViewData["Title"] = "Choose a student to get grades report";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <select name="sId" class="form-control" asp-items="@ViewBag.StudentsSelectList">
+                    <option selected>Choose student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-secondary " tabindex="-1" role="button" asp-action="Index"
+                    asp-controller="Home">Back</a>
+                <input asp-action="GetGradesReport" asp-route-sId=@ViewBag.StudentsSelectList.SelectedValue
+                    type="submit" value="Get report" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

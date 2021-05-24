@@ -138,19 +138,5 @@ namespace SchoolRegister.Tests.UnitTests
 
             Assert.ThrowsAsync<UnauthorizedAccessException>(() => Task.Run(() => _teacherService.SendEmailToParent(sendEmail)));
         }
-
-        [Fact]
-        public void SendEmailByUser_NotExists()
-        {
-            var sendEmail = new SendEmailVm()
-            {
-                SenderId = -1,
-                RecipientId = 3,
-                EmailSubject = "??",
-                EmailBody = ""
-            };
-
-            Assert.ThrowsAsync<ArgumentNullException>(() => Task.Run(() => _teacherService.SendEmailToParent(sendEmail)));
-        }
     }
 }
