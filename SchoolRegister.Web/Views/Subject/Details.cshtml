@@ -1,26 +1,29 @@
 ﻿@using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@using System
+@inject IViewLocalizer Localizer
 @model SubjectVm
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Localizer["Details"];
 }
 <h2>@ViewData["Title"]</h2>
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Localizer[@Html.DisplayNameFor(model => model.Name)]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Localizer[@Html.DisplayNameFor(model => model.Description)]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.TeacherName)
+            @Localizer[@Html.DisplayNameFor(model => model.TeacherName)]
         </dt>
         <dd>
             @Html.DisplayFor(model => model.TeacherName)
@@ -31,7 +34,7 @@
 <div>
     @if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Edit", "AddOrEditSubject", new {id = Model.Id}) @:|
+        @Html.ActionLink(Localizer["Edit"].Value, "AddOrEditSubject", new {id = Model.Id}) @:|
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back to List"]</a>
 </div>
