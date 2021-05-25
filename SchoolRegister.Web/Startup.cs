@@ -73,8 +73,8 @@ namespace SchoolRegister.Web
             });
             services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddControllersWithViews()
-            .AddViewLocalization()
-            .AddDataAnnotationsLocalization();
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -95,6 +95,7 @@ namespace SchoolRegister.Web
             app.UseAuthentication();
             app.UseAuthorization();
             var localizationOption = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(localizationOption.Value);
 
             app.UseEndpoints(endpoints =>
             {

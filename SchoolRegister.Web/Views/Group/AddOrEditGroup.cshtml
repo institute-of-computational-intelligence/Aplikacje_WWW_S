@@ -1,5 +1,6 @@
 @model SchoolRegister.ViewModels.VM.AddGroupVm
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = $"{ViewBag.ActionType} group";
 }
@@ -27,7 +28,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {
