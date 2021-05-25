@@ -1,4 +1,4 @@
-@model SchoolRegister.ViewModels.VM.GetGradesVm
+@model SchoolRegister.ViewModels.VM.CheckGradesVm
 
 @{
     ViewData["Title"] = "Choose a student to get grades report";
@@ -19,7 +19,7 @@
             <div class="form-group">
                 <a class="btn btn-secondary " tabindex="-1" role="button" asp-action="Index"
                     asp-controller="Home">Back</a>
-                <input asp-action="GetGradesReport" asp-route-sId=@ViewBag.StudentsSelectList.SelectedValue
+                <input asp-action="CheckGradesReport" asp-route-sId=@ViewBag.StudentsSelectList.SelectedValue
                     type="submit" value="Get report" class="btn btn-primary" />
             </div>
         </form>

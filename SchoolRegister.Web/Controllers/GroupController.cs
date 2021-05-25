@@ -48,10 +48,10 @@ namespace SchoolRegister.Web.Controllers
             if (!(addGroupVm is null))
             {
                 var groupVm = await _groupService.AddGroupAsync(addGroupVm);
-                ViewBag.ActionType = "Edit";
+                ViewBag.ActionType = Localizer["Edit"];
                 return View(Mapper.Map<AddGroupVm>(groupVm));
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
             return View();
 
         }
