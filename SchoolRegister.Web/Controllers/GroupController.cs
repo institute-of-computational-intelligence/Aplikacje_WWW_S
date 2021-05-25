@@ -51,11 +51,11 @@ namespace SchoolRegister.Web.Controllers {
         public IActionResult AddOrEditGroup (int? id = null) {
             if (id.HasValue) {
                 var group = _groupService.GetGroup (g => g.Id == id.Value);
-                ViewBag.ActionType = "Edit";
+                ViewBag.ActionType = Localizer["Edit"];
                 var groupDto = Mapper.Map<AddOrUpdateGroupVm> (group);
                 return View (groupDto);
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
             return View ();
         }
 
@@ -116,9 +116,9 @@ namespace SchoolRegister.Web.Controllers {
         private IActionResult AttachDetachSubjectToGroupGetView (int? subjectId = null) {
             ViewBag.PostAction = ControllerContext.ActionDescriptor.ActionName;
             if (ControllerContext.ActionDescriptor.ActionName.StartsWith ("Detach")) {
-                ViewBag.ActionType = "Detach";
+                ViewBag.ActionType = @Localizer["Detach"];
             } else if (ControllerContext.ActionDescriptor.ActionName.StartsWith ("Attach")) {
-                ViewBag.ActionType = "Attach";
+                ViewBag.ActionType = @Localizer["Attach"];
             } else {
                 return View ("Error");
             }

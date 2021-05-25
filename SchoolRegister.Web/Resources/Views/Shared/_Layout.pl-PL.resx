@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<data name="Groups" xml:space="preserve">
+		<value>Grupy</value>
+	</data>
+	<data name="SchoolRegister" xml:space="preserve">
+		<value>Dziennik elektroniczny</value>
+	</data>
+	<data name="Students" xml:space="preserve">
+		<value>Studenci</value>
+	</data>
+	<data name="Subjects" xml:space="preserve">
+		<value>Przedmioty</value>
+	</data>
+</root>

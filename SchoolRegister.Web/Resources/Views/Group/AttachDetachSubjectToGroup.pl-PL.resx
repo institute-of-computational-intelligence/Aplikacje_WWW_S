@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Subject Group" xml:space="preserve">
+		<value>przedmiot do grupy</value>
+	</data>
+    <data name="Subject" xml:space="preserve">
+		<value>Przedmiot</value>
+	</data>
+    <data name="Group" xml:space="preserve">
+		<value>Grupa</value>
+	</data>
+    <data name="Back to List" xml:space="preserve">
+		<value>Wróć do listy</value>
+	</data>
+</root>
