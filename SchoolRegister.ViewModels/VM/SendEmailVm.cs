@@ -6,14 +6,12 @@ namespace SchoolRegister.ViewModels.VM
     {
         [Required]
         public int SenderId { get; set; }
+        
         [Required]
-        public int StudentId { get; set; }
-        [Required]
-        public string Title { get; set; }
-        [Required]
-        public string Content { get; set; }
+        public int RecipientId { get; set; }
+        
+        public string EmailSubject { get; set; }
 
-
+        public string EmailBody { get; set; }
     }
-            
-}       
+}
