@@ -1,0 +1,42 @@
+@model SchoolRegister.ViewModels.VM.AddToGroupVm
+
+@{
+    ViewData["Title"] = $"Attach {ViewBag.Student.FirstName} {ViewBag.Student.LastName} to group";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddToGroup">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="GroupId" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="StudentId" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+
+                <label class="control-label">Group</label>
+                <select name="groupName" class="form-control" asp-items="@ViewBag.GroupsSelectList">
+                    <option selected>Choose group</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input asp-route-studentId="@ViewBag.Student.Id"
+                    asp-route-groupName=@ViewBag.GroupsSelectList.SelectedValue type="submit" value="Attach"
+                    class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Student">Back to List</a>
+</div>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
