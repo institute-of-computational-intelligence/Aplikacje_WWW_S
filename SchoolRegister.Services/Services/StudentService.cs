@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -10,50 +10,112 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class StudentService : BaseService, IStudentService
     {
-        private readonly UserManager<User> userManager;
-
-        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger){}
-
-        public async void AddToGroupAsync(AddToGroupVm addToGroupVm)
+        public StudentService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
         {
-            var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(u => u.Id == addToGroupVm.StudentId);
+        }
+   
 
-            if (student == null)
+       public async Task<GroupVm> AddStudentToGroupAsync(AddOrRemStudentGroupVm addStudentToGroupVm)
+        {
+            try 
             {
-                throw new ArgumentNullException($"Could not find user with id: {addToGroupVm.StudentId}");
-            }
+                if (addStudentToGroupVm == null)
+                    throw new ArgumentNullException ($"View model parameter is null");
 
-            var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
+                var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addStudentToGroupVm.GroupId);
 
-            if(group == null)
+                if(group == null)
+                    throw new ArgumentNullException("Can't find group ID");
+
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == addStudentToGroupVm.StudentId);
+
+                if (student == null)
+                    throw new ArgumentNullException("Can't find student ID");
+                
+                var groupVm = Mapper.Map<GroupVm>(group);
+                student.GroupId = addStudentToGroupVm.GroupId;
+                group.Students.Add(student);
+                DbContext.Users.Update(student);
+                DbContext.Groups.Update(group);
+                await DbContext.SaveChangesAsync();
+                return groupVm;
+
+            } catch (Exception ex) 
             {
-                throw new ArgumentNullException($"Could not find group with id: {addToGroupVm.GroupId}");
+                Logger.LogError (ex, ex.Message);
+                throw;
             }
-
-            student.GroupId = addToGroupVm.GroupId;
-
-            DbContext.Users.Update(student);
-            await DbContext.SaveChangesAsync();
         }
 
-        public async void RemoveFromGroupAsync(RemoveFromGroupVm removeFromGroupVm)
+        public async Task<GroupVm> RemoveStudentFromGroupAsync(AddOrRemStudentGroupVm removeStudentFromGroupVm)
         {
-            var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(u => u.Id == removeFromGroupVm.StudentId);
-
-            if (student == null)
+            try 
             {
-                throw new ArgumentNullException($"Could not find user with id: {removeFromGroupVm.StudentId}");
+                if (removeStudentFromGroupVm == null)
+                    throw new ArgumentNullException ($"View model parameter is null");
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == removeStudentFromGroupVm.StudentId);
+
+                if (student == null)
+                    throw new ArgumentNullException("Can't find student ID");
+
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);   
+                
+
+                if (group is null)
+                    throw new ArgumentNullException("Can't find group ID");
+
+
+                var groupVm = Mapper.Map<GroupVm>(group);
+                student.GroupId = null;
+                DbContext.Users.Update(student);
+                await DbContext.SaveChangesAsync();
+                return groupVm;
+            } catch (Exception ex) 
+            {
+                  
+                Logger.LogError (ex, ex.Message);  
+                throw;
             }
+        }
+     
+  public IEnumerable<StudentVm> GetStudents (Expression<Func<Student, bool>> filterPredicate = null) {
+            var studentsEntities = DbContext.Users.OfType<Student> ().AsQueryable ();
+            if (filterPredicate != null)
+                studentsEntities = studentsEntities.Where (filterPredicate);
+            var studentsVm = Mapper.Map<IEnumerable<StudentVm>> (studentsEntities);
+            return studentsVm;
+        }
 
-            student.GroupId = null;
+        public StudentVm GetStudent (Expression<Func<Student, bool>> filterPredicate) {
+            if (filterPredicate == null) throw new ArgumentNullException ($"filterPredicate is null");
+            var studentEntity = DbContext.Users.OfType<Student> ().FirstOrDefault (filterPredicate);
+            var studentVm = Mapper.Map<StudentVm> (studentEntity);
+            return studentVm;
+        }
 
-            DbContext.Users.Update(student);
-            await DbContext.SaveChangesAsync();
+  public async Task<Student> GetStudentAsync(Expression<Func<Student, bool>> filterExpressions)
+        {       
+            try
+            {
+                if (filterExpressions == null)
+                    throw new ArgumentNullException("filterExpressions is null");
+
+                var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(filterExpressions);
+
+                //var studentVm = Mapper.Map<StudentVm>(studentEntity);
+                return studentEntity;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
     }
-} 
+}
