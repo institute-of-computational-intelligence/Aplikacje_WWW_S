@@ -1,84 +1,162 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Tests.UnitTests
 {
     public class TeacherServiceUnitTests : BaseUnitTests
     {
         private readonly ITeacherService _teacherService;
+
         public TeacherServiceUnitTests(ApplicationDbContext dbContext, ITeacherService teacherService) : base(dbContext)
         {
             _teacherService = teacherService;
         }
 
         [Fact]
-        public async void AddGradeToStudent1()
+        public async void AddGradeToStudentByTeacher()
         {
-            var newGrade = new AddGradeToStudentVm()
+            var countBefore = DbContext.Grades.Count();
+
+            var addGradeToStudent = new AddGradeToStudentVm()
             {
+                StudentId = 5,
                 TeacherId = 2,
-                Grade = GradeScale.DB,
-                StudentId = 6,
-                SubjectId = 3
+                SubjectId = 3,
+                Grade = GradeScale.DST
             };
-            var grade = await _teacherService.AddGradeToStudent(newGrade);
+
+            var grade = await _teacherService.AddGradeToStudent(addGradeToStudent);
+            var countAfter = DbContext.Grades.Count();
+
             Assert.NotNull(grade);
-            Assert.Equal(2, DbContext.Grades.Count());
+            Assert.Contains(grade, DbContext.Grades);
+            Assert.Equal(GradeScale.DST, grade.GradeValue);
+            Assert.Equal(5, grade.StudentId);
+            Assert.True(countAfter > countBefore);
         }
 
         [Fact]
-        public async void AddGradeToStudent_InvalidRole()
+        public async void AddGradeToNotStudentByTeacher()
         {
-            var newGrade = new AddGradeToStudentVm()
+            var countBefore = DbContext.Grades.Count();
+
+            var addGradeToStudent = new AddGradeToStudentVm()
             {
-                TeacherId = 7,
-                Grade = GradeScale.DB,
-                StudentId = 6,
-                SubjectId = 1
+                StudentId = 3,
+                TeacherId = 2,
+                SubjectId = 3,
+                Grade = GradeScale.DST
             };
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() =>
-            {
-                return _teacherService.AddGradeToStudent(newGrade);
-            });
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _teacherService.AddGradeToStudent(addGradeToStudent));
+            var countAfter = DbContext.Grades.Count();
+            Assert.Equal(countBefore, countAfter);
         }
 
         [Fact]
-        public async void AddGradeToStudent_SubjectsNoMatch()
+        public async void AddGradeToStudentByParent()
         {
-            var newGrade = new AddGradeToStudentVm()
+            var countBefore = DbContext.Grades.Count();
+
+            var addGradeToStudent = new AddGradeToStudentVm()
+            {
+                StudentId = 5,
+                TeacherId = 3,
+                SubjectId = 3,
+                Grade = GradeScale.DST
+            };
+
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _teacherService.AddGradeToStudent(addGradeToStudent));
+            var countAfter = DbContext.Grades.Count();
+            Assert.Equal(countBefore, countAfter);
+        }
+
+
+        [Fact]
+        public async void AddGradeToStudentByStudent()
+        {
+            var countBefore = DbContext.Grades.Count();
+
+            var addGradeToStudent = new AddGradeToStudentVm()
+            {
+                StudentId = 5,
+                TeacherId = 5,
+                SubjectId = 3,
+                Grade = GradeScale.DST
+            };
+
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _teacherService.AddGradeToStudent(addGradeToStudent));
+            var countAfter = DbContext.Grades.Count();
+            Assert.Equal(countBefore, countAfter);
+        }
+
+        [Fact]
+        public async void AddGradeToStudentByTeacherNonExistingSubject()
+        {
+            var countBefore = DbContext.Grades.Count();
+
+            var addGradeToStudent = new AddGradeToStudentVm()
+            {
+                StudentId = 5,
+                TeacherId = 2,
+                SubjectId = -1,
+                Grade = GradeScale.DST
+            };
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _teacherService.AddGradeToStudent(addGradeToStudent));
+            var countAfter = DbContext.Grades.Count();
+            Assert.Equal(countBefore, countAfter);
+        }
+
+        [Fact]
+        public async void SendEmailByTeacherToParent()
+        {
+            var sendEmail = new SendMailToStudentParentVm()
             {
                 TeacherId = 2,
-                Grade = GradeScale.DB,
-                StudentId = 6,
-                SubjectId = 1
+                ParentId = 3,
+                MailTitle = "??",
+                MailContent = ""
             };
-            await Assert.ThrowsAsync<ArgumentException>(() =>
-            {
-                return _teacherService.AddGradeToStudent(newGrade);
-            });
+
+            var exception = await Record.ExceptionAsync(() => Task.Run(() => _teacherService.SendMailToStudentParent(sendEmail)));
+
+            Assert.Null(exception);
         }
 
         [Fact]
-        public async void AddGradeToStudent_TeacherNoValue()
+        public void SendEmailByParentToStudent()
         {
-            var newGrade = new AddGradeToStudentVm()
+            var sendEmail = new SendMailToStudentParentVm()
             {
-                Grade = GradeScale.DB,
-                StudentId = 6,
-                SubjectId = 1
+                TeacherId = 12,
+                ParentId = 6,
+                MailTitle = "??",
+                MailContent = ""
             };
-            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+
+            Assert.ThrowsAsync<UnauthorizedAccessException>(() => Task.Run(() => _teacherService.SendMailToStudentParent(sendEmail)));
+        }
+
+        [Fact]
+        public void SendEmailByNonExistingUser()
+        {
+            var sendEmail = new SendMailToStudentParentVm()
             {
-                return _teacherService.AddGradeToStudent(newGrade);
-            });
+                TeacherId = -1,
+                ParentId = 3,
+                MailTitle = "??",
+                MailContent = ""
+            };
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => Task.Run(() => _teacherService.SendMailToStudentParent(sendEmail)));
         }
     }
 }

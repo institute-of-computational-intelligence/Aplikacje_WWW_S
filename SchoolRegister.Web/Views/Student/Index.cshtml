@@ -1,7 +1,8 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = @Localizer["Students"];
 }
 
 <h2>@ViewData["Title"]</h2>

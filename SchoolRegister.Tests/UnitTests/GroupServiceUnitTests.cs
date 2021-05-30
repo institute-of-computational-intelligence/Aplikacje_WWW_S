@@ -1,67 +1,86 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
+using System.Data;
 
 namespace SchoolRegister.Tests.UnitTests
 {
-    namespace SchoolRegister.Tests.UnitTests
+    public class GroupServiceUnitTests : BaseUnitTests
     {
-        public class GroupServiceUnitTests : BaseUnitTests
+        private readonly IGroupService _groupService;
+
+        public GroupServiceUnitTests(ApplicationDbContext dbContext, IGroupService groupService) : base(dbContext)
         {
-            private readonly IGroupService _groupService;
-            public GroupServiceUnitTests(ApplicationDbContext dbContext, IGroupService groupService) : base(dbContext)
+            _groupService = groupService;
+        }
+
+        [Fact]
+        public async void AddGroup()
+        {
+            var countBefore = DbContext.Groups.Count();
+
+            var addGroup = new AddGroupVm()
             {
-                _groupService = groupService;
-            }
-            [Fact]
-            public void Given_ValidParameter_When_CallingAddGroupAsync_Then_AddingGroup()
+                Name = "SK",
+            };
+
+            var group = await _groupService.AddGroup(addGroup);
+            var countAfter = DbContext.Groups.Count();
+
+            Assert.NotNull(group);
+            Assert.Contains("SK", DbContext.Groups.Select(x => x.Name));
+            Assert.True(countAfter > countBefore);
+        }
+
+        [Fact]
+        public async void AddGroupAlreadyExists()
+        {
+            var countBefore = DbContext.Groups.Count();
+
+            var addGroup = new AddGroupVm()
             {
-                var getGroupToAdd = new AddGroupVm()
-                {
-                    Name = "PAI"
-                };
+                Name = "IO",
+            };
 
-                try
-                {
-                    _groupService.AddGroup(getGroupToAdd);
-                    Assert.True(true);
-                }
-                catch
-                {
-                    Assert.True(false);
-                }
+            await Assert.ThrowsAsync<DuplicateNameException>(() => _groupService.AddGroup(addGroup));
+            var countAfter = DbContext.Groups.Count();
 
-            }
+            Assert.Equal(countAfter, countBefore);
+        }
 
+        [Fact]
+        public async void DeleteGroup()
+        {
+            var countBefore = DbContext.Groups.Count();
 
-
-            [Fact]
-            public void Remove()
+            var removeGroup = new RemoveGroupVm()
             {
-                var group = new AddGroupVm()
-                {
-                    Name = "PAI"
-                };
+                Id = 2,
+            };
 
-                try
-                {
-                    _groupService.AddGroup(group);
-                    Assert.True(true);
-                }
-                catch
-                {
-                    Assert.True(false);
-                }
+            var group = await _groupService.DeleteGroup(removeGroup);
+            var countAfter = DbContext.Groups.Count();
 
-            }
+            Assert.DoesNotContain(2, DbContext.Groups.Select(x => x.Id));
+            Assert.True(countAfter < countBefore);
+        }
 
+        [Fact]
+        public async void DeleteGroupNonExisting()
+        {
+            var countBefore = DbContext.Groups.Count();
 
+            var removeGroup = new RemoveGroupVm()
+            {
+                Id = 4,
+            };
+
+            await Assert.ThrowsAsync<ArgumentNullException>(() => _groupService.DeleteGroup(removeGroup));
+            var countAfter = DbContext.Groups.Count();
+            Assert.Equal(countAfter, countBefore);
         }
     }
 }

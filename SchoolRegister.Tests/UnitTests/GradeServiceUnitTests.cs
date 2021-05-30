@@ -14,19 +14,6 @@ namespace SchoolRegister.Tests.UnitTests
         {
             _gradeService = gradeService;
         }
-        /*[Fact]
-        public void AddGradeToStudent() {
-            var gradeVm = new AddGradeToStudentVm()
-            {
-                StudentId = 5,
-                SubjectId = 1,
-                Grade = GradeScale.DB,
-                TeacherId = 1
-            };
-            var grade = _gradeService.AddGradeToStudent(gradeVm);
-            Assert.NotNull(grade);
-            Assert.Equal(2, DbContext.Grades.Count());
-        }*/
         [Fact]
         public void GetGradesReportForStudentByTeacher()
         {

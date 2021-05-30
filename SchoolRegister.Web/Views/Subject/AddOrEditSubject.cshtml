@@ -1,6 +1,8 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model SchoolRegister.ViewModels.VM.AddOrUpdateSubjectVm
 @{
-    ViewData["Title"] = $"{ViewBag.ActionType} Subject";
+    ViewData["Title"] = $"{ViewBag.ActionType} ${Localizer["Subject"]}";
 }
 <h2>@ViewData["Title"]</h2>
 <hr />
@@ -22,9 +24,8 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Teacher</label>
-                <select asp-for="TeacherId" class="form-control"
-                        asp-items="@ViewBag.TeachersSelectList"></select>
+                <label class="control-label">@Localizer["Teacher"]</label>
+                <select asp-for="TeacherId" class="form-control" asp-items="@ViewBag.TeachersSelectList"></select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,7 +35,7 @@
     </div>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
