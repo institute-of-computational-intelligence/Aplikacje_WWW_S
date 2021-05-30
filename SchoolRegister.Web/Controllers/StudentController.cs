@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Web.Controllers
 {
@@ -56,7 +58,7 @@ namespace SchoolRegister.Web.Controllers
             StudentVm studentvm = _studentService.GetStudent(x => x.Id == id);
             ViewBag.FirstName = studentvm.FirstName;
             ViewBag.LastName = studentvm.LastName;
-            ViewBag.ActionType = "marks";
+            ViewBag.ActionType = @Localizer["Grades"];
             GradesVm gradesvm = new GradesVm { CallerId = _userManager.GetUserAsync(User).Result.Id , StudentId = id };
             return View(_gradeService.ShowGrades(gradesvm));
         }
@@ -66,16 +68,21 @@ namespace SchoolRegister.Web.Controllers
         public IActionResult AddGrade(int id)
         {
             var teacher = _userManager.GetUserAsync(User).Result as Teacher;
+            Expression<Func<Student, bool>> studentsExpression = s => s.Group.SubjectGroups.Any (sg => sg.Subject.TeacherId == teacher.Id);
+            Expression<Func<Subject, bool>> subjectsExpression = t => t.TeacherId == teacher.Id;
 
-            ViewBag.StudentTeacherList = new AddGradeToStudentVm()
+            var students = _studentService.GetStudents (studentsExpression);
+            var subjects = _subjectService.GetSubjects (subjectsExpression);
+
+            var StudentTeacherList = new AddGradeToStudentVm()
             {
                 TeacherId = teacher.Id,
                 StudentId = id
             };
+            
+            ViewBag.ActionType = Localizer["Add"];
 
-            ViewBag.ActionType = "Add";
-
-            return View();
+            return View(StudentTeacherList);
         }
 
         [HttpPost]
@@ -93,15 +100,15 @@ namespace SchoolRegister.Web.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult RemoveFromAddToGroup(int id, string name = null)
+        public IActionResult RemoveFromAddToGroup(int id, string name=null)
         {
             if (!String.IsNullOrEmpty(name))
             {
                 var studentVm = _studentService.GetStudent(x => x.Id == id);
-                ViewBag.ActionType = "Remove";
+                ViewBag.ActionType = Localizer["Remove"];
                 return View(Mapper.Map<StudentVm>(studentVm));
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
              return View(); 
         }
 

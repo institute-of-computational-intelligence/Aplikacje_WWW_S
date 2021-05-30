@@ -51,6 +51,9 @@ namespace SchoolRegister.Web.Configuration.Profiles
             
             CreateMap<Teacher, TeacherVm> ();
 
+            CreateMap<AddGradeToStudentVm, Grade>()
+                .ForMember(dest => dest.DateOfIssue, x => x.MapFrom(srcc => DateTime.Now));
+
             CreateMap<Student, StudentVm> ()
                 .ForMember (dest => dest.GroupName, x => x.MapFrom (src => src.Group.Name))
                 .ForMember (dest => dest.ParentName, x => x.MapFrom (src => $"{src.Parent.FirstName} {src.Parent.LastName}"));

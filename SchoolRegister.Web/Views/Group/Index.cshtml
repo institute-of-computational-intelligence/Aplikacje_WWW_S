@@ -1,24 +1,26 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @Localizer["Group"];
 }
 
-<h1>Group</h1>
+<h1>@Localizer["Group"]</h1>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        <a asp-action="AddOrRemoveGroup">Create New</a>
+        <a asp-action="AddOrRemoveGroup">@Localizer["CreateNew"]</a>
     </p>
  }
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Localizer["Id"]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Localizer["Name"]
             </th>
             <th></th>
         </tr>
@@ -35,7 +37,7 @@
             <td>
                 @if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="AddOrRemoveGroup" asp-route-id="@item.Id">Remove</a> @:
+                    <a asp-action="AddOrRemoveGroup" asp-route-id="@item.Id">@Localizer["Remove"]</a> @:
                 }
             </td>
         </tr>

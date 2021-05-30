@@ -9,7 +9,7 @@ namespace SchoolRegister.ViewModels.VM
 
         public int? TeacherId { get; set; }
         [Required]
-        public GradeScale Grade { get; set; }
+        public GradeScale GradeValue { get; set; }
         [Required]
         public int StudentId { get; set; }
         [Required]

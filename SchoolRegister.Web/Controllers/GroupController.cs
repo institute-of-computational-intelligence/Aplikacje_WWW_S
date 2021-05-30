@@ -53,10 +53,10 @@ namespace SchoolRegister.Web.Controllers
             if (id.HasValue)
             {
                 var groupVm = _groupService.GetGroup(x => x.Id == id);
-                ViewBag.ActionType = "Remove";
+                ViewBag.ActionType = Localizer["Remove"];
                 return View(Mapper.Map<GroupVm>(groupVm));
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
              return View(); 
         }
 

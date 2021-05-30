@@ -103,6 +103,7 @@ namespace SchoolRegister.Web
             app.UseAuthentication();
             app.UseAuthorization();
             var localizationOption = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(localizationOption.Value);
 
             app.UseEndpoints(endpoints =>
             {

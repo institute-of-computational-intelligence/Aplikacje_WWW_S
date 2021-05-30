@@ -1,23 +1,24 @@
 @using SchoolRegister.Model.DataModels
 @using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model GradesRaportVm
 @{
     ViewData["Fname"] = $"{ViewBag.FirstName}";
     ViewData["Lname"] = $"{ViewBag.LastName}";
-    ViewData["Title"] = $"{ViewBag.ActionType}";
+    ViewData["Title"] = @Localizer["Grades"];
 }
-<h2>@ViewData["Fname"] @ViewData["Lname"] @ViewData["Title"]</h2>
+<h2>@ViewData["Fname"] @ViewData["Lname"] @Localizer["Grade"]</h2>
 <div>
-    <tbody>
-    </tr>
-        <partial name="_partialDetails" model="@Model.StudentGradesPerSubject"/>
-        <td>
-            @Html.DisplayFor(model => model.AverageGrade)
-        </td>
-    </tr>
-    </tbody>
+<table>
+    <partial name="_partialDetails" model="@Model.StudentGradesPerSubject"/>
 </table>
-<h4>Marks average: @Html.DisplayFor(model => model.AverageGradePerSubject)</h4>
-<div>
-    <a asp-action="Index" >Back to List</a>
 </div>
+<hr/>
+<h4>@Localizer["Avg"]: @Html.DisplayFor(model => model.AverageGrade)</h4>
+@if (!User.IsInRole("Student"))
+{
+<div>
+    <a asp-action="Index">@Localizer["Back"]</a>
+</div>
+}

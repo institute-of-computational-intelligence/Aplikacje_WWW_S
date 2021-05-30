@@ -31,10 +31,13 @@ namespace SchoolRegister.Services.Services
                 if(addGradeToStudentVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
                 
-                var teacher = DbContext.Users.FirstOrDefault(t => t.Id ==  addGradeToStudentVm.TeacherId);
+                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id ==  addGradeToStudentVm.TeacherId);
                 var subject = DbContext.Subjects.FirstOrDefault(sub => sub.Id == addGradeToStudentVm.SubjectId);
-                if(!addGradeToStudentVm.TeacherId.HasValue)
-                    throw new ArgumentNullException("TeacherId have no values!");
+                if(teacher is null)
+                    throw new ArgumentNullException("Couldn't find specifed teacher");
+                if(subject is null)
+                    throw new ArgumentNullException("Couldn't find specifed subject");
+
                 if(await userType.IsInRoleAsync(teacher,"Teacher"))
                 {   
                     if(teacher.Id != subject.TeacherId)
@@ -42,7 +45,7 @@ namespace SchoolRegister.Services.Services
 
                     var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeToStudentVm.StudentId);
                     grade = new Grade()
-                        { DateOfIssue = DateTime.Now, GradeValue = addGradeToStudentVm.Grade, StudentId = addGradeToStudentVm.StudentId, SubjectId = addGradeToStudentVm.StudentId };
+                        { DateOfIssue = DateTime.Now, GradeValue = addGradeToStudentVm.GradeValue, StudentId = addGradeToStudentVm.StudentId, SubjectId = addGradeToStudentVm.StudentId };
                     await DbContext.Grades.AddAsync(grade);
                     await DbContext.SaveChangesAsync();
                     return grade;
