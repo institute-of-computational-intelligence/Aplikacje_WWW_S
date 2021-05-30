@@ -409,7 +409,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasOne("SchoolRegister.Model.DataModels.Student", "Student")
                         .WithMany("Grades")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SchoolRegister.Model.DataModels.Subject", "Subject")
@@ -426,7 +426,7 @@ namespace SchoolRegister.DAL.Migrations
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
                     b.HasOne("SchoolRegister.Model.DataModels.Teacher", "Teacher")
-                        .WithMany("Subcjects")
+                        .WithMany("Subjects")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
@@ -492,7 +492,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Teacher", b =>
                 {
-                    b.Navigation("Subcjects");
+                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }

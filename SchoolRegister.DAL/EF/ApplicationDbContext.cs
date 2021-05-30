@@ -9,30 +9,25 @@ namespace SchoolRegister.DAL.EF
 {
     public class ApplicationDbContext : IdentityDbContext<User,Role,int>
     {
-        // Table properties e.g
-        // public virtual DbSet<Entity> TableName { get; set; }
+        public virtual DbSet<Grade> Grades { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<Grade> Grades { get; set; }
-        // more properties need to added….
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+            : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            //configuration commands 
-            optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
+            optionsBuilder.UseLazyLoadingProxies();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // Fluent API commands
             modelBuilder.Entity<User>()
                 .ToTable("AspNetUsers")
                 .HasDiscriminator<int>("UserType")
@@ -54,7 +49,9 @@ namespace SchoolRegister.DAL.EF
                 .WithMany(sg => sg.SubjectGroups)
                 .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
+
+               modelBuilder.Entity<Grade>()
+                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
         }
     }
 }

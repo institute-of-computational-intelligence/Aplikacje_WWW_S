@@ -2,34 +2,60 @@ using System.Linq;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using Xunit;
+using System.Data;
+using SchoolRegister.Model.DataModels;
+using SchoolRegister.ViewModels.VM;
 
-namespace SchoolRegister.Tests.UnitTests {
-    public class StudentServiceUnitTests : BaseUnitTests {
+namespace SchoolRegister.Tests.UnitTests
+{
+    public class StudentServiceUnitTests : BaseUnitTests
+    {
         private readonly IStudentService _studentService;
-        public StudentServiceUnitTests (ApplicationDbContext dbContext, IStudentService studentService) : base (dbContext) {
+
+        public StudentServiceUnitTests(ApplicationDbContext dbContext, IStudentService studentService) : base(dbContext)
+        {
             _studentService = studentService;
         }
 
-        [Fact]
-        public void GetStudent () {
-            var student = _studentService.GetStudent (s => s.Id == 8);
-            Assert.NotNull(student);
-        }
 
         [Fact]
-        public void GetStudents(){
-            var students = _studentService.GetStudents(s=>s.Id >=5 && s.Id <=7);
-            Assert.NotNull(students);
-            Assert.NotEmpty(students);
-            Assert.Equal(3, students.Count());
+        public async void AddStudentToGroup()
+        {
+            var addStudentToGroup = new AddOrRemStudentGroupVm()
+            {
+
+                StudentId = 6,
+                GroupId = 3,     
+                           
+            };
+
+            var group = await _studentService.AddStudentToGroupAsync(addStudentToGroup);
+
+            Assert.NotNull(group);
+            Assert.Contains(6, DbContext.Groups.First(x => x.Id == 3).Students.Select(x => x.Id));
+            Assert.Equal(3, DbContext.Users.OfType<Student>().First(x => x.Id == 6).GroupId);
         }
 
+
         [Fact]
-        public void GetAllStudents(){
-            var students = _studentService.GetStudents();
-            Assert.NotNull(students);
-            Assert.NotEmpty(students);
-            Assert.Equal(6, students.Count());
+        public async void RemoveStudentFromGroup()
+        {
+            var removeStudentFromGroup = new AddOrRemStudentGroupVm()
+            {
+
+                StudentId = 6,
+                GroupId = 3,  
+                         
+            };
+
+            await _studentService.RemoveStudentFromGroupAsync(removeStudentFromGroup);
+        
+            Assert.DoesNotContain(6, DbContext.Groups.First(x => x.Id == 3).Students.Select(x => x.Id));
+            Assert.Null(DbContext.Users.OfType<Student>().First(x => x.Id == 6).GroupId);
+
         }
+        
     }
-}
+} 
+
+
