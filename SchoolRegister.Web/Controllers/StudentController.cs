@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,127 +12,117 @@ using Microsoft.Extensions.Logging;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Web.Controllers
 {
+    [Authorize(Roles = "Teacher, Admin, Parent, Student")]
     public class StudentController : BaseController
     {
+        private readonly ISubjectService _subjectService;
         private readonly IStudentService _studentService;
-        private readonly IGroupService _groupService;
-        private readonly UserManager<User> _userManager;
+        private readonly ITeacherService _teacherService;
         private readonly IGradeService _gradeService;
 
-        public StudentController(ILogger logger,
-            IMapper mapper,
-            IStringLocalizer localizer,
-            IStudentService studentService,
-            IGroupService groupService,
-            UserManager<User> userManager,
-            IGradeService gradeService) : base(logger, mapper, localizer)
+        private readonly UserManager<User> _userManager;
+        public StudentController(ISubjectService subjectService, ITeacherService teacherService, IGradeService gradeService, IStudentService studentService, UserManager<User> userManager, IStringLocalizer localizer, ILogger logger, IMapper mapper) : base(logger, mapper, localizer)
         {
             _studentService = studentService;
-            _groupService = groupService;
-            _userManager = userManager;
             _gradeService = gradeService;
+            _subjectService = subjectService;
+            _teacherService = teacherService;
+            _userManager = userManager;
         }
 
-        [Authorize(Roles = "Teacher, Admin, Parent")]
         public IActionResult Index()
         {
-
-            IEnumerable<StudentVm> studentsVm = null;
-            if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Parent"))
+            var user = _userManager.GetUserAsync(User).Result;
+            if (_userManager.IsInRoleAsync(user, "Admin").Result)
+                return View(_studentService.GetStudents());
+            else if (_userManager.IsInRoleAsync(user, "Teacher").Result)
+               return View(_studentService.GetStudents());
+            else if (_userManager.IsInRoleAsync(user, "Parent").Result)
             {
-                var parent = _userManager.GetUserAsync(User).Result;
-                studentsVm = _studentService.GetStudents(s => s.ParentId == parent.Id);
+                var parent = _userManager.GetUserAsync(User).Result as Parent;
+                return View(_studentService.GetStudents(x => x.ParentId == parent.Id));
             }
-            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
-            {
-                var teacher = _userManager.Users.OfType<Teacher>().FirstOrDefault(x => x.UserName == User.Identity.Name);
-                var student = teacher?.Subjects.SelectMany(x => x.SubjectGroups.SelectMany(y => y.Group.Students));
-                studentsVm = Mapper.Map<IEnumerable<StudentVm>>(student);
-            }
-            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-            {
-                studentsVm = _studentService.GetStudents();
-            }
-            return View(studentsVm);
+            else if (_userManager.IsInRoleAsync(user, "Student").Result)
+                return RedirectToAction("Details", new { id = user.Id });
+            else
+                return View("Error");
         }
 
-        [Authorize(Roles = "Teacher, Admin, Parent, Student")]
-        public IActionResult Details(int studentId)
+
+        public IActionResult Details(int id)
         {
-            var getGradesDto = new GetGradesReportVm
+            StudentVm studentvm = _studentService.GetStudent(x => x.Id == id);
+            ViewBag.FirstName = studentvm.FirstName;
+            ViewBag.LastName = studentvm.LastName;
+            ViewBag.ActionType = @Localizer["Grades"];
+            GradesVm gradesvm = new GradesVm { CallerId = _userManager.GetUserAsync(User).Result.Id , StudentId = id };
+            return View(_gradeService.ShowGrades(gradesvm));
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult AddGrade(int id)
+        {
+            var teacher = _userManager.GetUserAsync(User).Result as Teacher;
+            Expression<Func<Student, bool>> studentsExpression = s => s.Group.SubjectGroups.Any (sg => sg.Subject.TeacherId == teacher.Id);
+            Expression<Func<Subject, bool>> subjectsExpression = t => t.TeacherId == teacher.Id;
+
+            var students = _studentService.GetStudents (studentsExpression);
+            var subjects = _subjectService.GetSubjects (subjectsExpression);
+
+            var StudentTeacherList = new AddGradeToStudentVm()
             {
-                StudentId = studentId,
-                GetterUserId = _userManager.GetUserAsync(User).Result.Id
+                TeacherId = teacher.Id,
+                StudentId = id
             };
-            var studentGradesReport = _gradeService.GetGradesReportForStudent(getGradesDto);
-            if (studentGradesReport == null) return View("Error");
-            return View(studentGradesReport);
-        }
+            
+            ViewBag.ActionType = Localizer["Add"];
 
-        [Authorize(Roles = "Teacher, Admin")]
-        public IActionResult AttachStudentToGroup(int studentId)
-        {
-            ViewBag.ActionType = "Attach";
-            return AttachDetachGetView(studentId);
+            return View(StudentTeacherList);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher, Admin")]
-        public IActionResult AttachStudentToGroup(AttachDetachStudentToGroupVm attachDetachStudentToGroupVm)
+        [Authorize(Roles = "Teacher")]
+        public IActionResult AddGrade(AddGradeToStudentVm grade)
         {
             if (ModelState.IsValid)
             {
-                _groupService.AttachStudentToGroup(attachDetachStudentToGroupVm);
+                var gr = _teacherService.AddGradeToStudent(grade).Result;
                 return RedirectToAction("Index");
             }
-            return View("AttachDetachStudentToGroup");
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult RemoveFromAddToGroup(int id, string name=null)
+        {
+            if (!String.IsNullOrEmpty(name))
+            {
+                var studentVm = _studentService.GetStudent(x => x.Id == id);
+                ViewBag.ActionType = Localizer["Remove"];
+                return View(Mapper.Map<StudentVm>(studentVm));
+            }
+            ViewBag.ActionType = Localizer["Add"];
+             return View(); 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher, Admin")]
-        public IActionResult DetachStudentToGroup(AttachDetachStudentToGroupVm attachDetachStudentToGroupVm)
+        [Authorize(Roles = "Admin")]
+        public IActionResult RemoveFromAddToGroup(StudentVm studentVm)
         {
             if (ModelState.IsValid)
             {
-                _groupService.DetachStudentFromGroup(attachDetachStudentToGroupVm);
+                _studentService.AddOrRemoveStudentGroup(studentVm);
                 return RedirectToAction("Index");
             }
-            return View("AttachDetachStudentToGroup");
-        }
-
-        [Authorize(Roles = "Teacher, Admin")]
-        private IActionResult AttachDetachGetView(int studentId)
-        {
-            var students = _studentService.GetStudents()
-                                        .ToList();
-            var groups = _groupService.GetGroups();
-            var currentStudent = students.FirstOrDefault(x => x.Id == studentId);
-            if (currentStudent == null)
-            {
-                throw new ArgumentNullException($"studentId not exists.");
-            }
-            var attachDetachStudentToGroupDto = new AttachDetachStudentToGroupVm
-            {
-                StudentId = currentStudent.Id
-            };
-            ViewBag.SubjectList = new SelectList(students.Select(s => new
-            {
-                Text = $"{s.FirstName} {s.LastName}",
-                Value = s.Id,
-                Selected = s.Id == currentStudent.Id
-            }), "Value", "Text");
-            ViewBag.GroupList = new SelectList(groups.Select(s => new
-            {
-                Text = s.Name,
-                Value = s.Id
-            }), "Value", "Text");
-            return View("AttachDetachStudentToGroup", attachDetachStudentToGroupDto);
+            return View();
         }
     }
-
 }

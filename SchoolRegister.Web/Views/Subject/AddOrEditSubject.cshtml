@@ -1,30 +1,28 @@
 @model SchoolRegister.ViewModels.VM.AddOrUpdateSubjectVm
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = $"{ViewBag.ActionType} Subject";
+    ViewData["Title"] = $"{ViewBag.ActionType}";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"] @Localizer["Subject"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddOrEditSubject">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input asp-for="Id" type="hidden" class="form-control" />
-                </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">@Localizer["Nazwa"]</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">@Localizer["Desc"]</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label  class="control-label">Teacher</label>
-                <select asp-for="TeacherId" class="form-control"
-                        asp-items="@ViewBag.TeachersSelectList"></select>
+                <label  class="control-label">@Localizer["Teacher"]</label>
+                <select asp-for="TeacherId" class="form-control" asp-items="@ViewBag.TeachersSelectList"></select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,9 +31,11 @@
         </form>
     </div>
 </div>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["Back"]</a>
 </div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

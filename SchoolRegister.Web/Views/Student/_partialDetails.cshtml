@@ -1,0 +1,28 @@
+@using SchoolRegister.Model.DataModels
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IDictionary<string, List<GradeScale>>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Localizer["Subject"]
+            </th>
+            <th>
+                @Localizer["Grade"]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {   <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Key)
+                </td>
+                <td>
+                    @string.Join(", ", item.Value.Select( g=> ((int)g).ToString()))
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
