@@ -1,7 +1,8 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model GroupVm
-
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Group details";
+    ViewData["Title"] = Localizer["GroupDetails"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -32,7 +33,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {

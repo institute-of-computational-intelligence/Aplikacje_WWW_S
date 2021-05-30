@@ -1,5 +1,6 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model SchoolRegister.Model.DataModels.Student
-
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName} details";
 }
@@ -62,7 +63,10 @@
                 <ul>
                     @foreach (var item in Model.Grades)
                     {
-                        <li>@Html.DisplayFor(modelItem => item.Subject.Name): @Html.DisplayFor(modelItem => item.GradeValue) </li>
+                        <li>
+                            @Html.DisplayFor(modelItem => item.Subject.Name): @Html.DisplayFor(modelItem =>
+                                                                                  item.GradeValue)
+                        </li>
                     }
                 </ul>
             </td>
@@ -80,7 +84,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {

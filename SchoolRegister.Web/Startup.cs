@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SchoolRegister.DAL.EntityFramework;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
@@ -39,7 +40,9 @@ namespace SchoolRegister.Web
             services.AddTransient<IGradeService, GradeService>();
             services.AddTransient<ISubjectService, SubjectService>();
             services.AddTransient<ITeacherService, TeacherService>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization();
             services.AddRazorPages();
         }
 
@@ -65,6 +68,8 @@ namespace SchoolRegister.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>()
+                ?.Value);
 
             app.UseEndpoints(endpoints =>
             {

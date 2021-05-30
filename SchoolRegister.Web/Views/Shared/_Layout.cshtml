@@ -1,10 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - School Register</title>
+    <title>@ViewData["Title"] - @Localizer["SchoolRegister"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
@@ -13,47 +15,34 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">School Register</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Subject"
+               asp-action="Index">
+                @Localizer["SchoolRegister"]
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    ariacontrols="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
-                           asp-action="Index">
-                            Subjects
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Group"
-                           asp-action="Index">
-                            Groups
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Student"
-                           asp-action="Index">
-                            Students
-                        </a>
-                    </li>
-                    @if (User.IsInRole("Teacher"))
+                    @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Email"
-                               asp-action="SendEmail">
-                                Email
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
+                               aspaction="Index">
+                                @Localizer["Subjects"]
                             </a>
                         </li>
-                    }
-
-                    @if (User.IsInRole("Student") || User.IsInRole("Teacher") || User.IsInRole("Parent"))
-                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Grade"
-                               asp-action="GradesReport">
-                                Grades report
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Group"
+                               aspaction="Index">
+                                @Localizer["Groups"]
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Student"
+                               aspaction="Index">
+                                @Localizer["Students"]
                             </a>
                         </li>
                     }
@@ -68,10 +57,9 @@
         @RenderBody()
     </main>
 </div>
-
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; @DateTime.Now.Year - School Register
+        &copy; @DateTime.Now.Year - @Localizer["SchoolRegister"]
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
