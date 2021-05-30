@@ -49,8 +49,8 @@ namespace SchoolRegister.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AddOrEditSubject(int? id = null)
         {
-            var teachersVm = _teacherService.GetTeachers();
-            ViewBag.TeachersSelectList = new SelectList(teachersVm.Select(t => new
+            var teacherVm = _teacherService.GetTeachers();
+            ViewBag.TeachersSelectList = new SelectList(teacherVm.Select(t => new
             {
                 Text = $"{t.FirstName} {t.LastName}",
                 Value = t.Id

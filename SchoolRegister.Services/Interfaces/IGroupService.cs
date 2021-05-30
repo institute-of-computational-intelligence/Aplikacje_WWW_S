@@ -9,5 +9,8 @@ namespace SchoolRegister.Services.Interfaces
     public interface IGroupService
     {
         void AddGroupAsync(AddGroupVm addGroupVm);
+        string GetGroups();
+        object GetGroup(Func<object, bool> p);
+        void AddRemoveGroup(GroupVm groupVm);
     }
 }

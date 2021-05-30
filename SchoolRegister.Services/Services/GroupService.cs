@@ -30,6 +30,19 @@ namespace SchoolRegister.Services.Services
             await DbContext.SaveChangesAsync();
         }
 
-      
+        public void AddRemoveGroup(GroupVm groupVm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetGroup(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetGroups()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

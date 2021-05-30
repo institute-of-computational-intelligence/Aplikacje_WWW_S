@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
+
 namespace SchoolRegister.Web.Controllers
 {
     public abstract class BaseController : Controller

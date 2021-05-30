@@ -62,6 +62,11 @@ namespace SchoolRegister.Services.Services
             throw new NotImplementedException();
         }
 
+        public string GetTeacherGroups(TeacherVm teacherVm)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
         {
             throw new NotImplementedException();

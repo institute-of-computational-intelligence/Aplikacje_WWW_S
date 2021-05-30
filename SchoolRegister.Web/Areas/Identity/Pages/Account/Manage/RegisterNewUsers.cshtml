@@ -39,18 +39,18 @@
             </div>
             <div class="form-group">
                 <label>Role</label>
-                <select asp-for="Input.RoleId" class="form-control" aspitems="@ViewData["Roles"] as IEnumerable<SelectListItem>"></select>
+                <select asp-for="Input.RoleId" class="form-control" asp-items="@ViewData["Roles"] as IEnumerable<SelectListItem>"></select>
                 <span asp-validation-for="Input.RoleId" class="text-danger"></span>
             </div>
             <div class="student-selected">
                 <div class="form-group">
                     <label>Group</label>
-                    <select asp-for="Input.GroupId" class="form-control" aspitems="@ViewData["Groups"] as IEnumerable<SelectListItem>"></select>
+                    <select asp-for="Input.GroupId" class="form-control" asp-items="@ViewData["Groups"] as IEnumerable<SelectListItem>"></select>
                     <span asp-validation-for="Input.GroupId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Parent</label>
-                    <select asp-for="Input.ParentId" class="form-control" aspitems="@ViewData["Parents"] as IEnumerable<SelectListItem>"></select>
+                    <select asp-for="Input.ParentId" class="form-control" asp-items="@ViewData["Parents"] as IEnumerable<SelectListItem>"></select>
                     <span asp-validation-for="Input.ParentId" class="text-danger"></span>
                 </div>
             </div>

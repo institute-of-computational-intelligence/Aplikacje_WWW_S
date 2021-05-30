@@ -20,14 +20,13 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
+
         [BindProperty]
         public RegisterNewUserVm Input { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
-        public RegisterNewUsersDataModel(UserManager<User> userManager,
-        ILogger logger,
-        ApplicationDbContext dbContext,
-        IMapper mapper)
+        public RegisterNewUsersDataModel(UserManager<User> userManager, ILogger logger, ApplicationDbContext dbContext, IMapper mapper)
         {
             _userManager = userManager;
             _logger = logger;
@@ -41,18 +40,22 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
                 Text = t.Name,
                 Value = t.Id
             }), "Value", "Text", _dbContext.Roles.FirstOrDefault(x => x.RoleValue == RoleValue.Parent).Id);
+
             ViewData["Groups"] = new SelectList(_dbContext.Groups.Select(t => new
             {
                 Text = t.Name,
                 Value = t.Id
             }), "Value", "Text");
+
             ViewData["Parents"] = new SelectList(_dbContext.Users.OfType<Parent>().Select(t => new
             {
                 Text = $"{t.FirstName} {t.LastName}",
                 Value = t.Id
             }), "Value", "Text");
+
             return Page();
         }
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)

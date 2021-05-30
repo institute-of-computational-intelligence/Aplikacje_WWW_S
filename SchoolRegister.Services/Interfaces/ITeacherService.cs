@@ -9,9 +9,10 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        void AddOrUpdateGrade(AddGradeToStudentVm addOrUpdateGradeVm);
+       
         void SendMailToStudentParent(SendMailVm sendMailVm);
         Task AddGradeToStudent(AddGradeToStudentVm newGrade);
         IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null);
+        string GetTeacherGroups(TeacherVm teacherVm);
     }
 }
