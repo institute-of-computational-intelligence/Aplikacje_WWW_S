@@ -1,16 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
- <ItemGroup>
-   <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.3" />
- </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
+  </ItemGroup>
 
- <ItemGroup>
- <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
- </ItemGroup>
-
- <PropertyGroup>
- <TargetFramework>net5.0</TargetFramework>
- </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
 
 </Project>
-          
