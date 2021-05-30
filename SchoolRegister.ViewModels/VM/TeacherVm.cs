@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM
 {
@@ -9,6 +8,6 @@ namespace SchoolRegister.ViewModels.VM
         public string LastName { get; set; }
         public int Id { get; set; }
         public int GroupId { get; set; }
-        public IEnumerable<Group> Groups { get; set; }
+        public IEnumerable<GroupVm> Groups { get; set; }
     }
 }

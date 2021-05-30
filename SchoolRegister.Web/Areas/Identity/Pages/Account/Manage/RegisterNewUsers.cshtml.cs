@@ -48,7 +48,7 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
             }), "Value", "Text");
             ViewData["Parents"] = new SelectList(_dbContext.Users.OfType<Parent>().Select(t => new
             {
-                Text = $"{t.FirstName} {t.LastName}",
+                Text = $"{t.Firstname} {t.LastName}",
                 Value = t.Id
             }), "Value", "Text");
             return Page();

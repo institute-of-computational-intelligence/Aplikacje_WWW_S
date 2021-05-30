@@ -49,7 +49,7 @@ namespace SchoolRegister.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AddOrEditSubject(int? id = null)
         {
-            var teachersVm = _teacherService.ShowTeachers();
+            var teachersVm = _teacherService.GetTeachers();
             ViewBag.TeachersSelectList = new SelectList(teachersVm.Select(t => new
             {
                 Text = $"{t.FirstName} {t.LastName}",
