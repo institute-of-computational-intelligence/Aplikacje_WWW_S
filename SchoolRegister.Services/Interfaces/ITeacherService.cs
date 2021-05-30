@@ -13,5 +13,8 @@ namespace SchoolRegister.Services.Interfaces
     {
         Task<Grade> AddGrade(AddGradeVm addGradeVm);
         void SendEmail(SendEmailVm sendEmailVm);
+        IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null);
+        TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate);
+        IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups);
     }
 }

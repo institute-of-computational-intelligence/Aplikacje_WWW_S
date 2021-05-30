@@ -12,5 +12,16 @@ namespace SchoolRegister.Services.Interfaces
     {
         Task <GroupVm> DeleteGroup(DeleteGroupVm deleteGroupVm);
         Task <GroupVm> AddGroup(AddGroupVm addGroupVm);
+
+        GroupVm GetGroup (Expression<Func<Group, bool>> filterPredicate);
+        IEnumerable<GroupVm> GetGroups (Expression<Func<Group, bool>> filterPredicate = null);
+
+        StudentVm AttachStudentToGroup (AddStudentToGroupVm AddStudentToGroupVm);
+
+        StudentVm RemoveStudentFromGroup (RemoveStudentFromGroupVm RemoveStudentFromGroupVm);
+
+        GroupVm AttachSubjectToGroup (AttachDetachSubjectGroupVm attachSubjectGroupVm);
+        GroupVm DetachSubjectFromGroup (AttachDetachSubjectGroupVm detachDetachSubjectVm);
+
     }
 }

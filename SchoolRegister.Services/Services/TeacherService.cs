@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
+
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using System.Threading.Tasks;
+
 
 namespace SchoolRegister.Services.Services
 {
@@ -102,6 +104,42 @@ namespace SchoolRegister.Services.Services
                 Logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+        
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
+        {
+            var teacherEntities = DbContext.Users.OfType<Teacher>()
+                                    .AsQueryable();
+            if (filterPredicate != null)
+            {
+                teacherEntities = teacherEntities.Where(filterPredicate);
+            }
+            var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+            return teacherVms;
+        }
+
+        public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate)
+        {
+            var teacherEntity = DbContext.Users.OfType<Teacher>().FirstOrDefault();
+            if (teacherEntity == null)
+            {
+                throw new InvalidOperationException("There is no such teacher");
+            }
+
+            var teacherVm = Mapper.Map<TeacherVm>(teacherEntity);
+            return teacherVm;
+        }
+
+        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
+        {
+            if (getTeachersGroups == null)
+            {
+                throw new ArgumentNullException($"Vm is null");
+            }
+            var teacher = userManager.Users.OfType<Teacher>().FirstOrDefault(x => x.Id == getTeachersGroups.TeacherId);
+            var teacherGroups = teacher?.Subjects.SelectMany(s=>s.SubjectGroups.Select(gr=>gr.Group));
+            var teacherGroupsVm = Mapper.Map<IEnumerable<GroupVm>>(teacherGroups); 
+            return teacherGroupsVm;
         }
     }
 }
