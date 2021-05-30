@@ -1,0 +1,24 @@
+@using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<GroupVm>
+<hr/>
+<label>@Localizer["Groups"]:</label>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Localizer[@Html.DisplayNameFor(model => model.Name)]
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

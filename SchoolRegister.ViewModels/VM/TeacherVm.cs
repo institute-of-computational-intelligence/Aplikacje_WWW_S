@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM
 {

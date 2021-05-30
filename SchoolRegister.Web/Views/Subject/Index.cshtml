@@ -1,13 +1,14 @@
-@using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<SubjectVm>
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Subject</h2>
+<h2>@Localizer["Subject"]</h2>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        <a asp-action="AddOrEditSubject">Create New</a>
+        <a asp-action="AddOrEditSubject">@Localizer["CreateNew"]</a>
     </p>
 }
 <table class="table">
@@ -46,13 +47,11 @@
                 <td>
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
-                        <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-routesubjectId="@item.Id">Attach Subject
-                            to Group</a> @:|
-                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-routesubjectId="@item.Id">Detach Subject
-                            from Group</a> @:|
+                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:|
+                        <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-routesubjectId="@item.Id">@Localizer["AttachSubject"]</a> @:|
+                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-routesubjectId="@item.Id">@Localizer["DetachSubject"]</a> @:|
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
                 </td>
             </tr>
         }
