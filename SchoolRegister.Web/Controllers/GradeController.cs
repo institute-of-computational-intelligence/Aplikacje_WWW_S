@@ -31,7 +31,7 @@ namespace SchoolRegister.Web.Controllers
             _userManager = userManager;
             _teacherService = teacherService;
             _subjectService = subjectService;
-        }
+        }           
 
         [Authorize(Roles = "Teacher, Admin, Student, Parent")]
         public async Task<IActionResult> GradesReport()
@@ -40,8 +40,8 @@ namespace SchoolRegister.Web.Controllers
 
             if (_userManager.IsInRoleAsync(user, "Teacher").Result)
             {
-                var teacher = _teacherService.ShowTeachers(t => t.Id == user.Id).FirstOrDefault();
-                var students = _studentService.ShowStudents();
+                var teacher = await _teacherService.GetTeacherAsync(t => t.Id == user.Id);
+                var students = _studentService.GetStudents();
                 // ViewBag.getterName = user.Id;
                 ViewBag.StudentsSelectList = new SelectList(students.Select(s => new
                 {
@@ -52,7 +52,7 @@ namespace SchoolRegister.Web.Controllers
             }
             else if (_userManager.IsInRoleAsync(user, "Parent").Result)
             {
-                var students = _studentService.ShowStudents(x => x.ParentId == user.Id);
+                var students = _studentService.GetStudents(x => x.ParentId == user.Id);
                 // ViewBag.getterName = user.Id;
                 ViewBag.StudentsSelectList = new SelectList(students.Select(s => new
                 {
@@ -70,32 +70,58 @@ namespace SchoolRegister.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Teacher, Admin, Student, Parent")]
+        public async Task<IActionResult> GetGradesReport(string sId)
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            if (User.IsInRole("Student"))
+            {
+                var getGradesReportVm = new GetGradesVm
+                {
+                    GetterUserId = user.Id,
+                    StudentId = user.Id,
+                };
+                var gradesReport = await _gradeService.GetGrades(getGradesReportVm);
+                return View(gradesReport);
+            }
+            else
+            {
+                var getGradesReportVm = new GetGradesVm
+                {
+                    GetterUserId = user.Id,
+                    StudentId = Convert.ToInt32(sId),
+                };
+                var gradesReport = await _gradeService.GetGrades(getGradesReportVm);
+                return View(gradesReport);
+            }
+        }
+                        
         [HttpGet]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> AddGradeToStudent(int studentId)
-        {
-            var student = await _studentService.ShowStudentAsync(s => s.Id == studentId);
+        public async Task<IActionResult> AddGradeToStudent(int studentId) {
+            var student = await _studentService.GetStudentAsync(s => s.Id == studentId);
             ViewBag.Student = $"{student.FirstName} {student.LastName}";
-            var subjects = _subjectService.GetSubjects(s => s.SubjectGroups.Any(sg => sg.GroupId == student.GroupId));
-            ViewBag.SubjectsSelectList = new SelectList(subjects.Select(s => new
-            {
+            var subjects =  _subjectService.GetSubjects(s=>s.SubjectGroups.Any(sg => sg.GroupId == student.GroupId));
+            ViewBag.SubjectsSelectList = new SelectList(subjects.Select(s => new {
                 Text = $"{s.Name}",
                 Value = s.Id
             }), "Value", "Text");
-            ViewBag.GradeSelectList = new SelectList(Enum.GetValues(typeof(GradeScale)), "Choose grade");
+            ViewBag.GradeSelectList = new SelectList(Enum.GetValues(typeof(GradeScale)),"Choose grade");
             return View();
         }
 
+
+            
+
         [HttpPost]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> AddGradeToStudent(AddGradeAsyncVm addGradeToStudentVm, string subj)
-        {
+        public async Task<IActionResult> AddGradeToStudent(AddGradeVm addGradeVm, string subj) {
             var user = _userManager.GetUserAsync(User).Result;
-            addGradeToStudentVm.TeacherId = user.Id;
-            addGradeToStudentVm.SubjectId = Convert.ToInt32(subj);
-            await _teacherService.AddGradeAsync(addGradeToStudentVm);
+            addGradeVm.TeacherId = user.Id;
+            addGradeVm.SubjectId = Convert.ToInt32(subj);
+            await _gradeService.AddGradeAsync(addGradeVm);
             return RedirectToAction("Index", "Student");
         }
-
+  
     }
 }

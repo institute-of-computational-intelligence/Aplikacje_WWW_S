@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
@@ -7,4 +9,5 @@ namespace SchoolRegister.ViewModels.VM
         [Required]
         public int Id { get; set; }
     }
+         
 }

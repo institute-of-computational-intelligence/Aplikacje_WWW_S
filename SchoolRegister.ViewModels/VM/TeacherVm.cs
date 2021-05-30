@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
-using SchoolRegister.Model.DataModels;
+using System.Text;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class TeacherVm
+   public class TeacherVm
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public int Id { get; set; }
-        public int GroupId { get; set; }
-        public IEnumerable<Group> Groups { get; set; }
+        public IList<SubjectVm> Subjects { get; set; }
+        public string Title { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }      
+
+            
     }
-}
+}         

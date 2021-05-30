@@ -1,85 +1,49 @@
-@model SchoolRegister.Model.DataModels.Student
-
+@using SchoolRegister.ViewModels.VM
+@model GradesReportVm
 @{
-    ViewData["Title"] = $"{Model.FirstName} {Model.LastName} details";
+    ViewData["Title"] = "Student Details";
 }
-
-<h2>@ViewData["Title"]</h2>
-<hr />
-<div class="row">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th class="d-none">
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                @if (!User.IsInRole("Parent")) {
-                <th class="col-2">
-                    @Html.DisplayNameFor(model => model.Parent)
-                </th>
-                }
-
-                <th class="col-1">
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th class="col-1">
-                    @Html.DisplayNameFor(model => model.Group)
-                </th>
-                <th class="col-1">
-                    @Html.DisplayNameFor(model => model.AverageGrade)
-                </th>
-                <th class="col-2">
-                    @Html.DisplayNameFor(model => model.Grades)
-                </th>
-                <th class="col-2">
-                    @Html.DisplayNameFor(model => model.AverageGradePerSubject)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="d-none">
-                    @Html.DisplayFor(model => model.Id)
-                </td>
-                @if (!User.IsInRole("Parent")) {
-                    <td>
-                        @Html.DisplayFor(model => model.Parent.FirstName) @Html.DisplayFor(model => model.Parent.LastName)
-                    </td>
-                }
-   
-                <td>
-                    @Html.DisplayFor(model => model.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Group.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.AverageGrade)
-                </td>
-                <td>
-                    <ul>
-                    @foreach (var item in Model.Grades) {
-                       
-                            <li>@Html.DisplayFor(modelItem => item.Subject.Name):  @Html.DisplayFor(modelItem => item.GradeValue) </li> 
-                    }
-                     </ul> 
-                </td>
-                <td>
-                    <ul>
-                        @foreach (var item in Model.AverageGradePerSubject) {
-                            <li>@Html.DisplayFor(modelItem => item.Key): @Html.DisplayFor(modelItem => item.Value)</li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+<h2>@ViewData["Title"] </h2>
 <div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentFirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentLastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StudentLastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AverageGrade)
+        </dt>
+        <dd>          
+            @Html.DisplayFor(model => model.AverageGrade)
+        </dd>
+    </dl>
+
+                
+    <partial name="_GradesDetailsPartial" model="@Model.StudentGradesPerSubject"/>
+</div>
+            
+<div>
+    <a asp-action="Index" >Back to List</a>
+</div>
