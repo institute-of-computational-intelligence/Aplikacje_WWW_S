@@ -329,12 +329,12 @@ namespace SchoolRegister.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int?>("ParentID")
+                    b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("ParentID");
+                    b.HasIndex("ParentId");
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -457,7 +457,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasOne("SchoolRegister.Model.DataModels.Parent", "Parent")
                         .WithMany("Students")
-                        .HasForeignKey("ParentID");
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("Group");
 

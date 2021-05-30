@@ -69,6 +69,25 @@ namespace SchoolRegister.Services.Services
             }
         }
 
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpressions = null)
+        {
+            try
+            {
+                var teacherEntities = DbContext.Users.OfType<Teacher>().AsQueryable();
+                if (!(filterExpressions is null))
+                    teacherEntities = teacherEntities.Where(filterExpressions);
+
+                var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+
+                return teacherVms;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
         public async void SendEmailToParent(SendEmailVm sendEmailVm)
         {
             try{
