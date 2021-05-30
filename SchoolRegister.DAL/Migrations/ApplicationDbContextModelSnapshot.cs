@@ -155,7 +155,6 @@ namespace SchoolRegister.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -206,7 +205,6 @@ namespace SchoolRegister.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TeacherId")
@@ -221,15 +219,15 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
                 {
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
 
-                    b.HasKey("SubjectId", "GroupId");
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("GroupId");
+                    b.HasKey("GroupId", "SubjectId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("SubjectGroups");
                 });
@@ -255,7 +253,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("Firstname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -327,7 +325,6 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasBaseType("SchoolRegister.Model.DataModels.User");
 
                     b.Property<int?>("GroupId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ParentId")
@@ -423,7 +420,7 @@ namespace SchoolRegister.DAL.Migrations
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
                     b.HasOne("SchoolRegister.Model.DataModels.Teacher", "Teacher")
-                        .WithMany("Subjects")
+                        .WithMany("Subject")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
@@ -452,9 +449,7 @@ namespace SchoolRegister.DAL.Migrations
                 {
                     b.HasOne("SchoolRegister.Model.DataModels.Group", "Group")
                         .WithMany("Students")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GroupId");
 
                     b.HasOne("SchoolRegister.Model.DataModels.Parent", "Parent")
                         .WithMany("Students")
@@ -491,7 +486,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Teacher", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("Subject");
                 });
 #pragma warning restore 612, 618
         }

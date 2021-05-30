@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
+using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace SchoolRegister.Services.Services
 {
@@ -32,7 +32,7 @@ namespace SchoolRegister.Services.Services
 
                 if (user == null)
                 {
-                    throw new ArgumentNullException($"Nie znaleziono uzytkownika: {checkGradesVm.CurrentUserId}");
+                    throw new ArgumentNullException($"Could not find user with id: {checkGradesVm.CurrentUserId}");
                 }
 
                 if(await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
@@ -43,7 +43,7 @@ namespace SchoolRegister.Services.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Nie masz praw dostepu.");
+                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
                 }
             }
             catch(Exception exception)
@@ -52,5 +52,11 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        // jak sie nie ma co się lubi to się lubi co się ma
+        public Grade AddGradeAsync(AddGradeAsyncVm gradeVm)
+        {
+            return null;
+        }
     }
-}
+} 

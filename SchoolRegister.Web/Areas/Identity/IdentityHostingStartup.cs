@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SchoolRegister.Model.DataModels;
 using SchoolRegister.DAL.EF;
+using SchoolRegister.Model.DataModels;
 
 [assembly: HostingStartup(typeof(SchoolRegister.Web.Areas.Identity.IdentityHostingStartup))]
 namespace SchoolRegister.Web.Areas.Identity

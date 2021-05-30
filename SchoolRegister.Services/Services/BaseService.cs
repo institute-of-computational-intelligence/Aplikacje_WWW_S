@@ -18,4 +18,4 @@ namespace SchoolRegister.Services.Services
             Mapper = mapper;
         }
     }
-}
+} 

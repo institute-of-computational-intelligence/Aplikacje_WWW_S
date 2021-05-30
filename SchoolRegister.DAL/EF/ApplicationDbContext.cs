@@ -9,24 +9,31 @@ namespace SchoolRegister.DAL.EF
 {
     public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
+        // Table properties e.g
+        // public virtual DbSet<Entity> TableName { get; set; }
 
-        public virtual DbSet<Grade> Grades { get; set; }
+        //Tabele w bazie danych
         public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<Grade> Grades { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLazyLoadingProxies();
+            // configuration commands
+            optionsBuilder.UseLazyLoadingProxies(); // enable lazy loading proxies
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            // Fluent API commands
             modelBuilder.Entity<User>()
                 .ToTable("AspNetUsers")
                 .HasDiscriminator<int>("UserType")
@@ -34,46 +41,40 @@ namespace SchoolRegister.DAL.EF
                 .HasValue<Student>((int)RoleValue.Student)
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
-            
-            modelBuilder.Entity<Group>()
-            .HasMany(s => s.Students)
-            .WithOne(g => g.Group)
-            .HasForeignKey(x => x.GroupId)
-            .IsRequired();
 
             modelBuilder.Entity<Group>()
-            .HasKey(g => new {g.Id});
+                .HasKey(g => new {g.Id});
+             
+            modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new {sg.GroupId, sg.SubjectId});
+            
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(g => g.Group)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(g => g.GroupId);
+            
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(s => s.Subject)
+                .WithMany(sg => sg.SubjectGroups)
+                .HasForeignKey(s => s.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Grade>()
-            .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
-
-            modelBuilder.Entity<Subject>()
-                .Property(s => s.Name)
-                .IsRequired();
-
-            modelBuilder.Entity<Group>()
-                .Property(g => g.Name)
-                .IsRequired();
-
-            modelBuilder.Entity<SubjectGroup>()
-            .HasKey(sg => new { sg.SubjectId, sg.GroupId});
-
-            modelBuilder.Entity<SubjectGroup>()
-            .HasOne(g => g.Group)
-            .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(g => g.GroupId);
-
-            modelBuilder.Entity<SubjectGroup>()
-            .HasOne(s => s.Subject)
-            .WithMany(sg => sg.SubjectGroups)
-            .HasForeignKey(s =>s.SubjectId)
-            .OnDelete(DeleteBehavior.Restrict);
+                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
 
             modelBuilder.Entity<Grade>()
-            .HasOne(s => s.Subject)
-            .WithMany(g => g.Grades)
-            .HasForeignKey(s => s.SubjectId);
-            
+                .HasOne(s => s.Subject)
+                .WithMany(g => g.Grades)
+                .HasForeignKey(s => s.SubjectId);
+
+// z instrukcji ale prawdopodobnie zbedne
+/* 
+            modelBuilder.Entity<Group>()
+                .HasMany(s => s.Students)
+                .WithOne(g => g.Group)
+                .HasForeignKey(x => x.GroupId)
+                .IsRequired();
+*/
         }
     }
 }

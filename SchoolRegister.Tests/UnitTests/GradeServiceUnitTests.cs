@@ -1,4 +1,3 @@
-  
 using System;
 using System.Linq;
 using SchoolRegister.DAL.EF;
@@ -6,59 +5,71 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using Xunit;
-
 namespace SchoolRegister.Tests.UnitTests
 {
     public class GradeServiceUnitTests : BaseUnitTests
     {
         private readonly IGradeService _gradeService;
-
         public GradeServiceUnitTests(ApplicationDbContext dbContext, IGradeService gradeService) : base(dbContext)
         {
-            _gradeService = gradeService;         
+            _gradeService = gradeService;
         }
-
+        
         [Fact]
-        public void GetGradesForStudentByTeacher()
+        public void AddGradeToStudent()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var gradeVm = new AddGradeAsyncVm()
             {
-
-                StudentId = 5,        
-                UserId = 1          
-                         
-            };
-            var gradesReport = _gradeService.GetGrades(getGradesForStudent);
-            Assert.NotNull(gradesReport);
-        }
-        [Fact]
-        public void GetGradesForStudentByStudent()
-        {
-            var getGradesForStudent = new GetGradesVm()
-            {
-
                 StudentId = 5,
-                UserId = 5      
-
+                SubjectId = 1,
+                GradeValue = GradeScale.DB,
+                TeacherId = 1
             };
-            var gradesReport = _gradeService.GetGrades(getGradesForStudent);
-            Assert.NotNull(gradesReport);
+            var grade = _gradeService.AddGradeAsync(gradeVm);
+            Assert.NotNull(grade);
+            Assert.Equal(2, DbContext.Grades.Count());
         }
+
+        // Moze kiedys...
+
+        /*
         [Fact]
-        public void GetGradesForStudentByParent()
+        public void GetGradesReportForStudentByTeacher()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var getGradesReportForStudent = new GetGradesReportVm()
             {
-
                 StudentId = 5,
-                UserId = 3        
-
+                GetterUserId = 1
             };
-            var gradesReport = _gradeService.GetGrades(getGradesForStudent);
+            var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
             Assert.NotNull(gradesReport);
-
-
         }
-                         
+        */
+        /*
+        [Fact]
+        public void GetGradesReportForStudentByStudent()
+        {
+            var getGradesReportForStudent = new GetGradesReportVm()
+            {
+                StudentId = 5,
+                GetterUserId = 5
+            };
+            var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+            Assert.NotNull(gradesReport);
+        }
+        */
+        /*
+        [Fact]
+        public void GetGradesReportForStudentByParent()
+        {
+            var getGradesReportForStudent = new GetGradesReportVm()
+            {
+                StudentId = 5,
+                GetterUserId = 3
+            };
+            var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
+            Assert.NotNull(gradesReport);
+        }
+        */
     }
 }
