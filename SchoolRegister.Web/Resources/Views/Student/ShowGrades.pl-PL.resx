@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="ShowGrades" xml:space="preserve">
+        <value>Pokaż Oceny</value>
+    </data>
+    <data name="StudentId" xml:space="preserve">
+        <value>ID Studenta</value>
+    </data>
+    <data name="StudentName" xml:space="preserve">
+        <value>Nazwa Studenta</value>
+    </data>
+    <data name="SubjectName" xml:space="preserve">
+        <value>Nazwa Przedmiotu</value>
+    </data>
+    <data name="GradeValue" xml:space="preserve">
+        <value>Wartość Oceny</value>
+    </data>
+    <data name="TeacherName" xml:space="preserve">
+        <value>Nazwa Nauczyciela</value>
+    </data>
+    <data name="DateOfIssue" xml:space="preserve">
+        <value>Data Wystawienia</value>
+    </data>
+</root>

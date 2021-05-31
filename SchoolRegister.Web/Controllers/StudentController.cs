@@ -163,13 +163,42 @@ namespace SchoolRegister.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var gg = _teacherService.AddGradeToStudent(grade).Result;
+                _teacherService.AddGradeToStudent(grade);
                 return RedirectToAction("Index");
             }
             return View();
         }
 
 
+
+        [HttpGet]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult SendEmailToParent(int parentId)
+        {
+            var teacher = _userManager.GetUserAsync(User).Result as Teacher;
+            ViewBag.EmailInfo = new SendEmailToParentVm()
+            {
+                TeacherId = teacher.Id,
+                ParentId = parentId
+            };
+
+            ViewBag.ActionType = "Send";
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult SendEmailToParent(SendEmailToParentVm emailToParentVm)
+        {
+            if (ModelState.IsValid)
+            {
+                _teacherService.SendEmailToParent(emailToParentVm);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
 
     }
 }

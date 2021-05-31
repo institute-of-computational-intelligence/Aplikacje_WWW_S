@@ -57,8 +57,8 @@ namespace SchoolRegister.Web
                 var config = ServiceProvider.GetRequiredService<IConfiguration>();
                 return new SmtpClient()
                 {
-                    Host = config.GetValue<string>("Email:SMtp:Host"),
-                    Port = config.GetValue<int>("Email:Stmp:Port"),
+                    Host = config.GetValue<string>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,

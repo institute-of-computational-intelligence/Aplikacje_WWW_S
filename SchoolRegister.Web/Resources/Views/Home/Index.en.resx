@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="HomePage" xml:space="preserve">
+        <value>Home Page</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Welcome</value>
+    </data>
+    <data name="LearnAbout" xml:space="preserve">
+        <value>Learn About</value>
+    </data>
+    <data name="LearnAboutText" xml:space="preserve">
+        <value>building Web apps with ASP.NET Core</value>
+    </data>
+
+</root>

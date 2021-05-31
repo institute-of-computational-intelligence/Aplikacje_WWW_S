@@ -18,8 +18,10 @@ namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
     {
-        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger, userManager)
+        private SmtpClient _smtpClient;
+        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager, SmtpClient smtpClient) : base(dbContext, mapper, logger, userManager)
         {
+            _smtpClient = smtpClient;
         }
 
         public async Task<Grade> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
@@ -94,15 +96,9 @@ namespace SchoolRegister.Services.Services
                     throw new UnauthorizedAccessException("Access denied. Only user with role Teacher privilege to call this method");
 
 
-                SmtpClient client = new SmtpClient()
-                {
-                    EnableSsl = true,
-                    Credentials = CredentialCache.DefaultNetworkCredentials
-                };
-
                 MailMessage msg = new MailMessage(teacher.Email, parent.Email, sendEmailToParent.Title, sendEmailToParent.Content);
-                await client.SendMailAsync(msg);
-                client.Dispose();
+                await _smtpClient.SendMailAsync(msg);
+                _smtpClient.Dispose();
             }
             catch (Exception e)
             {

@@ -1,29 +1,30 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.DisplayGradeVm>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "ShowGrades";
+    ViewData["Title"] = Localizer["ShowGrades"];
 }
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.StudentId)
+                @Localizer[Html.DisplayNameFor(model => model.StudentId)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentName)
+                @Localizer[Html.DisplayNameFor(model => model.StudentName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectName)
+                @Localizer[Html.DisplayNameFor(model => model.SubjectName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GradeValue)
+                @Localizer[Html.DisplayNameFor(model => model.GradeValue)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherName)
+                @Localizer[Html.DisplayNameFor(model => model.TeacherName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateOfIssue)
+                @Localizer[Html.DisplayNameFor(model => model.DateOfIssue)]
             </th>
             <th></th>
         </tr>

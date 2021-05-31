@@ -1,5 +1,6 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,9 +8,6 @@
 
 <h1>Student</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -17,25 +15,25 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Localizer[Html.DisplayNameFor(model => model.FirstName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Localizer[Html.DisplayNameFor(model => model.LastName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParentName)
+                @Localizer[Html.DisplayNameFor(model => model.ParentName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ParentId)
+                @Localizer[Html.DisplayNameFor(model => model.ParentId)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GroupName)
+                @Localizer[Html.DisplayNameFor(model => model.GroupName)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AverageGrade)
+                @Localizer[Html.DisplayNameFor(model => model.AverageGrade)]
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Localizer[Html.DisplayNameFor(model => model.UserName)]
             </th>
             <th></th>
         </tr>
@@ -71,16 +69,18 @@
                 <td>
                     @if (User.IsInRole("Student") || User.IsInRole("Parent"))
                     {
-                        <a asp-action="ShowGrades" asp-route-id="@item.Id">Show Grades</a>
+                        <a asp-action="ShowGrades" asp-route-id="@item.Id">@Localizer["ShowGrades"]</a>
                     }
                     @if (User.IsInRole("Admin"))
                     {
-                        <a asp-action="AddToGroup" asp-route-id="@item.Id">Add to group</a> @: |
-                        <a asp-action="RemoveFromGroup" asp-route-id="@item.Id">Remove from group</a>
+                        <a asp-action="AddToGroup" asp-route-id="@item.Id">@Localizer["AddToGroup"]</a> @: |
+                        <a asp-action="RemoveFromGroup" asp-route-id="@item.Id">@Localizer["RemoveFromGroup"]</a>
                     }
                     @if (User.IsInRole("Teacher"))
                     {
-                        <a asp-action="AddGradeToStudent" asp-route-id="@item.Id">Add Grade</a>
+                        <a asp-action="AddGradeToStudent" asp-route-id="@item.Id">@Localizer["AddGrade"]</a> @: |
+                        <a asp-action="SendEmailToParent"
+                    asp-route-parentId="@item.ParentId">@Localizer["SendEmailToParent"]</a>
                     }
 
                 </td>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="CreateNew" xml:space="preserve">
+        <value>Create New</value>
+    </data>
+    <data name="FirstName" xml:space="preserve">
+        <value>First Name</value>
+    </data>
+    <data name="LastName" xml:space="preserve">
+        <value>Last Name</value>
+    </data>
+    <data name="ParentName" xml:space="preserve">
+        <value>Parent Name</value>
+    </data>
+    <data name="ParentID" xml:space="preserve">
+        <value>Parent ID</value>
+    </data>
+    <data name="GroupName" xml:space="preserve">
+        <value>Group Name</value>
+    </data>
+    <data name="AverageGrade" xml:space="preserve">
+        <value>Average Grade</value>
+    </data>
+    <data name="UserName" xml:space="preserve">
+        <value>User Name</value>
+    </data>
+    <data name="ShowGrades" xml:space="preserve">
+        <value>Show Grades</value>
+    </data>
+    <data name="AddToGroup" xml:space="preserve">
+        <value>Add To Group</value>
+    </data>
+    <data name="RemoveFromGroup" xml:space="preserve">
+        <value>Remove From Group</value>
+    </data>
+    <data name="AddGrade" xml:space="preserve">
+        <value>Add Grade</value>
+    </data>
+    <data name="SendEmailToParent" xml:space="preserve">
+        <value>Send Email To Parent</value>
+    </data>
+</root>

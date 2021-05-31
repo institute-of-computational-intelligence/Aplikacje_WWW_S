@@ -1,48 +1,49 @@
 @model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "AddGradeToStudent";
+    ViewData["Title"] = Localizer["AddGrade"];
 }
 
-<h1>Add Grade</h1>
+<h1>@Localizer["AddGrade"]</h1>
 
-<h4>AddGradeToStudentVm</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddGradeToStudent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
+                <label asp-for="StudentId" class="control-label">@Localizer["StudentId"]</label>
                 <input asp-for="StudentId" class="form-control" value="@ViewBag.StudentTeacherList.StudentId"
                     readonly />
                 <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
+                <label asp-for="TeacherId" class="control-label">@Localizer["TeacherID"]</label>
                 <input asp-for="TeacherId" class="form-control" value="@ViewBag.StudentTeacherList.TeacherId"
                     readonly />
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SubjectId" class="control-label"></label>
+                <label asp-for="SubjectId" class="control-label">@Localizer["SubjectID"]</label>
                 <input asp-for="SubjectId" class="form-control" />
                 <span asp-validation-for="SubjectId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GradeValue" class="control-label"></label>
+                <label asp-for="GradeValue" class="control-label">@Localizer["GradeValue"]</label>
                 <input asp-for="GradeValue" class="form-control" />
                 <span asp-validation-for="GradeValue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-primary" />
+                <input type="submit" value="@ViewBag.ActionType" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {

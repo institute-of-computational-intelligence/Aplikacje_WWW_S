@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Name" xml:space="preserve">
+        <value>Subject Name</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>Description</value>
+    </data>
+    <data name="TeacherId" xml:space="preserve">
+        <value>Teacher Id</value>
+    </data>
+    <data name="BackToList" xml:space="preserve">
+        <value>Back To List</value>
+    </data>
+</root>

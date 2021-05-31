@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="AddGrade" xml:space="preserve">
+        <value>Add Grade to Student</value>
+    </data>
+    <data name="StudentID" xml:space="preserve">
+        <value>Student ID</value>
+    </data>
+    <data name="TeacherID" xml:space="preserve">
+        <value>Teachers ID</value>
+    </data>
+    <data name="SubjectID" xml:space="preserve">
+        <value>Subject ID</value>
+    </data>
+    <data name="GradeValue" xml:space="preserve">
+        <value>Grade Value</value>
+    </data>
+    <data name="BackToList" xml:space="preserve">
+        <value>Back To List</value>
+    </data>
+</root>

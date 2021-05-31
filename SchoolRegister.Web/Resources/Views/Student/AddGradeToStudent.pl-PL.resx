@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="AddGrade" xml:space="preserve">
+        <value>Dodaj ocenę do studenta</value>
+    </data>
+    <data name="StudentID" xml:space="preserve">
+        <value>ID Studenta</value>
+    </data>
+    <data name="TeacherID" xml:space="preserve">
+        <value>ID Nauczyciela</value>
+    </data>
+    <data name="SubjectID" xml:space="preserve">
+        <value>ID Przedmiotu</value>
+    </data>
+    <data name="GradeValue" xml:space="preserve">
+        <value>Wartosc Oceny</value>
+    </data>
+    <data name="BackToList" xml:space="preserve">
+        <value>Powrót do listy</value>
+    </data>
+</root>

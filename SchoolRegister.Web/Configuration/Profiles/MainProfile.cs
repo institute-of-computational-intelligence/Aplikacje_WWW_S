@@ -20,7 +20,7 @@ namespace SchoolRegister.Web.Configuration.Profiles
 
             CreateMap<Teacher, TeacherVm>();
             CreateMap<Student, StudentVm>()
-                .ForMember(dest => dest.ParentName, x => x.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                .ForMember(dest => dest.ParentName, x => x.MapFrom(src => $"{src.Parent.FirstName} {src.Parent.LastName}"));
 
             CreateMap<Grade, DisplayGradeVm>()
                 .ForMember(dest => dest.StudentName, x => x.MapFrom(src => $"{src.Student.FirstName} {src.Student.LastName}"))

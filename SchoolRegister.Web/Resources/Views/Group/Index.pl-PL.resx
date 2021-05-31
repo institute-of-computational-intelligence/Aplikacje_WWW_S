@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Group" xml:space="preserve">
+        <value>Grupy</value>
+    </data>
+    <data name="CreateNew" xml:space="preserve">
+        <value>Stwórz nowy</value>
+    </data>
+    <data name="Actions" xml:space="preserve">
+        <value>Akcje</value>
+    </data>
+    <data name="Remove" xml:space="preserve">
+        <value>Usuń</value>
+    </data>
+
+</root>

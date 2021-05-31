@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Name" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="BackToList" xml:space="preserve">
+        <value>Back to list</value>
+    </data>
+</root>

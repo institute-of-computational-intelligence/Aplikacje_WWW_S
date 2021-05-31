@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Subject" xml:space="preserve">
+        <value>Przedmiot</value>
+    </data>
+    <data name="CreateNew" xml:space="preserve">
+        <value>Utwórz Nowy</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+        <value>Nazwa Przedmiotu</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>Opis</value>
+    </data>
+    <data name="TeacherName" xml:space="preserve">
+        <value>Nazwa Nauczyciela</value>
+    </data>
+    <data name="GroupCount" xml:space="preserve">
+        <value>Ilość Grup</value>
+    </data>
+
+    <data name="Edit" xml:space="preserve">
+        <value>Edytuj</value>
+    </data>
+    <data name="AttachToGroup" xml:space="preserve">
+        <value>Dodaj Przedmiot do Grupy</value>
+    </data>
+    <data name="DetachFromGroup" xml:space="preserve">
+        <value>Usuń Przedmiot Z Grupy</value>
+    </data>
+    <data name="Details" xml:space="preserve">
+        <value>Więcej</value>
+    </data>
+</root>

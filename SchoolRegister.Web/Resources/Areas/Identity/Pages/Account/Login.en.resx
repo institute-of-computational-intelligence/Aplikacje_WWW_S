@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Login" xml:space="preserve">
+        <value>Login</value>
+    </data>
+    <data name="Info1" xml:space="preserve">
+        <value>Use a local account to log in.</value>
+    </data>
+    <data name="Password" xml:space="preserve">
+        <value>Password</value>
+    </data>
+    <data name="RememberMe" xml:space="preserve">
+        <value>Remember Me</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Forgot Your Password?</value>
+    </data>
+    <data name="Register" xml:space="preserve">
+        <value>Register as a new user</value>
+    </data>
+    <data name="ResendEmail" xml:space="preserve">
+        <value>Resend email confirmation</value>
+    </data>
+    <data name="Info2" xml:space="preserve">
+        <value>Use another service to log in.</value>
+    </data>
+    <data name="Info3" xml:space="preserve">
+        <value>There are no external authentication services configured. See </value>
+    </data>
+    <data name="Info4" xml:space="preserve">
+        <value>this article</value>
+    </data>
+    <data name="Info5" xml:space="preserve">
+        <value>for details on setting up this ASP.NET application to support logging in via external services.</value>
+    </data>
+
+</root>

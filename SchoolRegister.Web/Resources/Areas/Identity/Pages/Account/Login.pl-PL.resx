@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Login" xml:space="preserve">
+        <value>Zaloguj</value>
+    </data>
+    <data name="Info1" xml:space="preserve">
+        <value>Użyj lokalnego konta do zalogowania.</value>
+    </data>
+    <data name="Password" xml:space="preserve">
+        <value>Hasło</value>
+    </data>
+    <data name="RememberMe" xml:space="preserve">
+        <value>Pamiętaj Mnie</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Zapomniałeś/aś swojego hasła?</value>
+    </data>
+    <data name="Register" xml:space="preserve">
+        <value>Zarejestruj się jako nowy użytkownik</value>
+    </data>
+    <data name="ResendEmail" xml:space="preserve">
+        <value>Wyślij jeszcze raz email z potwierdzeniem</value>
+    </data>
+    <data name="Info2" xml:space="preserve">
+        <value>Uzyj innego serwisu do zalogowania się.</value>
+    </data>
+    <data name="Info3" xml:space="preserve">
+        <value>Nie ma żadnych skonfigurowanych zewnętrznych serwisów. Zobacz </value>
+    </data>
+    <data name="Info4" xml:space="preserve">
+        <value>ten artykuł</value>
+    </data>
+    <data name="Info5" xml:space="preserve">
+        <value>po więcej informacji dotyczących konfigurowania aplikacji ASP.NET aby wspierała logowanie przez zewnętrzne serwisy.</value>
+    </data>
+
+</root>
