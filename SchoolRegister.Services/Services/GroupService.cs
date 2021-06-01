@@ -1,56 +1,52 @@
-using System;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System.Threading.Tasks;
+using System;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class GroupService : BaseService, IGroupService
     {
-        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
+        public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger, userManager)
         {
-
         }
 
-        public async void AddGroupAsync(AddGroupVm addGroupVm)
-        {
-            if (string.IsNullOrEmpty(addGroupVm.Name))
-            {
-                throw new ArgumentNullException("Name value cannot be null or empty!");
-            }
-
-            var groupToBeAdded = new Group() { Name = addGroupVm.Name };
-
-            await DbContext.AddAsync(groupToBeAdded);
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async void DeleteGroupAsync(DeleteGroupVm deleteGroupVm)
+        public void AddOrRemoveGroup(GroupVm groupVm)
         {
             try
             {
-                var groupToBeDelted = DbContext.Groups.FirstOrDefault(g => g.Id == deleteGroupVm.Id);
+                if (groupVm is null)
+                    throw new ArgumentNullException("View model parametr is missing");
 
-                if (groupToBeDelted == null)
+                var group = Mapper.Map<Group>(groupVm);
+
+                if (!groupVm.Id.HasValue || groupVm.Id == 0)
                 {
-                    throw new ArgumentNullException($"Could not find group with id: {deleteGroupVm.Id}");
+                    if (String.IsNullOrEmpty(group.Name))
+                        throw new ArgumentNullException("Provide valid group name.");
+                    DbContext.Groups.Add(group);
+                }
+                else
+                {
+                    if (DbContext.Groups.Any(g => g.Id == groupVm.Id))
+                        DbContext.Groups.Remove(group);
+                    else
+                        throw new ArgumentNullException("Group with specified Id does not exist.");
                 }
 
-                DbContext.Groups.Remove(groupToBeDelted);
-                await DbContext.SaveChangesAsync();
+                DbContext.SaveChanges();
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Logger.LogError(exception.Message);
+                Logger.LogError(e, e.Message);
+                throw;
             }
         }
     }

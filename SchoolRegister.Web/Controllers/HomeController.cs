@@ -7,13 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.ViewModels.VM;
 
-namespace SchoolRegister.Web.Controllers
 
+namespace SchoolRegister.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -21,6 +20,7 @@ namespace SchoolRegister.Web.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

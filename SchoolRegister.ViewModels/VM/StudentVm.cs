@@ -1,12 +1,14 @@
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class RemoveFromGroupVm
+    public class StudentVm
     {
         [Required]
         public int StudentId { get; set; }
+
+        [Required]
+        public int GroupId { get; set; }
     }
 }

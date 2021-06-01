@@ -1,10 +1,3 @@
-using System.Net;
-using System.Net.Mail;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,95 +5,101 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using System;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 
 namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
     {
-        private readonly UserManager<User> userManager;
-
-        public TeacherService(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
-            : base(dbContext, mapper, logger)
+        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger, userManager)
         {
-            this.userManager = userManager;
         }
 
-        public async void AddGradeAsync(AddGradeAsyncVm addGradeVm)
+        public async Task<Grade> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
             try
             {
-                var teacher = DbContext.Users.FirstOrDefault(u => u.Id == addGradeVm.TeacherId);
+                Grade grade = null;
+                if (addGradeToStudentVm is null)
+                    throw new ArgumentNullException("View model parametr is missing");
 
-                if (teacher == null)
+                if (addGradeToStudentVm.TeacherId != 0 || addGradeToStudentVm.StudentId != 0)
                 {
-                    throw new ArgumentNullException("Could not find specified teacherId.");
-                }
+                    var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeToStudentVm.TeacherId);
 
-                if (await userManager.IsInRoleAsync(teacher, "Teacher"))
-                {
-                    var student = DbContext.Users.FirstOrDefault(u => u.Id == addGradeVm.StudentId);
+                    if (teacher is null)
+                        throw new ArgumentNullException("Could not find Teacher with specified Id.");
 
-                    if (student == null)
+                    if (await UserManager.IsInRoleAsync(teacher, "Teacher"))
                     {
-                        throw new ArgumentNullException("Could not find specified studentId.");
+                        grade = new Grade()
+                        {
+                            DateOfIssue = DateTime.Now,
+                            GradeValue = addGradeToStudentVm.GradeValue,
+                            StudentId = addGradeToStudentVm.StudentId,
+                            SubjectId = addGradeToStudentVm.SubjectId
+                        };
+
+                        await DbContext.Grades.AddAsync(grade);
                     }
-
-                    var grade = new Grade()
-                    {
-                        DateOfIssue = DateTime.Now,
-                        GradeValue = addGradeVm.GradeValue,
-                        StudentId = addGradeVm.StudentId,
-                        SubjectId = addGradeVm.SubjectId
-                    };
-
-                    await DbContext.Grades.AddAsync(grade);
-                    await DbContext.SaveChangesAsync();
+                    else
+                        throw new UnauthorizedAccessException("Only Teacher can add grades.");
                 }
                 else
-                {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
-                }
+                    throw new ArgumentNullException("View model paramet requires all fields to be set");
+
+                await DbContext.SaveChangesAsync();
+                return grade;
+
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Logger.LogError(exception.Message);
+                Logger.LogError(e, e.Message);
+                throw;
             }
         }
 
-        public async void SendEmailToParent(SendEmailVm sendEmailVm)
+        public async void SendEmailToParent(SendEmailToParentVm sendEmailToParent)
         {
-            var sender = DbContext.Users.FirstOrDefault(u => u.Id == sendEmailVm.SenderId);
-
-            if (sender == null)
+            try
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
+                if (sendEmailToParent is null)
+                    throw new ArgumentNullException("View model parametr is missing");
+
+                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == sendEmailToParent.TeacherId);
+                var parent = DbContext.Users.OfType<Parent>().FirstOrDefault(p => p.Id == sendEmailToParent.ParentId);
+
+                if (teacher is null || parent is null)
+                    throw new ArgumentNullException("Could not find teacher or user with specified Id");
+
+
+
+
+                if (!(await UserManager.IsInRoleAsync(teacher, "Teacher") && await UserManager.IsInRoleAsync(parent, "Parent")))
+                    throw new UnauthorizedAccessException("Access denied. Only user with role Teacher privilege to call this method");
+
+
+                SmtpClient client = new SmtpClient()
+                {
+                    EnableSsl = true,
+                    Credentials = CredentialCache.DefaultNetworkCredentials
+                };
+
+                MailMessage msg = new MailMessage(teacher.Email, parent.Email, sendEmailToParent.Title, sendEmailToParent.Content);
+                await client.SendMailAsync(msg);
+                client.Dispose();
             }
-
-            var recipient = DbContext.Users.FirstOrDefault(u => u.Id == sendEmailVm.RecipientId);
-
-            if (recipient == null)
+            catch (Exception e)
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
-            }
-
-            if (await userManager.IsInRoleAsync(sender, "Teacher") && await userManager.IsInRoleAsync(recipient, "Parent"))
-            {
-                var message = new MailMessage(sender.Email, recipient.Email, sendEmailVm.EmailSubject, sendEmailVm.EmailBody);
-
-                string sendEmailsFrom = "emailAddress@mydomain.com";
-                string sendEmailsFromPassword = "password";
-                NetworkCredential credentials = new NetworkCredential(sendEmailsFrom, sendEmailsFromPassword);
-
-                var client = new SmtpClient("smtp.gmail.com", 587);
-
-                client.EnableSsl = true;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.UseDefaultCredentials = false;
-                client.Timeout = 20000;
-                client.Credentials = credentials;
-
-                client.Send(message);
+                Logger.LogError(e, e.Message);
+                throw;
             }
         }
     }

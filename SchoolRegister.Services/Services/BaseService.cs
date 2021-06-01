@@ -12,11 +12,22 @@ namespace SchoolRegister.Services.Services
         protected readonly ApplicationDbContext DbContext;
         protected readonly ILogger Logger;
         protected readonly IMapper Mapper;
+        protected readonly UserManager<User> UserManager = null;
+
         public BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger)
         {
             DbContext = dbContext;
             Logger = logger;
             Mapper = mapper;
+
+        }
+
+        public BaseService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager)
+        {
+            DbContext = dbContext;
+            Logger = logger;
+            Mapper = mapper;
+            UserManager = userManager;
         }
     }
 }

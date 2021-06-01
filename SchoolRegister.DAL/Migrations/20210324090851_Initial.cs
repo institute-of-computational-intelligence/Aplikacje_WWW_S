@@ -219,7 +219,7 @@ namespace SchoolRegister.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grades", x => new { x.DateOfIssue, x.SubjectId, x.StudentId });
+                    table.PrimaryKey("PK_Grades", x => new { x.DateOfIssue, x.StudentId, x.SubjectId });
                     table.ForeignKey(
                         name: "FK_Grades_AspNetUsers_StudentId",
                         column: x => x.StudentId,
@@ -235,7 +235,7 @@ namespace SchoolRegister.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubjetctGroups",
+                name: "SubjectGroups",
                 columns: table => new
                 {
                     GroupId = table.Column<int>(type: "int", nullable: false),
@@ -243,15 +243,15 @@ namespace SchoolRegister.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubjetctGroups", x => new { x.GroupId, x.SubjectId });
+                    table.PrimaryKey("PK_SubjectGroups", x => new { x.GroupId, x.SubjectId });
                     table.ForeignKey(
-                        name: "FK_SubjetctGroups_Groups_GroupId",
+                        name: "FK_SubjectGroups_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SubjetctGroups_Subjects_SubjectId",
+                        name: "FK_SubjectGroups_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
@@ -318,14 +318,14 @@ namespace SchoolRegister.DAL.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SubjectGroups_SubjectId",
+                table: "SubjectGroups",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Subjects_TeacherId",
                 table: "Subjects",
                 column: "TeacherId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SubjetctGroups_SubjectId",
-                table: "SubjetctGroups",
-                column: "SubjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -349,7 +349,7 @@ namespace SchoolRegister.DAL.Migrations
                 name: "Grades");
 
             migrationBuilder.DropTable(
-                name: "SubjetctGroups");
+                name: "SubjectGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

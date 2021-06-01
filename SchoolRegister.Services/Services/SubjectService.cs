@@ -10,34 +10,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-
 namespace SchoolRegister.Services.Services
 {
-
     public class SubjectService : BaseService, ISubjectService
     {
         public SubjectService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
         {
-
         }
+
         public SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm)
         {
             try
             {
                 if (addOrUpdateVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
+                    throw new ArgumentNullException($"View model parametr is null");
+
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm);
+
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
                     DbContext.Subjects.Add(subjectEntity);
                 else
                     DbContext.Subjects.Update(subjectEntity);
+
                 DbContext.SaveChanges();
+
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
                 return subjectVm;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(e, e.Message);
                 throw;
             }
         }
@@ -47,17 +49,20 @@ namespace SchoolRegister.Services.Services
             try
             {
                 if (filterExpression == null)
-                    throw new ArgumentNullException($"FilterExpression is null");
+                    throw new ArgumentNullException($" FilterExpression is null");
+
                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
+
                 return subjectVm;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(e, e.Message);
                 throw;
             }
         }
+
         public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null)
         {
             try
@@ -65,15 +70,17 @@ namespace SchoolRegister.Services.Services
                 var subjectEntities = DbContext.Subjects.AsQueryable();
                 if (filterExpression != null)
                     subjectEntities = subjectEntities.Where(filterExpression);
+
                 var subjectVms = Mapper.Map<IEnumerable<SubjectVm>>(subjectEntities);
+
                 return subjectVms;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.LogError(ex, ex.Message);
+                Logger.LogError(e, e.Message);
                 throw;
             }
         }
-    }
 
+    }
 }

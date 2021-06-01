@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
+
 
 namespace SchoolRegister.Model.DataModels
 {
@@ -10,6 +10,7 @@ namespace SchoolRegister.Model.DataModels
         Student = 1,
         Parent = 2,
         Teacher = 3,
-        Admin = 4,
+        Admin = 4
     }
+
 }

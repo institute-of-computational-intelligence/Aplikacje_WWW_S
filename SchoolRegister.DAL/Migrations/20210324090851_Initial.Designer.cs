@@ -10,7 +10,7 @@ using SchoolRegister.DAL.EF;
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210325163801_Initial")]
+    [Migration("20210324090851_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,16 +131,16 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
 
-                    b.HasKey("DateOfIssue", "SubjectId", "StudentId");
+                    b.HasKey("DateOfIssue", "StudentId", "SubjectId");
 
                     b.HasIndex("StudentId");
 
@@ -234,7 +234,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjetctGroups");
+                    b.ToTable("SubjectGroups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.User", b =>

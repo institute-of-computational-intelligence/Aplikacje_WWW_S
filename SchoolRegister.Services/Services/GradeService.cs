@@ -1,53 +1,53 @@
-using System;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System.Threading.Tasks;
+using System;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class GradeService : BaseService, IGradeService
     {
-        private readonly UserManager<User> userManager;
-
-        public GradeService(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, ILogger logger) : base(dbContext, mapper, logger)
+        public GradeService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger, userManager)
         {
-            this.userManager = userManager;
         }
 
-        public async Task<IEnumerable<Grade>> GetGrades(CheckGradesVm checkGradesVm)
+        public async Task<IEnumerable<Grade>> DisplayGrades(GetGradesVm gradesVm)
         {
             try
             {
-                var user = DbContext.Users.FirstOrDefault(u => u.Id == checkGradesVm.CurrentUserId);
+                if (gradesVm is null)
+                    throw new ArgumentNullException("View model parametr is missing");
 
-                if (user == null)
-                {
-                    throw new ArgumentNullException($"Could not find user with id: {checkGradesVm.CurrentUserId}");
-                }
+                var parentOrStudent = DbContext.Users.FirstOrDefault(ps => ps.Id == gradesVm.CallerId);
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == gradesVm.StudentId);
 
-                if (await userManager.IsInRoleAsync(user, "Parent") || await userManager.IsInRoleAsync(user, "Student"))
-                {
-                    var grades = DbContext.Grades.Where(g => g.StudentId == checkGradesVm.StudentId).ToList();
+                if (parentOrStudent is null || student is null)
+                    throw new ArgumentNullException("Could not find specified Student or Parent");
 
-                    return grades;
-                }
+                if (!(await UserManager.IsInRoleAsync(parentOrStudent, "Parent") || await UserManager.IsInRoleAsync(parentOrStudent, "Student")))
+                    throw new UnauthorizedAccessException("Access denied. Only Student or Parent have privileges to call this method");
+
+                List<Grade> grades;
+
+                if (parentOrStudent.Id == student.Id)
+                    grades = student.Grades.ToList();
+                else if (parentOrStudent.Id == student.ParentId)
+                    grades = student.Grades.ToList();
                 else
-                {
-                    throw new ArgumentException("Current user does not have required permissions to performe this action.");
-                }
+                    throw new UnauthorizedAccessException("Access denied. Only your parent or student himself have permissions to view grades");
+
+                return grades;
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Logger.LogError(exception.Message);
+                Logger.LogError(e, e.Message);
                 throw;
             }
         }

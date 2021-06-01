@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using SchoolRegister.Model.DataModels;
+using System.Threading.Tasks;
 using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        void AddGradeAsync(AddGradeAsyncVm addGradeVm);
-        void SendEmailToParent(SendEmailVm sendEmailVm);
+        Task<Grade> AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm);
+        void SendEmailToParent(SendEmailToParentVm sendEmailToParent);
     }
 }

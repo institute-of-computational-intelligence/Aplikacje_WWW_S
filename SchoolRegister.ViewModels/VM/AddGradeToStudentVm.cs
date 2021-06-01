@@ -1,9 +1,10 @@
-using SchoolRegister.Model.DataModels;
 using System.ComponentModel.DataAnnotations;
+using System;
+using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class AddGradeAsyncVm
+    public class AddGradeToStudentVm
     {
         [Required]
         public int StudentId { get; set; }
@@ -16,5 +17,6 @@ namespace SchoolRegister.ViewModels.VM
 
         [Required]
         public GradeScale GradeValue { get; set; }
+
     }
 }

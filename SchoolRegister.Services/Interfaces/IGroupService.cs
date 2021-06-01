@@ -8,7 +8,6 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGroupService
     {
-        void DeleteGroupAsync(DeleteGroupVm deleteGroupVm);
-        void AddGroupAsync(AddGroupVm addGroupVm);
+        void AddOrRemoveGroup(GroupVm groupVm);
     }
 }
