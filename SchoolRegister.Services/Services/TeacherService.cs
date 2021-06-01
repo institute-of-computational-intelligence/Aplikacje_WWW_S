@@ -25,7 +25,7 @@ namespace SchoolRegister.Services.Services
             this.userManager = userManager;
         }
 
-        public async void AddGradeAsync(AddGradeAsyncVm addGradeVm)
+        public async void AddGradeAsync(AddGradeToStudentVm addGradeVm)
         {
             try
             {

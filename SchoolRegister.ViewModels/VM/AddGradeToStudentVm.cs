@@ -3,7 +3,7 @@ using SchoolRegister.Model.DataModels;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class AddGradeAsyncVm
+    public class AddGradeToStudentVm
     {
         [Required]
         public int StudentId{ get; set; }

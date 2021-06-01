@@ -4,7 +4,7 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface ITeacherService
     {
-        void AddGradeAsync(AddGradeAsyncVm addGradeVm);
+        void AddGradeAsync(AddGradeToStudentVm addGradeVm);
         void SendEmailToParent(SendEmailVm sendEmailVm);
     }
 }
