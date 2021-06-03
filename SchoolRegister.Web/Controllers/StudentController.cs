@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -33,20 +35,51 @@ namespace SchoolRegister.Web.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Student, bool>> filterExpression = null;
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.FirstName.Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
             var user = _userManager.GetUserAsync(User).Result;
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_studentService.GetStudents());
+            {
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+
+                return View(studentVms);
+            }
 
             if (_userManager.IsInRoleAsync(user, "Student").Result)
-                return RedirectToAction("Details", "Student", new { studentId = user.Id });
+            {
+                if (user is Student)
+                {
+                    var student = _userManager.GetUserAsync(User).Result as Student;
 
+                    Expression<Func<Student, bool>> groupFilterExpression = s => s.GroupId == student.GroupId;
+                    Expression finalFilterBody;
+
+                    if (filterExpression != null)
+                    {
+                        var invokedFilterExpr = Expression.Invoke(filterExpression, groupFilterExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(groupFilterExpression.Body, invokedFilterExpr);
+                    }
+                    else finalFilterBody = groupFilterExpression.Body;
+
+                    var finalFilterExpression = Expression.Lambda<Func<Student, bool>>(finalFilterBody, groupFilterExpression.Parameters);
+                    var studentVms = _studentService.GetStudents(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_StudentsTableDataPartial", studentVms);
+                    return View(studentVms);
+                }
+                throw new Exception("Student is assigned to role, but its not type Student");
+            }
             if (_userManager.IsInRoleAsync(user, "Parent").Result)
                 return View(_studentService.GetStudents(s => s.ParentId == user.Id));
-
             if (_userManager.IsInRoleAsync(user, "Teacher").Result)
-                return View(_studentService.GetStudents());
+                return RedirectToAction("Index", "Student");
 
             return View("Error");
         }
