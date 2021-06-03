@@ -62,5 +62,10 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        public bool RemoveSubject(Expression<Func<Subject,bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
