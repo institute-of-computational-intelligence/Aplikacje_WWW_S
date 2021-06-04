@@ -1,10 +1,10 @@
+using System;
+using System.Data;
+using System.Linq;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System;
-using System.Data;
-using System.Linq;
 using Xunit;
 
 namespace SchoolRegister.Tests.UnitTests
@@ -23,10 +23,10 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Groups.First(x => x.Id == 1).Students.Count();
 
-            var addStudentToGroup = new AddStudentToGroupVm()
+            var addStudentToGroup = new AddStudentToGroupVm
             {
                 StudentId = 10,
-                GroupId = 1,
+                GroupId = 1
             };
 
             var updatedGroup = await _studentService.AddStudentToGroupAsync(addStudentToGroup);
@@ -43,14 +43,15 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Groups.First(x => x.Id == 1).Students.Count();
 
-            var addStudentToGroup = new AddStudentToGroupVm()
+            var addStudentToGroup = new AddStudentToGroupVm
             {
                 StudentId = 12, // User with Id 12 is teacher
-                GroupId = 1,
+                GroupId = 1
             };
 
             // Should throw ArgumentNullException because user with Id 12 is not student
-            await Assert.ThrowsAsync<ArgumentNullException>(() => _studentService.AddStudentToGroupAsync(addStudentToGroup));
+            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                _studentService.AddStudentToGroupAsync(addStudentToGroup));
             var countAfter = DbContext.Groups.First(x => x.Id == 1).Students.Count();
 
             Assert.Equal(countBefore, countAfter);
@@ -63,13 +64,14 @@ namespace SchoolRegister.Tests.UnitTests
 
             var countBefore = DbContext.Groups.First(x => x.Id == 3).Students.Count();
 
-            var addStudentToGroup = new AddStudentToGroupVm()
+            var addStudentToGroup = new AddStudentToGroupVm
             {
                 StudentId = 10,
-                GroupId = 3,
+                GroupId = 3
             };
 
-            await Assert.ThrowsAsync<DuplicateNameException>(() => _studentService.AddStudentToGroupAsync(addStudentToGroup));
+            await Assert.ThrowsAsync<DuplicateNameException>(() =>
+                _studentService.AddStudentToGroupAsync(addStudentToGroup));
             var countAfter = DbContext.Groups.First(x => x.Id == 3).Students.Count();
 
             Assert.Equal(countBefore, countAfter);
@@ -80,10 +82,10 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Groups.First(x => x.Id == 3).Students.Count();
 
-            var removeStudentFromGroup = new RemoveStudentFromGroupVm()
+            var removeStudentFromGroup = new RemoveStudentFromGroupVm
             {
                 StudentId = 10,
-                GroupId = 3,
+                GroupId = 3
             };
 
             var updatedGroup = await _studentService.RemoveStudentFromGroupAsync(removeStudentFromGroup);
@@ -100,10 +102,10 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Groups.First(x => x.Id == 1).Students.Count();
 
-            var removeStudentFromGroup = new RemoveStudentFromGroupVm()
+            var removeStudentFromGroup = new RemoveStudentFromGroupVm
             {
                 StudentId = 10,
-                GroupId = 1,
+                GroupId = 1
             };
 
             var updatedGroup = await _studentService.RemoveStudentFromGroupAsync(removeStudentFromGroup);

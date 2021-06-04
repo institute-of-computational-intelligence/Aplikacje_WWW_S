@@ -1,0 +1,47 @@
+@model SchoolRegister.ViewModels.VM.AddGradeToStudentVm
+
+@{
+    ViewData["Title"] = $"Add grade to {ViewBag.Student}";
+}
+
+<h2>@ViewData["title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddGradeToStudent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="TeacherId" class="form-control" type="hidden" />
+            </div>
+            <div class="form-group">
+                <input asp-for="StudentId" class="form-control" type="hidden" />
+            </div>
+            <div class="form-group">
+                <input asp-for="SubjectId" class="form-control" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Subject</label>
+                <select name="subj" class="form-control" asp-items="@ViewBag.SubjectsSelectList">
+                    <option selected>Choose subject</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label">Grade </label>
+                <select name="Grade" class="form-control" asp-items="@ViewBag.GradeSelectList">
+
+                </select>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-secondary" role="button" asp-action="Index" asp-controller="Student">Back</a>
+                <input asp-route-subj="@ViewBag.SubjectsSelectList.SelectedValue" type="submit" value="     Add      "
+                    class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

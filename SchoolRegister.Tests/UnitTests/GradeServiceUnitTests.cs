@@ -17,7 +17,7 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void GetGradesForStudentByTeacher()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var getGradesForStudent = new GetGradesVm
             {
                 StudentId = 5,
                 UserId = 1
@@ -25,10 +25,11 @@ namespace SchoolRegister.Tests.UnitTests
             var gradesReport = _gradeService.GetGradesAsync(getGradesForStudent);
             Assert.NotNull(gradesReport);
         }
+
         [Fact]
         public void GetGradesForStudentByStudent()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var getGradesForStudent = new GetGradesVm
             {
                 StudentId = 5,
                 UserId = 5
@@ -36,10 +37,11 @@ namespace SchoolRegister.Tests.UnitTests
             var gradesReport = _gradeService.GetGradesAsync(getGradesForStudent);
             Assert.NotNull(gradesReport);
         }
+
         [Fact]
         public void GetGradesForStudentByParent()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var getGradesForStudent = new GetGradesVm
             {
                 StudentId = 5,
                 UserId = 3

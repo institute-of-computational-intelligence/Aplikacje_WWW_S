@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
 using Xunit;
 
 namespace SchoolRegister.Tests.UnitTests
@@ -23,7 +23,7 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Subjects.Count();
 
-            var addOrUpdateSubject = new AddOrUpdateSubjectVm()
+            var addOrUpdateSubject = new AddOrUpdateSubjectVm
             {
                 Id = 1,
                 Name = "Aplikacje WWW",
@@ -35,7 +35,9 @@ namespace SchoolRegister.Tests.UnitTests
             var countAfter = DbContext.Subjects.Count();
 
             Assert.NotNull(updatedSubject);
-            Assert.Equal("Aplikacje webowe .NET", updatedSubject.Description); // Description should be updated to "Aplikacje webowe .NET" from "Aplikacje webowe" 
+            Assert.Equal("Aplikacje webowe .NET",
+                updatedSubject
+                    .Description); // Description should be updated to "Aplikacje webowe .NET" from "Aplikacje webowe" 
             Assert.Equal(2, updatedSubject.TeacherId); // and new teacher should be a teacher with id = 2
             Assert.Equal(countBefore, countAfter); // Number of subjects should not change
         }
@@ -45,7 +47,7 @@ namespace SchoolRegister.Tests.UnitTests
         {
             var countBefore = DbContext.Subjects.Count();
 
-            var addOrUpdateSubject = new AddOrUpdateSubjectVm()
+            var addOrUpdateSubject = new AddOrUpdateSubjectVm
             {
                 Name = "Modelowanie i symulacja",
                 Description = "Matlab i Blender",
@@ -73,7 +75,8 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public void GetSubjectNotFound()
         {
-            Expression<Func<Subject, bool>> filterSubject = subject => subject.Name == "Zaawansowane programowanie obiektowe";
+            Expression<Func<Subject, bool>> filterSubject =
+                subject => subject.Name == "Zaawansowane programowanie obiektowe";
 
             var getSubject = _subjectService.GetSubject(filterSubject);
 
@@ -110,7 +113,8 @@ namespace SchoolRegister.Tests.UnitTests
             var getSubjects = _subjectService.GetSubjects(filterSubject);
 
             Assert.NotNull(getSubjects);
-            Assert.Equal(new[] { "Programowanie obiektowe", "Programowanie interaktywnej grafiki dla stron WWW" }, getSubjects.Select(s => s.Name).ToArray());
+            Assert.Equal(new[] {"Programowanie obiektowe", "Programowanie interaktywnej grafiki dla stron WWW"},
+                getSubjects.Select(s => s.Name).ToArray());
         }
     }
 }
