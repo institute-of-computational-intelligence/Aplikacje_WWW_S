@@ -64,10 +64,10 @@ namespace SchoolRegister.Web.Controllers
             if (id.HasValue)
             {
                 var subjectVm = _subjectService.GetSubject(x => x.Id == id);
-                ViewBag.ActionType = "Edit";
+                ViewBag.ActionType = Localizer["Edit"];
                 return View(Mapper.Map<AddOrUpdateSubjectVm>(subjectVm));
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
             return View();
         }
 

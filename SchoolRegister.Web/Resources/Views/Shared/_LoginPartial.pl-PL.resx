@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<data name="Hello" xml:space="preserve">
+		<value>Witaj</value>
+	</data>
+	<data name="Login" xml:space="preserve">
+		<value>Zaloguj</value>
+	</data>
+	<data name="Logout" xml:space="preserve">
+		<value>Wyloguj</value>
+	</data>
+</root>

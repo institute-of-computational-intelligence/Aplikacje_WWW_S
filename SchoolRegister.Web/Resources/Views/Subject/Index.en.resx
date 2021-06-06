@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <data name="Subject" xml:space="preserve">
+		<value>Subject</value>
+	</data>
+    <data name="Create new" xml:space="preserve">
+		<value>Create New</value>
+    </data>
+    <data name="Groups Count" xml:space="preserve">
+        <value>Groups Count</value>
+    </data>
+    <data name="Edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
+     <data name="Details" xml:space="preserve">
+            <value>Details</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+            <value>Name</value>
+    </data>
+    <data name="Attach" xml:space="preserve">
+            <value>Attach Subject to Group</value>
+    </data>
+    <data name="Detach" xml:space="preserve">
+            <value>Detach Subject to Group</value>
+    </data>
+</root>
