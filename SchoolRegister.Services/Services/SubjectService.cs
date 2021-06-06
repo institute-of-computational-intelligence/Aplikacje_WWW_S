@@ -67,8 +67,13 @@ namespace SchoolRegister.Services.Services
                 Logger.LogError (ex, ex.Message);   
                 throw;
                    
-            }
-                
+            }  
         }
+   
+        public bool RemoveSubject(Expression<Func<Subject,bool>> filterExpression)
+        {
+            throw new NotImplementedException();
+        }
+          
     }
 }

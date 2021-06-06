@@ -5,7 +5,6 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-
 namespace SchoolRegister.Services.Interfaces
 {
     public interface IGradeService
@@ -14,5 +13,7 @@ namespace SchoolRegister.Services.Interfaces
         Task<IEnumerable<Grade>> GetGrades(GetGradesVm getGradesVm);  
         GradeVm AddGrade(AddGradeVm addGradeVm);
         Task<GradeVm> AddGradeAsync(AddGradeVm addGradeAsync);
+
+         GradesReportVm GetGradesReportForStudent(GetGradesVm getGradesVm);   
     }  
 }

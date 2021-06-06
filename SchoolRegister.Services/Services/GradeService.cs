@@ -23,6 +23,48 @@ namespace SchoolRegister.Services.Services
         }
 
    
+
+
+        public GradesReportVm GetGradesReportForStudent(GetGradesVm getGradesVm)
+        {
+            if (getGradesVm == null)
+            {
+                throw new ArgumentNullException($"Get grades Vm is null");
+            }
+            var getterUser = DbContext.Users.FirstOrDefault(x => x.Id == getGradesVm.GetterUserId);
+            if (getterUser == null) throw new ArgumentNullException($"Getter user is null");
+            if (!userManager.IsInRoleAsync(getterUser, "Teacher").Result &&          
+                !userManager.IsInRoleAsync(getterUser, "Student").Result &&
+                !userManager.IsInRoleAsync(getterUser, "Parent").Result &&
+                !userManager.IsInRoleAsync(getterUser, "Admin").Result)
+            {
+                throw new InvalidOperationException("The getter user don't have permissions to read.");
+            }
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(s => s.Id == getGradesVm.StudentId);
+            if (student == null) throw new InvalidOperationException("the given user is not student");
+
+            if (userManager.IsInRoleAsync(getterUser, "Teacher").Result && getterUser is Teacher)
+            {
+                var subject = student.Group.SubjectGroups.Select(s => s.Subject).FirstOrDefault(t => t.TeacherId == getterUser.Id);
+                if (subject == null)
+                    throw new InvalidOperationException("Teacher not running classes within the student group.");
+            }
+
+            if (userManager.IsInRoleAsync(getterUser, "Student").Result && getterUser.Id != student.Id)
+            {
+                throw new InvalidOperationException("Other student cannot read other students grades");
+            }
+            if (userManager.IsInRoleAsync(getterUser, "Parent").Result && getterUser is Parent)
+            {
+                if (student.ParentId != getterUser.Id)
+                    throw new InvalidOperationException("This given user is not a parent of this student.");
+            }
+
+            var gradesReport = Mapper.Map<GradesReportVm>(student);
+            return gradesReport;
+        }
+    
+
         public async Task<IEnumerable<Grade>> GetGrades(GetGradesVm getGradesVm)
         {
             try{

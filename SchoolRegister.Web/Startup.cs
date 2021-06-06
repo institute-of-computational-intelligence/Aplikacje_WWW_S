@@ -39,12 +39,12 @@ namespace SchoolRegister.Web {
  services.AddTransient (typeof (ILogger), typeof (Logger<Startup>));
  services.AddTransient<IStringLocalizer, StringLocalizer<BaseController>>();
  services.AddScoped<ISubjectService, SubjectService> ();
- services.AddScoped<IEmailSender, EmailSenderService> ();
  services.AddScoped<IEmailSenderService, EmailSenderService> ();
  services.AddScoped<IGradeService, GradeService> ();
  services.AddScoped<IGroupService, GroupService> ();
  services.AddScoped<IStudentService, StudentService> ();
  services.AddScoped<ITeacherService, TeacherService> ();
+  services.AddScoped<IParentService, ParentService> ();
  services.AddScoped ((serviceProvider) => {
  var config = serviceProvider.GetRequiredService<IConfiguration> ();
  return new SmtpClient () {

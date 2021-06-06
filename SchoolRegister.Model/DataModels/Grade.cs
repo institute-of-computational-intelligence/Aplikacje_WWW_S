@@ -19,6 +19,8 @@ namespace SchoolRegister.Model.DataModels
         public virtual Subject Subject {get;set;}
         [ForeignKey("Subject")]
         public int SubjectId{get;set;}    
+
+
     }
 
 
