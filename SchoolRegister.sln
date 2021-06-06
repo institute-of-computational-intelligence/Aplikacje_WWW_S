@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Web", "Schoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{A1177029-D857-43D6-82F5-273D54C6B010}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Api", "SchoolRegister.Api\SchoolRegister.Api.csproj", "{04CE7720-A708-4DCA-B726-785406747242}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{A1177029-D857-43D6-82F5-273D54C6B010}.Release|x64.Build.0 = Release|Any CPU
 		{A1177029-D857-43D6-82F5-273D54C6B010}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1177029-D857-43D6-82F5-273D54C6B010}.Release|x86.Build.0 = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|x64.Build.0 = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Debug|x86.Build.0 = Debug|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|x64.ActiveCfg = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|x64.Build.0 = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|x86.ActiveCfg = Release|Any CPU
+		{04CE7720-A708-4DCA-B726-785406747242}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

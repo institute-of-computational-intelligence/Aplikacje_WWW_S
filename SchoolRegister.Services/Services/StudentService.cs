@@ -109,6 +109,7 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
         public async Task<Student> GetStudentAsync(Expression<Func<Student, bool>> filterExpressions)
         {
             try

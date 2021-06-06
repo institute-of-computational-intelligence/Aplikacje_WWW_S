@@ -125,7 +125,8 @@ namespace SchoolRegister.Services.Services
             return studentVm;
         }
 
-        public StudentVm DetachStudentFromGroup (AttachDetachStudentToGroupVm detachStudentToGroupVm) {
+        public StudentVm DetachStudentFromGroup (AttachDetachStudentToGroupVm detachStudentToGroupVm) 
+        {
             if (detachStudentToGroupVm == null) {
                 throw new ArgumentNullException ($"Vm of type is null");
             }

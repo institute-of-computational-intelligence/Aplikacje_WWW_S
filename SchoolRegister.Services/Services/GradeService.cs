@@ -23,57 +23,7 @@ namespace SchoolRegister.Services.Services
         {
             _userManager = userManager;
         }
-
-        public async Task<IEnumerable<Grade>> GetGradesAsync(GetGradesVm getGradesVm)
-        {
-            try
-            {
-                User student = await DbContext.Users
-                    .FirstOrDefaultAsync(u => u.Id == getGradesVm.StudentId);
-
-                User user = await DbContext.Users
-                    .FirstOrDefaultAsync(u => u.Id == getGradesVm.UserId);
-
-                if (student is null)
-                    throw new ArgumentNullException($"User with id: {getGradesVm.StudentId} does not exist");
-
-                if (!(await _userManager.IsInRoleAsync(user, "Parent") || await _userManager.IsInRoleAsync(user, "Student")))
-                    throw new UnauthorizedAccessException("Insufficient permissions, only student and parent can access the grades");
-
-                List<Grade> grades = DbContext.Grades.Where(g => g.StudentId == getGradesVm.StudentId).ToList();
-
-                return grades;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError(exception.Message);
-                throw;
-            }
-        }
         
-        // public async Task<IEnumerable<Grade>> GetGrades(GetGradesVm getGradesVm)
-        // {
-        //     try
-        //     {
-        //         var user = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == getGradesVm.UserId);
-        //         if(getGradesVm == null)
-        //             throw new ArgumentNullException ($"View model parameter is null");
-        //         /*
-        //         if(await _userManager.IsInRoleAsync(user, "Parent") || await _userManager.IsInRoleAsync(user, "Student"))
-        //         {
-        //             var grades = DbContext.Grades.Where(g => g.StudentId == getGradesVm.StudentId).ToList();
-        //             return grades;
-        //         }
-        //         else
-        //             throw new ArgumentNullException ($"No permissions");
-        //         */
-        //         var grades = DbContext.Grades.Where(g => g.StudentId == getGradesVm.StudentId).ToList();
-        //         return grades;
-        //     } catch (Exception ex) {
-        //         Logger.LogError (ex, ex.Message);  
-        //         throw;
-        //     }
-        // }
         public async Task<IEnumerable<GradeVm>> GetGrades(GetGradesVm getGradesVm)
         {
             try
