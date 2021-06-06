@@ -12,7 +12,7 @@ namespace SchoolRegister.Services.Interfaces
     public interface ITeacherService
     {
         Task<Grade> AddGradeAsync(AddGradeAsyncVm addGradeVm);
-        void SendEmailToParent(SendEmailVm sendEmailVm);
         IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterExpressions = null);
+        Task<bool>  SendEmailToParentAsync(SendEmailVm sendEmailTVm);
     }
 }

@@ -1,15 +1,18 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class GetGradesVm
+   public class AttachDetachStudentToGroupVm
     {
         [Required]
-        public int UserId { get; set; }
-        [Required]
         public int StudentId { get; set; }
-
         [Required]
-        public int GetterUserId { get; set; }
+
+
+        public int GroupId { get; set; }
     }
+                     
 }

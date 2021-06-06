@@ -47,22 +47,17 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
-
         public SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression)
         {
-            try
-            {
-                if (filterExpression == null)
-                {
-                    throw new ArgumentNullException($"FilterExpression is null");
-                }
-
+            try {
+                if(filterExpression == null)
+                    throw new ArgumentNullException($" FilterExpression is null");        
                 var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
                 var subjectVm = Mapper.Map<SubjectVm>(subjectEntity);
 
                 return subjectVm;
-            }
-            catch (Exception ex)
+            }   
+            catch(Exception ex)
             {
                 Logger.LogError(ex, ex.Message);
                 throw;

@@ -55,49 +55,49 @@ namespace SchoolRegister.Web.Areas.Identity.Pages.Account.Manage
  }
  public async Task<IActionResult> OnPostAsync()
  {
- if (ModelState.IsValid)
- {
- var tupleUserRole = CreateUserBasedOnRole(Input);
- var result = await _userManager.CreateAsync(tupleUserRole.Item1, Input.Password);
- if (result.Succeeded)
- {
- _logger.LogInformation("User created a new account with password.");
- result = await _userManager.AddToRoleAsync(tupleUserRole.Item1,
- tupleUserRole.Item2.Name);
- if (result.Succeeded)
- {
- OnGet();
-StatusMessage = "User created";
- return RedirectToPage();
- }
- }
- foreach (var error in result.Errors)
- {
- ModelState.AddModelError(string.Empty, error.Description);
- }
- }
- OnGet();
- return RedirectToPage();
+    if (ModelState.IsValid)
+    {
+        var tupleUserRole = CreateUserBasedOnRole(Input);
+        var result = await _userManager.CreateAsync(tupleUserRole.Item1, Input.Password);
+        if (result.Succeeded)
+    {
+        _logger.LogInformation("User created a new account with password.");
+        result = await _userManager.AddToRoleAsync(tupleUserRole.Item1,
+        tupleUserRole.Item2.Name);
+        if (result.Succeeded)
+        {
+            OnGet();
+            StatusMessage = "User created";
+            return RedirectToPage();
+        }
+    }
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+    }
+    OnGet();
+    return RedirectToPage();
  }
  private Tuple<User, Role> CreateUserBasedOnRole(RegisterNewUserVm inputModel)
  {
- var role = _dbContext.Roles.FirstOrDefault(r => r.Id == inputModel.RoleId);
- if (role == null)
- throw new InvalidOperationException("Role not exists.");
- switch (role.RoleValue)
- {
- case RoleValue.Student:
- return new Tuple<User, Role>(_mapper.Map<Student>(inputModel), role);
- case RoleValue.Parent:
- return new Tuple<User, Role>(_mapper.Map<Parent>(inputModel), role);
- case RoleValue.Teacher:
- return new Tuple<User, Role>(_mapper.Map<Teacher>(inputModel), role);
- case RoleValue.Admin:
- case RoleValue.User:
- return new Tuple<User, Role>(_mapper.Map<User>(inputModel), role);
- default:
- return null;
- }
+    var role = _dbContext.Roles.FirstOrDefault(r => r.Id == inputModel.RoleId);
+    if (role == null)
+    throw new InvalidOperationException("Role not exists.");
+    switch (role.RoleValue)
+    {
+        case RoleValue.Student:
+            return new Tuple<User, Role>(_mapper.Map<Student>(inputModel), role);
+        case RoleValue.Parent:
+            return new Tuple<User, Role>(_mapper.Map<Parent>(inputModel), role);
+        case RoleValue.Teacher:
+            return new Tuple<User, Role>(_mapper.Map<Teacher>(inputModel), role);
+        case RoleValue.Admin:
+        case RoleValue.User:
+            return new Tuple<User, Role>(_mapper.Map<User>(inputModel), role);
+        default:
+        return null;
+    }
  }
  }
 }

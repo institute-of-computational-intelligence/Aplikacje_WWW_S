@@ -19,7 +19,7 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public async void AddGroup()
         {
-            var addGroup = new AddGroupVm()
+            var addGroup = new AddUpdateGroupVm()
             {
                 Name = "Grupa 1",
             };

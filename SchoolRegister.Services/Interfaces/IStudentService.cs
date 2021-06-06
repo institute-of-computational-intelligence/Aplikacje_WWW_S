@@ -9,7 +9,10 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IStudentService
     {
-       Task<GroupVm> AddStudentAsync(AddToGroupVm addStudent);
-       Task<GroupVm> RemoveStudentAsync(RemoveFromGroupVm removeStudent);
+        Task<GroupVm> AddStudentAsync(AttachDetachStudentToGroupVm addStudent);
+        Task<GroupVm> RemoveStudentAsync(RemoveFromGroupVm removeStudent);
+        Task<bool> RemoveStudentAsync(int studentId);
+        IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterExpressions = null);
+        Task<Student> GetStudentAsync(Expression<Func<Student, bool>> filterExpressions);
     }
-} 
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,18 +13,18 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
-using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
     {
-        private readonly UserManager<User> userManager;
-
-        public TeacherService(UserManager<User> userManager, ApplicationDbContext dbContext, IMapper mapper, ILogger logger) 
+        private readonly UserManager<User> _userManager;
+        private readonly SmtpClient _smtpClient;
+        public TeacherService(UserManager<User> userManager, SmtpClient smtpClient, ApplicationDbContext dbContext, IMapper mapper, ILogger logger) 
             : base(dbContext, mapper, logger)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
+            _smtpClient = smtpClient;
         }
 
         public async Task<Grade> AddGradeAsync(AddGradeAsyncVm addGradeVm)
@@ -37,7 +38,7 @@ namespace SchoolRegister.Services.Services
                     throw new ArgumentNullException("Could not find specified TeacherId.");
                 }
 
-                if(await userManager.IsInRoleAsync(teacher, "Teacher"))
+                if(await _userManager.IsInRoleAsync(teacher, "Teacher"))
                 {
                     var student = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == addGradeVm.StudentId);
 
@@ -88,44 +89,62 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async void SendEmailToParent(SendEmailVm sendEmailVm)
+        public async Task<bool> SendEmailToParentAsync(SendEmailVm sendEmailVm)
         {
-            try{
-            var sender = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.SenderId);
-            
-            if(sender == null)
+            try
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
-            }
-            
-            var recipient = await DbContext.Users.FirstOrDefaultAsync(u => u.Id == sendEmailVm.RecipientId);
+                if (sendEmailVm == null)
+                {
+                    throw new ArgumentNullException($"Vm is null");
+                }
 
-            if(recipient == null)
+                var teacher = DbContext.Users.OfType<Teacher>()
+                    .FirstOrDefault(x => x.Id == sendEmailVm.SenderId);
+                if (teacher == null || _userManager.IsInRoleAsync(teacher, "Teacher").Result == false)
+                {
+                    throw new InvalidOperationException("sender is not teacher");
+                }
+
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == sendEmailVm.StudentId);
+                if (student == null || !_userManager.IsInRoleAsync(student, "Student").Result)
+                {
+                    throw new InvalidOperationException("given user is not student");
+                }
+                try
+                {
+                    string to = student.Parent.Email;
+                    string from = teacher.Email;
+                    string subject = sendEmailVm.Title;
+                    string message = sendEmailVm.Content;
+                    if (string.IsNullOrWhiteSpace (to) || string.IsNullOrWhiteSpace (teacher.Email) || string.IsNullOrWhiteSpace (message))
+                    {
+                    throw new ArgumentNullException ($"Email, subject or message is null");
+                    }
+                    try 
+                    {
+                        var mailMessage = new MailMessage (to: to,
+                            subject: subject,
+                            body: message,
+                            from: from);
+                        await _smtpClient.SendMailAsync (mailMessage);
+
+                    } 
+                    catch (Exception ex) 
+                    {
+                        Logger.LogError (ex, ex.Message);
+                        throw;
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    Logger.LogError (ex, ex.Message);
+                    throw;
+                }
+                return true;
+            }
+            catch (Exception)
             {
-                throw new ArgumentNullException("Could not find specified SenderId.");
-            }
-
-            if (await userManager.IsInRoleAsync(sender, "Teacher") && await userManager.IsInRoleAsync(recipient, "Parent"))
-            {
-                var message = new MailMessage(sender.Email, recipient.Email, sendEmailVm.EmailSubject, sendEmailVm.EmailBody);
-                
-                string sendEmailsFrom = "emailAddress@gmail.com";             
-                string sendEmailsFromPassword = "strongPassword";
-                NetworkCredential credentials = new NetworkCredential(sendEmailsFrom, sendEmailsFromPassword);
-
-                var client = new SmtpClient("smtp.gmail.com", 587);
-                
-                client.EnableSsl = true;
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.UseDefaultCredentials = false;
-                client.Timeout = 20000;
-                client.Credentials = credentials;
-                
-                client.Send(message); 
-            }
-            }catch(Exception ex){
-                Logger.LogError(ex, ex.Message);
-                throw;
+                return false;
             }
         }
     }

@@ -20,7 +20,7 @@ namespace SchoolRegister.Tests.UnitTests
         [Fact]
         public async void AddStudentToGroup()
         {
-            var addStudentToGroup = new AddToGroupVm()
+            var addStudentToGroup = new AttachDetachStudentToGroupVm()
             {
                 StudentId = 6,
                 GroupId = 3,

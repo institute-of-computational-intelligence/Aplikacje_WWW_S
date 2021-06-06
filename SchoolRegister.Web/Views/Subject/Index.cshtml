@@ -1,14 +1,15 @@
-@model IEnumerable<SchoolRegister.ViewModels.VM.SubjectVm>
-
+@using SchoolRegister.ViewModels.VM
+@model IEnumerable<SubjectVm>
 @{
     ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+} 
+<h2>Subject</h2>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+    <a asp-action="AddOrEditSubject">Create New</a>
+    </p>
+} 
 <table class="table">
     <thead>
         <tr>
@@ -25,9 +26,8 @@
                 @Html.DisplayNameFor(model => model.TeacherName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherId)
+                @Html.DisplayNameFor(model => model.Groups)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -46,12 +46,16 @@
                 @Html.DisplayFor(modelItem => item.TeacherName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TeacherId)
+                @Html.DisplayFor(modelItem => item.Groups.Count)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
+                    <a asp-controller="Subject" asp-action="AttachSubjectToGroup" asp-routesubjectId="@item.Id">Attach Subject to Group</a> @:|
+                    <a asp-controller="Subject" asp-action="DetachSubjectToGroup" asp-routesubjectId="@item.Id">Detach Subject from Group</a> @:|
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

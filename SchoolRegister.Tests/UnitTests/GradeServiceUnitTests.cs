@@ -13,29 +13,29 @@ namespace SchoolRegister.Tests.UnitTests {
  }
  [Fact]
  public void GetGradesReportForStudentByTeacher () {
- var getGradesReportForStudent = new CheckGradesVm(){
+ var getGradesReportForStudent = new GetGradesVm(){
  StudentId = 5, 
- CurrentUserId = 1
+ UserId = 1
  };
- var gradesReport = _gradeService.GetGrades(getGradesReportForStudent);
+ var gradesReport = _gradeService.GetGradesAsync(getGradesReportForStudent);
  Assert.NotNull(gradesReport);
  }
  [Fact]
  public void GetGradesReportForStudentByStudent () {
- var getGradesReportForStudent = new CheckGradesVm(){
+ var getGradesReportForStudent = new GetGradesVm(){
  StudentId = 5,
- CurrentUserId = 5
+ UserId = 5
  };
- var gradesReport = _gradeService.GetGrades(getGradesReportForStudent);
+ var gradesReport = _gradeService.GetGradesAsync(getGradesReportForStudent);
  Assert.NotNull(gradesReport);
  }
  [Fact]
  public void GetGradesReportForStudentByParent () {
- var getGradesReportForStudent = new CheckGradesVm(){
+ var getGradesReportForStudent = new GetGradesVm(){
  StudentId = 5,
- CurrentUserId = 3
+ UserId = 3
  };
- var gradesReport = _gradeService.GetGrades(getGradesReportForStudent);
+ var gradesReport = _gradeService.GetGradesAsync(getGradesReportForStudent);
  Assert.NotNull(gradesReport);
  }
  }

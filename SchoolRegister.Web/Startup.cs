@@ -52,14 +52,14 @@ namespace SchoolRegister.Web
                 var config = serviceProvider.GetRequiredService<IConfiguration>();
                 return new SmtpClient()
                 {
-                    Host = config.GetValue<string>("EmailSettings:ClientAddress"),
-                    Port = config.GetValue<int>("EmailSettings:ClientPort"),
+                    Host = config.GetValue<string>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(
-                        config.GetValue<string>("EmailSettings:Username"),
-                        config.GetValue<string>("EmailSettings:Password")
+                        config.GetValue<string>("Email:Smtp:Username"),
+                        config.GetValue<string>("Email:Smtp:Password")
                     )
                 };
             });

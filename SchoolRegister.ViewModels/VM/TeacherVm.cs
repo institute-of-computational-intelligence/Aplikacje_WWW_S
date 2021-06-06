@@ -10,5 +10,6 @@ namespace SchoolRegister.ViewModels.VM
         public int Id { get; set; }
         public int GroupId { get; set; }
         public IEnumerable<Group> Groups { get; set; }
+        public IList<SubjectVm> Subjects { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using SchoolRegister.Model.DataModels;
 using SchoolRegister.ViewModels.VM;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SchoolRegister.Web.Configuration.Profiles
 {
@@ -15,9 +16,19 @@ namespace SchoolRegister.Web.Configuration.Profiles
                 .ForMember(dest => dest.Groups, x => x.MapFrom(src => src.SubjectGroups.Select(y => y.Group)));
 
             CreateMap<AddOrUpdateSubjectVm, Subject>();
-            CreateMap<Group, GroupVm>();
             CreateMap<SubjectVm, AddOrUpdateSubjectVm>();
 
+            CreateMap<Teacher, TeacherVm> ();
+            CreateMap<Student, StudentVm> ();
+            //GRADES
+            CreateMap<Grade, GradeVm> ()
+                .ForMember(dest => dest.Subject, y => y.MapFrom(src => src.Subject.Name))
+                .ForMember(dest => dest.Student, y => y.MapFrom(src => string.Format("{0} {1}", src.Student.FirstName, src.Student.LastName)));
+            //GROUP
+            CreateMap<Group, GroupVm>();
+            CreateMap<AddUpdateGroupVm, Group> ();
+            CreateMap<GroupVm, AddUpdateGroupVm> ();
+            //REGISTER
             CreateMap<RegisterNewUserVm, User>()
                 .ForMember(dest => dest.UserName, y => y.MapFrom(src => src.Email))
                 .ForMember(dest => dest.RegistrationDate, y => y.MapFrom(src => DateTime.Now));
