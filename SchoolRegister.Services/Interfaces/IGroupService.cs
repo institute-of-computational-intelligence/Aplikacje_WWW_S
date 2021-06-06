@@ -12,5 +12,9 @@ namespace SchoolRegister.Services.Interfaces
         string GetGroups();
         object GetGroup(Func<object, bool> p);
         void AddRemoveGroup(GroupVm groupVm);
+        object AddRemoveGroup(AddGroupVm addOrUpdateGroupVm);
+        object AddGroup(AddGroupVm addOrUpdateGroupVm);
+        StudentVm AttachStudentToGroup(AttachStudentGroupVm attachStudentToGroupVm);
+        StudentVm DetachStudentFromGroup(AttachStudentGroupVm detachStudentToGroupVm);
     }
 }

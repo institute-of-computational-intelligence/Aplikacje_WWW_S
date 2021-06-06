@@ -13,9 +13,16 @@ using SchoolRegister.ViewModels.VM;
 
 namespace SchoolRegister.Services.Services
 {
+
     public class GroupService : BaseService, IGroupService
+
     {
         public GroupService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger) { }
+
+        public object AddGroup(AddGroupVm addOrUpdateGroupVm)
+        {
+            throw new NotImplementedException();
+        }
 
         public async void AddGroupAsync(AddGroupVm addGroupVm)
         {
@@ -35,6 +42,11 @@ namespace SchoolRegister.Services.Services
             throw new NotImplementedException();
         }
 
+        public object AddRemoveGroup(AddGroupVm addOrUpdateGroupVm)
+        {
+            throw new NotImplementedException();
+        }
+
         public object GetGroup(Func<object, bool> p)
         {
             throw new NotImplementedException();
@@ -43,6 +55,48 @@ namespace SchoolRegister.Services.Services
         public string GetGroups()
         {
             throw new NotImplementedException();
+        }
+
+
+        public StudentVm AttachStudentToGroup(AttachStudentGroupVm attachStudentToGroupVm)
+        {
+            if (attachStudentToGroupVm == null)
+            {
+                throw new ArgumentNullException($"Vm of type is null");
+            }
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == attachStudentToGroupVm.StudentId);
+            if (student == null)
+            {
+                throw new ArgumentNullException($"Student is null or user is not student");
+            }
+            var group = DbContext.Groups.FirstOrDefault(x => x.Id == attachStudentToGroupVm.GroupId);
+            if (group == null)
+            {
+                throw new ArgumentNullException($"group is null");
+            }
+            student.GroupId = group.Id;
+            student.Group = group;
+            DbContext.SaveChanges();
+            var studentVm = Mapper.Map<StudentVm>(student);
+            return studentVm;
+        }
+
+        public StudentVm DetachStudentFromGroup(AttachStudentGroupVm detachStudentToGroupVm)
+        {
+            if (detachStudentToGroupVm == null)
+            {
+                throw new ArgumentNullException($"Vm of type is null");
+            }
+            var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == detachStudentToGroupVm.StudentId);
+            if (student == null)
+            {
+                throw new ArgumentNullException($"Student is null or user is not student");
+            }
+            student.GroupId = null;
+            student.Group = null;
+            DbContext.SaveChanges();
+            var studentVm = Mapper.Map<StudentVm>(student);
+            return studentVm;
         }
     }
 }
