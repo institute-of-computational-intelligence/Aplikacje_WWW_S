@@ -30,7 +30,7 @@ namespace SchoolRegister.Api.Controllers
         [HttpGet("{id}")]
         public async Task <ActionResult<IEnumerable<GradeVm>>> GetGrades(int id)
         {
-           var user = await _userManager.FindByNameAsync(User?.Identity?.Name);
+           var user = await _userManager.FindByNameAsync(User?.Identity?.Name);  
             if(await _userManager.IsInRoleAsync(user, "Admin") || 
                await _userManager.IsInRoleAsync(user, "Parent") || 
                await _userManager.IsInRoleAsync(user, "Student"))
