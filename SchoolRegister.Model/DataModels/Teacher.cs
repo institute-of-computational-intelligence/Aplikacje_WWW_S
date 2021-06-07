@@ -6,6 +6,8 @@ namespace SchoolRegister.Model.DataModels
     {
         public virtual IList<Subject> Subcjects {get; set;}
         public string Title {get; set;}
+
+        public string FirstName {get; set;}
         
     }
 }
