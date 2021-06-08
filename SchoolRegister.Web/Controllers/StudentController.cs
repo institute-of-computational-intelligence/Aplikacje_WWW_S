@@ -1,128 +1,110 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using SchoolRegister.Model.DataModels;
+using SchoolRegister.BLL.DataModels;
+using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
-using SchoolRegister.ViewModels.VM;
-using System.Threading.Tasks;
 
 namespace SchoolRegister.Web.Controllers
 {
-    [Authorize(Roles = "Teacher, Admin, Parent, Student")]
+    [Authorize(Roles = "Teacher, Admin, Student, Parent")]
     public class StudentController : BaseController
     {
-        private readonly ISubjectService _subjectService;
         private readonly IStudentService _studentService;
-        private readonly ITeacherService _teacherService;
-        private readonly IGradeService _gradeService;
-
+        private readonly IGroupService _groupService;
         private readonly UserManager<User> _userManager;
-        public StudentController(ISubjectService subjectService, ITeacherService teacherService, IGradeService gradeService, IStudentService studentService, UserManager<User> userManager, IStringLocalizer localizer, ILogger logger, IMapper mapper) : base(logger, mapper, localizer)
+
+        private readonly ApplicationDbContext _context;
+        private readonly ITeacherService _teacherService;
+
+        public StudentController(ILogger logger, IMapper mapper, IStringLocalizer localizer, IStudentService studentService, IGroupService groupService, UserManager<User> userManager, ApplicationDbContext context, ITeacherService teacherService) : base(logger, mapper, localizer)
         {
             _studentService = studentService;
-            _gradeService = gradeService;
-            _subjectService = subjectService;
-            _teacherService = teacherService;
+            _groupService = groupService;
             _userManager = userManager;
+            _context = context;
+            _teacherService = teacherService;
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Student, bool>> filterExpression = null;
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.FirstName.Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
             var user = _userManager.GetUserAsync(User).Result;
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_studentService.GetStudents());
-            else if (_userManager.IsInRoleAsync(user, "Teacher").Result)
-               return View(_studentService.GetStudents());
-            else if (_userManager.IsInRoleAsync(user, "Parent").Result)
             {
-                var parent = _userManager.GetUserAsync(User).Result as Parent;
-                return View(_studentService.GetStudents(x => x.ParentId == parent.Id));
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+
+                return View(studentVms);
             }
-            else if (_userManager.IsInRoleAsync(user, "Student").Result)
-                return RedirectToAction("Details", new { id = user.Id });
-            else
-                return View("Error");
-        }
 
-
-        public IActionResult Details(int id)
-        {
-            StudentVm studentvm = _studentService.GetStudent(x => x.Id == id);
-            ViewBag.FirstName = studentvm.FirstName;
-            ViewBag.LastName = studentvm.LastName;
-            ViewBag.ActionType = @Localizer["Grades"];
-            GradesVm gradesvm = new GradesVm { CallerId = _userManager.GetUserAsync(User).Result.Id , StudentId = id };
-            return View(_gradeService.ShowGrades(gradesvm));
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Teacher")]
-        public IActionResult AddGrade(int id)
-        {
-            var teacher = _userManager.GetUserAsync(User).Result as Teacher;
-            Expression<Func<Student, bool>> studentsExpression = s => s.Group.SubjectGroups.Any (sg => sg.Subject.TeacherId == teacher.Id);
-            Expression<Func<Subject, bool>> subjectsExpression = t => t.TeacherId == teacher.Id;
-
-            var students = _studentService.GetStudents (studentsExpression);
-            var subjects = _subjectService.GetSubjects (subjectsExpression);
-
-            var StudentTeacherList = new AddGradeToStudentVm()
+            if (_userManager.IsInRoleAsync(user, "Student").Result)
             {
-                TeacherId = teacher.Id,
-                StudentId = id
-            };
-            
-            ViewBag.ActionType = Localizer["Add"];
+                if (user is Student)
+                {
+                    var student = _userManager.GetUserAsync(User).Result as Student;
 
-            return View(StudentTeacherList);
-        }
+                    Expression<Func<Student, bool>> groupFilterExpression = s => s.GroupId == student.GroupId;
+                    Expression finalFilterBody;
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
-        public IActionResult AddGrade(AddGradeToStudentVm grade)
-        {
-            if (ModelState.IsValid)
-            {
-                var gr = _teacherService.AddGradeToStudent(grade).Result;
-                return RedirectToAction("Index");
+                    if (filterExpression != null)
+                    {
+                        var invokedFilterExpr = Expression.Invoke(filterExpression, groupFilterExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(groupFilterExpression.Body, invokedFilterExpr);
+                    }
+                    else finalFilterBody = groupFilterExpression.Body;
+
+                    var finalFilterExpression = Expression.Lambda<Func<Student, bool>>(finalFilterBody, groupFilterExpression.Parameters);
+                    var studentVms = _studentService.GetStudents(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_StudentsTableDataPartial", studentVms);
+                    return View(studentVms);
+                }
+                throw new Exception("Student is assigned to role, but its not type Student");
             }
-            return View();
+            if (_userManager.IsInRoleAsync(user, "Parent").Result)
+                return View(_studentService.GetStudents(s => s.ParentId == user.Id));
+            if (_userManager.IsInRoleAsync(user, "Teacher").Result)
+                return RedirectToAction("Index", "Student");
+
+            return View("Error");
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult RemoveFromAddToGroup(int id, string name=null)
+        public IActionResult GetIdToDelete(int studentId)
         {
-            if (!String.IsNullOrEmpty(name))
-            {
-                var studentVm = _studentService.GetStudent(x => x.Id == id);
-                ViewBag.ActionType = Localizer["Remove"];
-                return View(Mapper.Map<StudentVm>(studentVm));
-            }
-            ViewBag.ActionType = Localizer["Add"];
-             return View(); 
+            ViewBag.Id = studentId;
+            return PartialView();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("GetIdToDelete")]
         [Authorize(Roles = "Admin")]
-        public IActionResult RemoveFromAddToGroup(StudentVm studentVm)
+        public async Task<ActionResult> Delete(int studentId)
         {
-            if (ModelState.IsValid)
-            {
-                _studentService.AddOrRemoveStudentGroup(studentVm);
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _studentService.RemoveStudentAsync(studentId);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int studentId)
+        {
+            var student = await _studentService.GetStudentAsync(s => s.Id == studentId);
+            return View(student);
         }
     }
 }

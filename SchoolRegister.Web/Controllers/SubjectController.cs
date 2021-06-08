@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
-using SchoolRegister.Model.DataModels;
+using SchoolRegister.BLL.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 namespace SchoolRegister.Web.Controllers
@@ -19,29 +19,67 @@ namespace SchoolRegister.Web.Controllers
         private readonly ISubjectService _subjectService;
         private readonly ITeacherService _teacherService;
         private readonly UserManager<User> _userManager;
-        public SubjectController(ISubjectService subjectService, ITeacherService teacherService, UserManager<User> userManager, IStringLocalizer localizer, ILogger logger, IMapper mapper) : base(logger, mapper, localizer)
+        public SubjectController(ISubjectService subjectService,
+        ITeacherService teacherService,
+        UserManager<User> userManager,
+        IStringLocalizer localizer,
+        ILogger logger,
+        IMapper mapper) : base(logger, mapper, localizer)
         {
             _subjectService = subjectService;
             _teacherService = teacherService;
             _userManager = userManager;
         }
-
-        public IActionResult Index()
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Subject, bool>> filterExpression = null;
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.Name.Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
             var user = _userManager.GetUserAsync(User).Result;
+
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_subjectService.GetSubjects());
+            {
+                var subjectVms = _subjectService.GetSubjects(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_SubjectsTableDataPartial", subjectVms);
+
+                return View(subjectVms);
+            }
             else if (_userManager.IsInRoleAsync(user, "Teacher").Result)
             {
-                var teacher = _userManager.GetUserAsync(User).Result as Teacher;
-                return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
+                if (user is Teacher)
+                {
+                    var teacher = _userManager.GetUserAsync(User).Result as Teacher;
+
+                    Expression<Func<Subject, bool>> filterTeacherExpression = s => s.TeacherId == teacher.Id;
+                    Expression finalFilterBody;
+
+                    if (filterExpression != null)
+                    {
+                        var invokedFilterExpr = Expression.Invoke(filterExpression, filterTeacherExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(filterTeacherExpression.Body, invokedFilterExpr);
+                    }
+                    else
+                    {
+                        finalFilterBody = filterTeacherExpression.Body;
+                    }
+
+                    var finalFilterExpression = Expression.Lambda<Func<Subject, bool>>(finalFilterBody, filterTeacherExpression.Parameters);
+                    var subjectVms = _subjectService.GetSubjects(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_SubjectsTableDataPartial", subjectVms);
+                    return View(subjectVms);
+                }
+                throw new Exception("Teacher is assigned to role, but its not type Teacher");
             }
             else if (_userManager.IsInRoleAsync(user, "Student").Result)
-                return RedirectToAction("Details", "Student", new { id = user.Id });
+                return RedirectToAction("Details", "Student", new { studentId = user.Id });
+            else if (_userManager.IsInRoleAsync(user, "Parent").Result)
+                return RedirectToAction("Index", "Student");
             else
                 return View("Error");
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult AddOrEditSubject(int? id = null)
@@ -52,7 +90,6 @@ namespace SchoolRegister.Web.Controllers
                 Text = $"{t.FirstName} {t.LastName}",
                 Value = t.Id
             }), "Value", "Text");
-            
             if (id.HasValue)
             {
                 var subjectVm = _subjectService.GetSubject(x => x.Id == id);
@@ -60,9 +97,13 @@ namespace SchoolRegister.Web.Controllers
                 return View(Mapper.Map<AddOrUpdateSubjectVm>(subjectVm));
             }
             ViewBag.ActionType = Localizer["Add"];
-             return View(); 
+            return View();
         }
-
+        public IActionResult Details(int id)
+        {
+            var subjectVm = _subjectService.GetSubject(x => x.Id == id);
+            return View(subjectVm);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -75,5 +116,5 @@ namespace SchoolRegister.Web.Controllers
             }
             return View();
         }
-    }    
+    }
 }
