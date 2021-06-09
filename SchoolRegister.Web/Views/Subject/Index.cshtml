@@ -14,6 +14,14 @@
     </p>
 }
 
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input class="subjects-filter-input form-control" type="text" placeholder="filter"/>
+        </div>
+    </div>
+</div>
+
 <table id="tabela" class="table table-responsive table-striped table-hover">
     <thead>
     <tr>
@@ -35,58 +43,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td class="d-none">
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td class="col-2">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td class="col-5">
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td class="col-2">
-                @Html.DisplayFor(modelItem => item.TeacherName)
-            </td>
-
-            <td class="col-2">
-                @Html.DisplayFor(modelItem => item.Groups.Count)
-            </td>
-            <td class="align-middle text-center">
-                <div class="dropdown show">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @Localizer["Manage"]
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a class="dropdown-item" asp-action="AddOrEditSubject" asp-route-id="@item.Id">
-                                @Localizer["Edit"]
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">
-                                @Localizer["AttachSubject"]
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-controller="Group" asp-action="DetachSubjectFromGroup" asp-route-subjectId="@item.Id">
-                                @Localizer["DetachSubject"]
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item modalLink">
-                                @Localizer["Delete"]
-                            </a>
-                        }
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
-                    </div>
-                </div>
-
-            </td>
-        </tr>
-    }
+    <partial name="_SubjectsTableDataPartial" model="Model"/>
     </tbody>
 </table>
 <div class="modal fade" id="Modalpopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
