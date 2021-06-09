@@ -1,18 +1,42 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @using SchoolRegister.ViewModels.VM
 @model IEnumerable<SubjectVm>
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["Subject"];
 } 
-<h2>Subject</h2>
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input class="subjects-filter-input form-control" type="text" peaceholder="filter" />
+        </div>
+    </div>
+</div>
 @if (User.IsInRole("Admin"))
 {
     <p>
-    <a asp-action="AddOrEditSubject">Create New</a>
+        <a asp-action="AddOrEditSubject">@Localizer["Create New"]</a>
     </p>
 } 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                <label>@Localizer["Name"]</label>
+            </th>
+            <th>
+                <label>@Localizer["Description"]</label>
+            </th>
+            <th>
+                <label>@Localizer["TeacherName"]</label>
+            </th>
+            <th>
+                <label>@Localizer["GroupsCount"]</label>
+            </th>
+            <!--
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -25,34 +49,10 @@
             <th>
                 <label>Groups Count</label>
             </th>
+            -->
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TeacherName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Groups.Count)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">Edit</a> @:|
-                        <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-routesubjectId="@item.Id">Attach Subject to Group</a> @:|
-                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-routesubjectId="@item.Id">Detach Subject from Group</a> @:|
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-        }
+    <tbody class="subjects-table-data">
+        <partial name="_SubjectsTableDataPartial" model="Model"/>
     </tbody>
 </table>
