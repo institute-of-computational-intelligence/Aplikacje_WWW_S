@@ -1,0 +1,53 @@
+@model SchoolRegister.ViewModels.VM.SendEmailVm
+
+@{
+    ViewData["Title"] = "Write an email";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@using (@Html.BeginForm("SendEmail", "Email", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-5">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="TeacherId" type="hidden" class="form-control" value="@ViewBag.TeacherId" />
+            </div>
+            <div class="form-group">
+                <input asp-for="ParentId" type="hidden" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Subject</label>
+                <input asp-for="EmailSubject" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Message</label>
+                <textarea asp-for="EmailBody" type="text" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">
+                    Attachments
+                </label>
+                <input class="form-control" type="file" asp-for="Attachments" multiple>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Parent</label>
+                <select name="parentName" class="form-control" asp-items="@ViewBag.ParentsSelectList">
+                    <option selected>Choose parent</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a class="btn btn-secondary btn-lg" tabindex="-1" role="button" asp-action="Index"
+                asp-controller="Home">Back</a>
+                <input asp-route-parentName=@ViewBag.ParentsSelectList.SelectedValue class="btn btn-primary btn-lg"
+                type="submit" value="Send email">
+            </div>
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,85 @@
+@model SchoolRegister.BLL.DataModels.Student
+
+@{
+    ViewData["Title"] = $"{Model.FirstName} {Model.LastName} details";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th class="d-none">
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                @if (!User.IsInRole("Parent")) {
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.Parent)
+                </th>
+                }
+
+                <th class="col-1">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th class="col-1">
+                    @Html.DisplayNameFor(model => model.Group)
+                </th>
+                <th class="col-1">
+                    @Html.DisplayNameFor(model => model.AverageGrade)
+                </th>
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.Grades)
+                </th>
+                <th class="col-2">
+                    @Html.DisplayNameFor(model => model.AverageGradePerSubject)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="d-none">
+                    @Html.DisplayFor(model => model.Id)
+                </td>
+                @if (!User.IsInRole("Parent")) {
+                    <td>
+                        @Html.DisplayFor(model => model.Parent.FirstName) @Html.DisplayFor(model => model.Parent.LastName)
+                    </td>
+                }
+   
+                <td>
+                    @Html.DisplayFor(model => model.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Group.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.AverageGrade)
+                </td>
+                <td>
+                    <ul>
+                    @foreach (var item in Model.Grades) {
+                       
+                            <li>@Html.DisplayFor(modelItem => item.Subject.Name):  @Html.DisplayFor(modelItem => item.GradeValue) </li> 
+                    }
+                     </ul> 
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var item in Model.AverageGradePerSubject) {
+                            <li>@Html.DisplayFor(modelItem => item.Key): @Html.DisplayFor(modelItem => item.Value)</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

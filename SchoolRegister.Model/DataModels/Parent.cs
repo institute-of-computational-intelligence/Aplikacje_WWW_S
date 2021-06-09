@@ -1,10 +1,10 @@
 using System.Collections.Generic;
+using System;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.BLL.DataModels
 {
     public class Parent : User
     {
-        public virtual IList<Student> Students {get; set;}
-        
+        public virtual IList<Student> Students { get; set; }
     }
 }

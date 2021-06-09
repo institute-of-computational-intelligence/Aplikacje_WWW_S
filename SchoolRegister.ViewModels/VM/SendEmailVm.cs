@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
     public class SendEmailVm
     {
         [Required]
-        public int SenderId { get; set; }
+        public int TeacherId { get; set; }
 
         [Required]
-        public int RecipientId { get; set; }
+        public int ParentId { get; set; }
 
+        [Required]
         public string EmailSubject { get; set; }
 
-        public string EmailBody { get; set; }
+        public string EmailContent { get; set; }
     }
 }

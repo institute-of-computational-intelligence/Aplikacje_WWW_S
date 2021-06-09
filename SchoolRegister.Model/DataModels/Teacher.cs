@@ -1,13 +1,11 @@
 using System.Collections.Generic;
+using System;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.BLL.DataModels
 {
     public class Teacher : User
     {
-        public virtual IList<Subject> Subcjects {get; set;}
-        public string Title {get; set;}
-
-        public string FirstName {get; set;}
-        
+        public virtual IList<Subject> Subject { get; set; }
+        public string Title { get; set; }
     }
 }

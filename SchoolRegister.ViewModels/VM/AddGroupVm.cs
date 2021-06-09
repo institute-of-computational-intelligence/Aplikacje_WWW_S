@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.ViewModels.VM
 {
     public class AddGroupVm
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
     }
 }

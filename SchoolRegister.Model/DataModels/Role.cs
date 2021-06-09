@@ -1,22 +1,14 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace SchoolRegister.Model.DataModels
+namespace SchoolRegister.BLL.DataModels
 {
     public class Role : IdentityRole<int>
     {
-        public RoleValue RoleValue {get; set;}
+        public RoleValue RoleValue { get; set; }
 
+        public Role() { }
 
-        public Role()
-        {
-
-        }
-
-        public Role(string name, RoleValue roleValue)
-        {
-            
-        }
-
+        public Role(string name, RoleValue roleValue) { }
     }
 }
