@@ -1,5 +1,6 @@
 @model SchoolRegister.BLL.DataModels.Student
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName} details";
 }
@@ -13,10 +14,11 @@
                 <th class="d-none">
                     @Html.DisplayNameFor(model => model.Id)
                 </th>
-                @if (!User.IsInRole("Parent")) {
-                <th class="col-2">
-                    @Html.DisplayNameFor(model => model.Parent)
-                </th>
+                @if (!User.IsInRole("Parent"))
+                {
+                    <th class="col-2">
+                        @Html.DisplayNameFor(model => model.Parent)
+                    </th>
                 }
 
                 <th class="col-1">
@@ -41,12 +43,13 @@
                 <td class="d-none">
                     @Html.DisplayFor(model => model.Id)
                 </td>
-                @if (!User.IsInRole("Parent")) {
+                @if (!User.IsInRole("Parent"))
+                {
                     <td>
                         @Html.DisplayFor(model => model.Parent.FirstName) @Html.DisplayFor(model => model.Parent.LastName)
                     </td>
                 }
-   
+
                 <td>
                     @Html.DisplayFor(model => model.Email)
                 </td>
@@ -58,15 +61,18 @@
                 </td>
                 <td>
                     <ul>
-                    @foreach (var item in Model.Grades) {
-                       
-                            <li>@Html.DisplayFor(modelItem => item.Subject.Name):  @Html.DisplayFor(modelItem => item.GradeValue) </li> 
-                    }
-                     </ul> 
+                        @foreach (var item in Model.Grades)
+                        {
+
+                            <li>@Html.DisplayFor(modelItem => item.Subject.Name): @Html.DisplayFor(modelItem =>
+                            item.GradeValue) </li>
+                        }
+                    </ul>
                 </td>
                 <td>
                     <ul>
-                        @foreach (var item in Model.AverageGradePerSubject) {
+                        @foreach (var item in Model.AverageGradePerSubject)
+                        {
                             <li>@Html.DisplayFor(modelItem => item.Key): @Html.DisplayFor(modelItem => item.Value)</li>
                         }
                     </ul>
@@ -77,9 +83,9 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

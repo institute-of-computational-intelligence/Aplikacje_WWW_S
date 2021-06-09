@@ -1,14 +1,15 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Groups";
+    ViewData["Title"] = Localizer["Groups"];
 }
 
 <h2>Group</h2>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        <a asp-action="AddOrEditGroup">Create New</a>
+        <a asp-action="AddOrEditGroup">@Localizer["CreateNew"]</a>
     </p>
 }
 
@@ -40,23 +41,23 @@
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Manage
+                            @Localizer["Manage"]
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @if (User.IsInRole("Admin"))
                             {
                                 <a class="dropdown-item" asp-action="AddOrEditGroup" asp-route-id="@item.Id">
-                                    Edit
+                                    @Localizer["Edit"]
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item modalLink" href="#">
-                                    Delete
+                                    @Localizer["Delete"]
                                 </a>
                                 <div class="dropdown-divider"></div>
                             }
 
                             <a class="dropdown-item" asp-action="Details" asp-route-groupId="@item.Id">
-                                Details
+                                @Localizer["Details"]
                             </a>
                         </div>
                     </div>

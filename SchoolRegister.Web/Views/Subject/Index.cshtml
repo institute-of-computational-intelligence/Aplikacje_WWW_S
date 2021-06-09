@@ -1,14 +1,16 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<SchoolRegister.ViewModels.VM.SubjectVm>
 
     @{
     ViewData["Title"] = "Index";
     }
 
-    <h2>Subject</h2>
+    <h2>@Localizer["Subject"]</h2>
     @if (User.IsInRole("Admin"))
     {
     <p>
-        <a asp-action="AddOrEditSubject">Create New</a>
+        <a asp-action="AddOrEditSubject">@Localizer["CreateNew"]</a>
     </p>
     }
 
@@ -28,7 +30,7 @@
                     @Html.DisplayNameFor(model => model.TeacherName)
                 </th>
                 <th class="col-2">
-                    Groups Count
+                    @Localizer["GroupCount"]
                 </th>
             </tr>
         </thead>
@@ -56,34 +58,32 @@
                     <div class="dropdown show">
                          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Manage
+                            @Localizer["Manage"]
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     @if (User.IsInRole("Admin"))
                     {
 
                             <a class="dropdown-item" asp-action="AddOrEditSubject" asp-route-id="@item.Id">
-                                Edit
+                                @Localizer["Edit"]
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">
-                                Attach
-                                Subject to Group
+                                @Localizer["AttachSubject"]
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" asp-controller="Group" asp-action="DetachSubjectFromGroup" asp-route-subjectId="@item.Id">
-                                Detach
-                                subject from Group
+                                @Localizer["DetachSubject"]
                             </a>
                             <div class="dropdown-divider"></div>
                             <a href="#" class="dropdown-item modalLink" >
-                                Delete
+                                @Localizer["Delete"]
                             </a>                            
                         
                     
                     }
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
                     </div>
                     </div>
 

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Web", "Schoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{22715536-9BA8-48B9-A55F-488DF5E4E9BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Api", "SchoolRegister.Api\SchoolRegister.Api.csproj", "{768FCD8E-AF89-4043-9714-856DF38EA98E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{22715536-9BA8-48B9-A55F-488DF5E4E9BB}.Release|x64.Build.0 = Release|Any CPU
 		{22715536-9BA8-48B9-A55F-488DF5E4E9BB}.Release|x86.ActiveCfg = Release|Any CPU
 		{22715536-9BA8-48B9-A55F-488DF5E4E9BB}.Release|x86.Build.0 = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|x64.Build.0 = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Debug|x86.Build.0 = Debug|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|x64.ActiveCfg = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|x64.Build.0 = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|x86.ActiveCfg = Release|Any CPU
+		{768FCD8E-AF89-4043-9714-856DF38EA98E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

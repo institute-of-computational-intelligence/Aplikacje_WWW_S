@@ -1,7 +1,8 @@
 @model SchoolRegister.ViewModels.VM.AddStudentToGroupVm
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = $"Attach {ViewBag.Student.FirstName} {ViewBag.Student.LastName} to group";
+    ViewData["Title"] = $"{Localizer["Attach"]} {ViewBag.Student.FirstName} {ViewBag.Student.LastName} {Localizer["ToGroup"]}";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -19,9 +20,9 @@
             </div>
             <div class="form-group">
 
-                <label class="control-label">Group</label>
+                <label class="control-label">@Localizer["Group"]</label>
                 <select name="groupName" class="form-control" asp-items="@ViewBag.GroupsSelectList">
-                    <option selected>Choose group</option>
+                    <option selected>@Localizer["ChooseGroup"]</option>
                 </select>
             </div>
             <div class="form-group">
@@ -34,7 +35,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" asp-controller="Student">Back to List</a>
+    <a asp-action="Index" asp-controller="Student">@Localizer["BackToList"]</a>
 </div>
 
 @section Scripts {
