@@ -19,6 +19,7 @@ using SchoolRegister.Services.Interfaces;
 using SchoolRegister.Services.Services;
 using SchoolRegister.Web.Configuration.Profiles;
 using SchoolRegister.Web.Controllers;
+
 namespace SchoolRegister.Web {
     public class Startup {
         public IConfiguration Configuration { get; }
