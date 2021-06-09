@@ -1,0 +1,18 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=Lukasz_Kuc_AppDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "JwtOptions": {
+    "Issuer": "SuperAwesomeTokenServer",
+    "Audience": "http://www.superawesomeprovider.com/",
+    "SecretKey": "M6Lc*rmr5s7?_YE__pddasll41&*#)&nq9$vR87T*VA6Dt6*z&Cz4",
+    "TokenExpirationMinutes": 20
+  }
+}

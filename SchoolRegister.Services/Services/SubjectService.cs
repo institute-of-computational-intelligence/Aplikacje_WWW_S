@@ -78,5 +78,24 @@ namespace SchoolRegister.Services.Services
                 throw;
             }
         }
+
+        public bool RemoveSubject(Expression<Func<Subject, bool>> filterExpression)
+        {
+            try
+            {
+                if (!(filterExpression is null))
+                    return false;
+                var subjectEntity = DbContext.Subjects.FirstOrDefault(filterExpression);
+                DbContext.Subjects.Remove(subjectEntity);
+                DbContext.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
     }
 }
