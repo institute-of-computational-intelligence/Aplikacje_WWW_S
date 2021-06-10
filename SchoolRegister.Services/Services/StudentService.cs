@@ -23,7 +23,7 @@ namespace SchoolRegister.Services.Services
 
         }
 
-        public async Task<GroupVm> AddToGroup(AddToGroupVm addStudentToGroupVm)
+        public async Task<GroupVm> AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm)
         {
             try 
             {
@@ -55,7 +55,7 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-    public async Task<GroupVm> RemoveFromGroup(RemoveFromGroupVm removeStudentFromGroupVm)
+    public async Task<GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm)
         {
             try 
             {
@@ -66,7 +66,7 @@ namespace SchoolRegister.Services.Services
                 if (student == null)
                     throw new ArgumentNullException("Can't find student ID");
 
-                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.StudentId);  
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);  
                 
 
                 if (group is null)
@@ -86,7 +86,20 @@ namespace SchoolRegister.Services.Services
             }
         }
 
+        public IEnumerable<StudentVm> GetStudents (Expression<Func<Student, bool>> filterPredicate = null) {
+            var studentsEntities = DbContext.Users.OfType<Student> ().AsQueryable ();
+            if (filterPredicate != null)
+                studentsEntities = studentsEntities.Where (filterPredicate);
+            var studentsVm = Mapper.Map<IEnumerable<StudentVm>> (studentsEntities);
+            return studentsVm;
+        }
 
+        public StudentVm GetStudent (Expression<Func<Student, bool>> filterPredicate) {
+            if (filterPredicate == null) throw new ArgumentNullException ($"filterPredicate is null");
+            var studentEntity = DbContext.Users.OfType<Student> ().FirstOrDefault (filterPredicate);
+            var studentVm = Mapper.Map<StudentVm> (studentEntity);
+            return studentVm;
+        }
 
 
 

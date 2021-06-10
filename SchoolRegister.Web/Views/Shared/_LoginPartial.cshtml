@@ -2,7 +2,8 @@
 @using SchoolRegister.Model.DataModels
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-    
+
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {

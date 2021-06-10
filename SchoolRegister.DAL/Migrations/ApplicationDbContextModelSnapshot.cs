@@ -421,7 +421,7 @@ namespace SchoolRegister.DAL.Migrations
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Subject", b =>
                 {
                     b.HasOne("SchoolRegister.Model.DataModels.Teacher", "Teacher")
-                        .WithMany("Subjects")
+                        .WithMany("Subject")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
@@ -489,7 +489,7 @@ namespace SchoolRegister.DAL.Migrations
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Teacher", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("Subject");
                 });
 #pragma warning restore 612, 618
         }

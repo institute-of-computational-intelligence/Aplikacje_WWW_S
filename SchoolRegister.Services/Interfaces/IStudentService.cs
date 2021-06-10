@@ -9,7 +9,9 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IStudentService
     {
-        Task <GroupVm> AddToGroup(AddToGroupVm addToGroupVm);
-        Task <GroupVm> RemoveFromGroup(RemoveFromGroupVm removeFromGroupVm);
+        Task <GroupVm> AddStudentToGroup(AddStudentToGroupVm addToGroupVm);
+        Task <GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeFromGroupVm);
+        IEnumerable<StudentVm> GetStudents(Expression<Func<Student, bool>> filterPredicate = null);
+        StudentVm GetStudent(Expression<Func<Student, bool>> filterPredicate);
     }
 }

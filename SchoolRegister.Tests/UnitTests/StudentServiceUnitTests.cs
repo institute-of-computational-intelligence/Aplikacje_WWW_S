@@ -21,25 +21,25 @@ namespace SchoolRegister.Services.Services
         }
    
 
-       public async Task<GroupVm> AddToGroup(AddToGroupVm addToGroupVm)
+       public async Task<GroupVm> AddStudentToGroup(AddStudentToGroupVm addStudentToGroupVm)
         {
             try 
             {
-                if (addToGroupVm == null)
+                if (addStudentToGroupVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
 
-                var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addToGroupVm.GroupId);
+                var group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == addStudentToGroupVm.GroupId);
 
                 if(group == null)
                     throw new ArgumentNullException("Can't find group ID");
 
-                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == addToGroupVm.StudentId);
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == addStudentToGroupVm.StudentId);
 
                 if (student == null)
                     throw new ArgumentNullException("Can't find student ID");
                 
                 var groupVm = Mapper.Map<GroupVm>(group);
-                student.GroupId = addToGroupVm.GroupId;
+                student.GroupId = addStudentToGroupVm.GroupId;
                 group.Students.Add(student);
                 DbContext.Users.Update(student);
                 DbContext.Groups.Update(group);
@@ -53,18 +53,18 @@ namespace SchoolRegister.Services.Services
             }
         }
 
-        public async Task<GroupVm> RemoveFromGroup(RemoveFromGroupVm removeFromGroupVm)
+        public async Task<GroupVm> RemoveStudentFromGroup(RemoveStudentFromGroupVm removeStudentFromGroupVm)
         {
             try 
             {
-                if (removeFromGroupVm == null)
+                if (removeStudentFromGroupVm == null)
                     throw new ArgumentNullException ($"View model parameter is null");
-                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == removeFromGroupVm.StudentId);
+                var student = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == removeStudentFromGroupVm.StudentId);
 
                 if (student == null)
                     throw new ArgumentNullException("Can't find student ID");
 
-                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeFromGroupVm.StudentId);   
+                Group group = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == removeStudentFromGroupVm.GroupId);   
                 
 
                 if (group is null)

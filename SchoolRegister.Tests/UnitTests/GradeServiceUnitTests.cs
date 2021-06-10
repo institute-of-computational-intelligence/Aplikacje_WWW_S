@@ -4,49 +4,40 @@ using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+using SchoolRegister.Tests;
 using Xunit;
+
 namespace SchoolRegister.Tests.UnitTests
 {
     public class GradeServiceUnitTests : BaseUnitTests
     {
         private readonly IGradeService _gradeService;
-
         public GradeServiceUnitTests(ApplicationDbContext dbContext, IGradeService gradeService) : base(dbContext)
         {
             _gradeService = gradeService;
         }
 
         [Fact]
-        public void GetGradesForStudentByTeacher()
+        public async void GetGradesReportForStudentByStudent()
         {
-            var getGradesForStudent = new GetGradesVm()
-            {
-                StudentId = 5,
-                UserId = 1
-            };
-            var gradesReport = _gradeService.GetGradesAsync(getGradesForStudent);
-            Assert.NotNull(gradesReport);
-        }
-        [Fact]
-        public void GetGradesForStudentByStudent()
-        {
-            var getGradesForStudent = new GetGradesVm()
+            Console.Write("DZIALAM");
+            var getGradesReportForStudent = new GradeVm()
             {
                 StudentId = 5,
                 UserId = 5
             };
-            var gradesReport = _gradeService.GetGradesAsync(getGradesForStudent);
+            var gradesReport =await _gradeService.GetGrades(getGradesReportForStudent);
             Assert.NotNull(gradesReport);
         }
         [Fact]
-        public void GetGradesForStudentByParent()
+        public async void GetGradesReportForStudentByParent()
         {
-            var getGradesForStudent = new GetGradesVm()
+            var getGradesReportForStudent = new GradeVm()
             {
                 StudentId = 5,
                 UserId = 3
             };
-            var gradesReport = _gradeService.GetGradesAsync(getGradesForStudent);
+            var gradesReport = await _gradeService.GetGrades(getGradesReportForStudent);
             Assert.NotNull(gradesReport);
         }
     }

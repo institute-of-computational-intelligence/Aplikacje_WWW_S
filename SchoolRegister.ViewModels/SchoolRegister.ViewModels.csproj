@@ -3,7 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
   </ItemGroup>
-
+  
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>

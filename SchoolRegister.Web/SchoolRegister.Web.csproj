@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-SchoolRegister.Web-B0ABFB55-03E6-4389-94A7-9DF746ADC739</UserSecretsId>
+    <UserSecretsId>aspnet-SchoolRegister.Web-7F588EBA-DF48-4A87-96D5-CA69CF3C2FB9</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
@@ -15,9 +15,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
-
-
 
   <ItemGroup>
     <ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
@@ -25,5 +24,6 @@
     <ProjectReference Include="..\SchoolRegister.ViewModels\SchoolRegister.ViewModels.csproj" />
     <ProjectReference Include="..\SchoolRegister.Services\SchoolRegister.Services.csproj" />
   </ItemGroup>
+
 
 </Project>
