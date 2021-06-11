@@ -13,6 +13,14 @@
     </p>
 }
 
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input type="text" class="subjects-filter-input form-control" placeholder="filter" />
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -34,39 +42,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TeacherName)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Groups.Count)
-                </td>
-
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:|
-                        <a asp-controller="Group" asp-action="AttachSubjectToGroup"
-                    asp-routesubjectId="@item.Id">@Localizer["AttachToGroup"]</a> @:|
-                        <a asp-controller="Group" asp-action="DetachSubjectToGroup"
-                    asp-routesubjectId="@item.Id">@Localizer["DetachFromGroup"]</a> @:|
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
-                </td>
-            </tr>
-        }
+    <tbody class="subjects-table-data">
+        <partial name="_SubjectsTableDataPartial" model="Model" />
     </tbody>
 </table>

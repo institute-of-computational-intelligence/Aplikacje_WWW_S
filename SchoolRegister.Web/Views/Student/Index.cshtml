@@ -7,6 +7,13 @@
 
 
 <h1>Student</h1>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input type="text" class="students-filter-input form-control" placeholder="filter" />
+        </div>
+    </div>
+</div>
 
 <table class="table">
     <thead>
@@ -38,53 +45,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParentId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GroupName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AverageGrade)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @if (User.IsInRole("Student") || User.IsInRole("Parent"))
-                    {
-                        <a asp-action="ShowGrades" asp-route-id="@item.Id">@Localizer["ShowGrades"]</a>
-                    }
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="AddToGroup" asp-route-id="@item.Id">@Localizer["AddToGroup"]</a> @: |
-                        <a asp-action="RemoveFromGroup" asp-route-id="@item.Id">@Localizer["RemoveFromGroup"]</a>
-                    }
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <a asp-action="AddGradeToStudent" asp-route-id="@item.Id">@Localizer["AddGrade"]</a> @: |
-                        <a asp-action="SendEmailToParent"
-                    asp-route-parentId="@item.ParentId">@Localizer["SendEmailToParent"]</a>
-                    }
-
-                </td>
-            </tr>
-        }
+    <tbody class="students-table-data">
+        <partial name="_StudentsTableDataPartial" model="Model" />
     </tbody>
 </table>
