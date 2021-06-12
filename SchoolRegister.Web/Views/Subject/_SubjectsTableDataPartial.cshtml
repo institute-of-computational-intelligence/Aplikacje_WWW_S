@@ -1,0 +1,27 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using SchoolRegister.ViewModels.VM
+@model IEnumerable<SchoolRegister.ViewModels.VM.SubjectVm>
+@inject IViewLocalizer Localizer
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Groups.Count)
+            </td>
+            <td>
+               @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:
+                }
+            </td>
+        </tr>
+}

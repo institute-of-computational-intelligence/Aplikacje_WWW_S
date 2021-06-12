@@ -2,9 +2,16 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = @Localizer["Subject"];
+    ViewData["Title"] = Localizer["Subject"];
 }
-<h1>@Localizer["Subject"]</h1>
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input class="subjects-filter-input form-control" type="text" placeholder="Filter" />
+        </div>
+    </div>
+</div>
 @if (User.IsInRole("Admin"))
 {
     <p>
@@ -29,28 +36,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Groups.Count)
-            </td>
-            <td>
-               @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:
-                }
-            </td>
-        </tr>
-}
+    <tbody class="subjects-table-data">
+        <partial name="_SubjectsTableDataPartial" model="Model" />
     </tbody>
 </table>

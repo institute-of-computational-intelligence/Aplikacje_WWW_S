@@ -1,0 +1,62 @@
+@model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
+@using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@foreach (var item in Model) {
+        <tr>
+            @if (User.IsInRole("Admin"))
+            {
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentName)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+            <td>
+                @Html.DisplayFor(modelItem => item.ParentId)
+            </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageGrade)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            }
+            <td>
+                @if (User.IsInRole("Admin") && String.IsNullOrEmpty(item.GroupName))
+                { 
+                    <a asp-action="RemoveFromAddToGroup" asp-route-id="@item.Id">@Localizer["AddTo"]</a> @:
+                }
+                @if (User.IsInRole("Admin") && !String.IsNullOrEmpty(item.GroupName))
+                { 
+                    <a asp-action="RemoveFromAddToGroup" asp-route-id="@item.Id" asp-route-name="@item.GroupName">@Localizer["RemoveFrom"]</a> @:
+                }
+                @if(User.IsInRole("Parent"))
+                {
+                    <a asp-action="Details" asp-route-id="@item.Id" asp-route-name="@item.GroupName">@Localizer["Details"]</a>
+                }
+
+                @if(User.IsInRole("Teacher"))
+                {
+                    <a asp-action="AddGrade" asp-route-id="@item.Id">@Localizer["AddGrade"]</a>
+                }
+                
+            </td>
+        </tr>
+}

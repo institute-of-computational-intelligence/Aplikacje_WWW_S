@@ -34,17 +34,48 @@ namespace SchoolRegister.Web.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Student, bool>> filterExpression = null;
+            if(!string.IsNullOrEmpty(filterValue))
+                filterExpression = s => (s.FirstName+" "+s.LastName).Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
             var user = _userManager.GetUserAsync(User).Result;
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_studentService.GetStudents());
+            {
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if(isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+                return View(studentVms);
+            }
             else if (_userManager.IsInRoleAsync(user, "Teacher").Result)
-               return View(_studentService.GetStudents());
+            {
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if(isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+                return View(studentVms);
+            }
             else if (_userManager.IsInRoleAsync(user, "Parent").Result)
             {
-                var parent = _userManager.GetUserAsync(User).Result as Parent;
-                return View(_studentService.GetStudents(x => x.ParentId == parent.Id));
+                if(user is Parent parent)
+                {
+                    Expression<Func<Student, bool>> filterParentExpression = s => s.ParentId == parent.Id;
+                    Expression finalFilterBody;
+                    if(filterExpression != null)
+                    {
+                        var invokedFilterExpr = Expression.Invoke(filterExpression, filterParentExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(filterParentExpression.Body, invokedFilterExpr);
+                    }
+                    else
+                        finalFilterBody = filterParentExpression.Body;
+                    var finalFilterExpression = Expression.Lambda<Func<Student, bool>>(finalFilterBody, filterParentExpression.Parameters);
+                    var studentVms = _studentService.GetStudents(finalFilterExpression);
+                    if(isAjaxRequest)
+                        return PartialView("_StudentsTableDataPartial", studentVms);
+                    return View(studentVms);
+                }
+                throw new Exception("Parent is assigned to role, but to the Parent type.");
             }
             else if (_userManager.IsInRoleAsync(user, "Student").Result)
                 return RedirectToAction("Details", new { id = user.Id });
