@@ -1,0 +1,94 @@
+﻿@using SchoolRegister.ViewModels.VM
+@model GroupVm
+@{
+    ViewData["Title"] = "Group details";
+}
+<h2>@ViewData["Title"]</h2>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<hr>
+<h3>Students: </h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>First name</label>
+            </th>
+            <th>
+                <label>Last name</label>
+            </th>
+            <th>
+                <label>Average grade</label>
+            </th>
+            <th>
+                <label>Parent name</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => student.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.AverageGrade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => student.ParentName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr>
+<h3>Subjects: </h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Name </label>
+            </th>
+            <th>
+                <label>Teacher name</label>
+            </th>
+            <th>
+                <label>Description</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subject in Model.Subjects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => subject.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => subject.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => subject.Description)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.ActionLink("Edit", "AddOrEditGroup", new { id = Model.Id }) |
+    <a asp-action="Index">Back to List</a>
+</div>
