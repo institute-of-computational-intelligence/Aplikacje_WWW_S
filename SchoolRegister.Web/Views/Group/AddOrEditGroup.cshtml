@@ -1,9 +1,11 @@
 @using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model AddUpdateGroupVm
 @{
-    ViewData["Title"] = $"{ViewBag.ActionType} Group";
+    ViewData["Title"] = $"{ViewBag.ActionType}";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"] @Localizer["GroupLow"]</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -13,7 +15,7 @@
                 <input asp-for="Id" type="hidden" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label">@Localizer["Name"]</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -27,7 +29,7 @@
 
                  
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BacktoList"]</a>
 </div>
 
 @section Scripts {

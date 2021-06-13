@@ -81,13 +81,13 @@ namespace SchoolRegister.Web.Controllers
         [Authorize(Roles = "Teacher, Admin")]
         public IActionResult AttachStudentToGroup(int studentId)
         {
-            ViewBag.ActionType = "Attach";
+            ViewBag.ActionType = Localizer["Attach"];
             return AttachDetachGetView(studentId);
         }
         [Authorize(Roles = "Teacher, Admin")]
         public IActionResult DetachStudentToGroup(int studentId)
         {
-            ViewBag.ActionType = "Detach";
+            ViewBag.ActionType = Localizer["Detach"];
             return AttachDetachGetView(studentId);
         }
         [HttpPost]

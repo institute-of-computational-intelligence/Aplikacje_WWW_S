@@ -1,7 +1,9 @@
 @using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model SubjectVm
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @Localizer["Details"];
 }
 <h2>@ViewData["Title"]</h2>
 <div>
@@ -35,5 +37,5 @@
     {
         @Html.ActionLink("Edit", "AddOrEditSubject", new {id = Model.Id}) @:|
     }
-    <a asp-action="Index">Back to List</a>
-</div>          
+    <a asp-action="Index">@Localizer["BacktoList"]</a>
+</div>

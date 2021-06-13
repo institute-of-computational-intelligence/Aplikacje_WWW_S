@@ -1,7 +1,9 @@
 @using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model SendEmailVm
 @{
-    ViewData["Title"] = "Send Email to Parent";
+    ViewData["Title"] = @Localizer["SendEmailToP"];
 }                      
 
 <h2>@ViewData["Title"]</h2>
@@ -14,24 +16,24 @@
                 <input type="hidden" asp-for="StudentId" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label asp-for="Title" class="control-label">@Localizer["EmailTitle"]</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
+                <label asp-for="Content" class="control-label">@Localizer["EmailContent"]</label>
                 <textarea asp-for="Content" class="form-control" ></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Send" class="btn btn-primary" />
+                <input type="submit" value=@Localizer["EmailSend"] class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
                 
 <div>
-    <a asp-action="Index" asp-controller="Student">Back to List</a>
+    <a asp-action="Index" asp-controller="Student">@Localizer["BacktoList"]</a>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

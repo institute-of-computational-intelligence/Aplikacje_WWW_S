@@ -47,11 +47,11 @@ namespace SchoolRegister.Web.Controllers
             if (id.HasValue) 
             {
                 var group = _groupService.GetGroups(x => x.Id == id.Value).FirstOrDefault();
-                ViewBag.ActionType = "Edit";
+                ViewBag.ActionType = Localizer["Edit"];
                 var groupDto = Mapper.Map<AddUpdateGroupVm> (group);
                 return View (groupDto);
             }
-            ViewBag.ActionType = "Add";
+            ViewBag.ActionType = Localizer["Add"];
             return View ();
         }
 

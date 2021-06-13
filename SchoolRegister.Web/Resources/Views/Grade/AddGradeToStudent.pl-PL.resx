@@ -61,16 +61,16 @@
     <data name="Subject" xml:space="preserve">
         <value>Przedmiot</value>
     </data>
-    <data name="Name" xml:space="preserve">
-        <value>Nazwa</value>
+    <data name="ChooseSubject" xml:space="preserve">
+        <value>Wybierz przedmiot</value>
     </data>
-    <data name="Description" xml:space="preserve">
-        <value>Opis</value>
+    <data name="AddGradeTitle" xml:space="preserve">
+        <value>Dodaj ocenę do</value>
     </data>
-    <data name="Teacher" xml:space="preserve">
-        <value>Nauczyciel</value>
+    <data name="GradeValue" xml:space="preserve">
+        <value>Ocena</value>
     </data>
-    <data name="BackToList" xml:space="preserve">
-        <value>Wstecz</value>
+    <data name="Add" xml:space="preserve">
+        <value>Dodaj</value>
     </data>
 </root>

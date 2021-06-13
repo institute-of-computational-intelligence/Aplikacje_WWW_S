@@ -61,16 +61,19 @@
     <data name="Subject" xml:space="preserve">
         <value>Przedmiot</value>
     </data>
-    <data name="Name" xml:space="preserve">
-        <value>Nazwa</value>
+    <data name="Group" xml:space="preserve">
+        <value>Grupa</value>
     </data>
-    <data name="Description" xml:space="preserve">
-        <value>Opis</value>
+    <data name="SubjectGroup" xml:space="preserve">
+        <value>Grupa przedmiotu</value>
     </data>
-    <data name="Teacher" xml:space="preserve">
-        <value>Nauczyciel</value>
-    </data>
-    <data name="BackToList" xml:space="preserve">
+    <data name="BacktoList" xml:space="preserve">
         <value>Wstecz</value>
+    </data>
+    <data name="Attach" xml:space="preserve">
+        <value>Podepnij</value>
+    </data>
+    <data name="Detach" xml:space="preserve">
+        <value>Odłącz</value>
     </data>
 </root>

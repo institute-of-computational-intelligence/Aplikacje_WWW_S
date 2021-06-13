@@ -58,19 +58,16 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="Subject" xml:space="preserve">
-        <value>Przedmiot</value>
+    <data name="HomePage" xml:space="preserve">
+        <value>Home Page</value>
     </data>
-    <data name="Name" xml:space="preserve">
-        <value>Nazwa</value>
+    <data name="WelcomeMsg" xml:space="preserve">
+        <value>Welcome</value>
     </data>
-    <data name="Description" xml:space="preserve">
-        <value>Opis</value>
+    <data name="WelcomeMsg-1" xml:space="preserve">
+        <value>Learn about </value>
     </data>
-    <data name="Teacher" xml:space="preserve">
-        <value>Nauczyciel</value>
+    <data name="WelcomeMsg-2" xml:space="preserve">
+        <value>building Web apps with ASP.NET Core</value>
     </data>
-    <data name="BackToList" xml:space="preserve">
-        <value>Wstecz</value>
-    </data>
-</root>
+</root> 

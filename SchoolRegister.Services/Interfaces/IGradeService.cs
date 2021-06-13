@@ -7,7 +7,6 @@ namespace SchoolRegister.Services.Interfaces
 {
     public interface IGradeService
     {
-        Task<IEnumerable<Grade>> GetGradesAsync(GetGradesVm getGradesVm);
-        Task<IEnumerable<GradeVm>> GetGrades(GetGradesVm getGradesVm);  
+       Task<IEnumerable<GradeVm>> GetGrades(GetGradesVm getGradesVm);  
     }
 }

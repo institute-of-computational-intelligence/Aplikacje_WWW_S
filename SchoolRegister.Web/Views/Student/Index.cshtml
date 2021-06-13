@@ -1,7 +1,8 @@
 @model IEnumerable<SchoolRegister.ViewModels.VM.StudentVm>
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = @Localizer["Students"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -37,30 +38,28 @@
                 <td class="align-middle text-right">
                     <div class="dropdown show">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Manage
-                        </a>
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Manage"]</a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Parent"))
                             {
-                                <a class="dropdown-item" asp-action="Details" asp-route-studentId="@item.Id">Details</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-studentId="@item.Id">@Localizer["Details"]</a>
                                 @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
                                 {
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="Grade" asp-action="AddGradeToStudent"asp-route-studentId="@item.Id">Add Grade</a>
-                                    <a class="dropdown-item" asp-controller="Teacher" asp-action="SendEmailToParent" asp-route-studentId="@item.Id">Send Email to Parent</a> @:|
+                                    <a class="dropdown-item" asp-controller="Grade" asp-action="AddGradeToStudent"asp-route-studentId="@item.Id">@Localizer["AddGrade"]</a>
+                                    <a class="dropdown-item" asp-controller="Teacher" asp-action="SendEmailToParent" asp-route-studentId="@item.Id">@Localizer["SendEmailToP"]</a> @:|
                                 }
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-controller="Student" asp-action="AttachStudentToGroup" asp-route-studentId="@item.Id">Attach Student to Group</a>
+                                    <a class="dropdown-item" asp-controller="Student" asp-action="AttachStudentToGroup" asp-route-studentId="@item.Id">@Localizer["AttachStToGr"]</a>
                                     @if (item.GroupId != null)
                                     {
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" asp-controller="Student" asp-action="DetachStudentToGroup" asp-route-studentId="@item.Id">Detach Student from Group</a>
+                                        <a class="dropdown-item" asp-controller="Student" asp-action="DetachStudentToGroup" asp-route-studentId="@item.Id">@Localizer["DetachStFrGr"]</a>
                                     }
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item modalLink" href="#">Delete</a><div class="dropdown-divider"></div>
+                                    <a class="dropdown-item modalLink" href="#">@Localizer["Delete"]</a><div class="dropdown-divider"></div>
                                 }
                             }
                         </div>

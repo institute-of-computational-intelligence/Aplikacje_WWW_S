@@ -1,10 +1,12 @@
 @using SchoolRegister.ViewModels.VM
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model AttachDetachStudentToGroupVm
 @{
-    ViewData["Title"] = $"{ViewBag.ActionType} Student to Group";
+    ViewData["Title"] = $"{ViewBag.ActionType}";
     ViewBag.PostAction = $"{ViewBag.ActionType}StudentToGroup";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"] @Localizer["StudentToGroup"]</h2>
 <hr />
 <div class="row">
                   
@@ -12,12 +14,12 @@
         <form asp-action="@ViewBag.PostAction">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Student</label>
+                <label class="control-label">@Localizer["Student"]</label>
                 <select asp-for="StudentId" class="form-control" asp-items="ViewBag.SubjectList"></select>
                 <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Group</label>
+                <label class="control-label">@Localizer["Group"]</label>
                 <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupList"></select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
@@ -30,7 +32,7 @@
              
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@Localizer["BacktoList"]</a>
 </div>
 
 @section Scripts {         

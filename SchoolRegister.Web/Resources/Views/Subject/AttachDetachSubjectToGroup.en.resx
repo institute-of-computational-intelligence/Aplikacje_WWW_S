@@ -59,18 +59,21 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="Subject" xml:space="preserve">
-        <value>Przedmiot</value>
+        <value>Subject</value>
     </data>
-    <data name="Name" xml:space="preserve">
-        <value>Nazwa</value>
+    <data name="Group" xml:space="preserve">
+        <value>Group</value>
     </data>
-    <data name="Description" xml:space="preserve">
-        <value>Opis</value>
+    <data name="SubjectGroup" xml:space="preserve">
+        <value>SubjectGroup</value>
     </data>
-    <data name="Teacher" xml:space="preserve">
-        <value>Nauczyciel</value>
+    <data name="BacktoList" xml:space="preserve">
+        <value>Back to list</value>
     </data>
-    <data name="BackToList" xml:space="preserve">
-        <value>Wstecz</value>
+    <data name="Attach" xml:space="preserve">
+        <value>Attach</value>
+    </data>
+    <data name="Detach" xml:space="preserve">
+        <value>Detach</value>
     </data>
 </root>
