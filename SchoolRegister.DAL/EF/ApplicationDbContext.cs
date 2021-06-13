@@ -9,24 +9,27 @@ namespace SchoolRegister.DAL.EF
 {
     public class ApplicationDbContext : IdentityDbContext<User,Role,int>
     {
+        // table properties
         public virtual DbSet<Grade> Grades { get; set; }
-        public virtual DbSet<Group> Groups {get; set;}
-        public virtual DbSet<Subject> Subjects {get; set;}
-        public virtual DbSet<SubjectGroup> SubjectGroups {get; set;}
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<Subject> Subjects { get; set; }
+        public virtual DbSet<SubjectGroup> SubjectGroups { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseLazyLoadingProxies();
+            //configuration commands            
+            optionsBuilder.UseLazyLoadingProxies(); //enable lazy loading proxies
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+             base.OnModelCreating(modelBuilder);
+            // Fluent API commands
             modelBuilder.Entity<User>()
                 .ToTable("AspNetUsers")
                 .HasDiscriminator<int>("UserType")
@@ -34,8 +37,8 @@ namespace SchoolRegister.DAL.EF
                 .HasValue<Student>((int)RoleValue.Student)
                 .HasValue<Parent>((int)RoleValue.Parent)
                 .HasValue<Teacher>((int)RoleValue.Teacher);
-
-            modelBuilder.Entity<SubjectGroup>()
+                
+             modelBuilder.Entity<SubjectGroup>()
                 .HasKey(sg => new {sg.GroupId, sg.SubjectId});
 
             modelBuilder.Entity<SubjectGroup>()
@@ -49,8 +52,14 @@ namespace SchoolRegister.DAL.EF
                 .HasForeignKey(s => s.SubjectId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-               modelBuilder.Entity<Grade>()
-                .HasKey(g => new {g.DateOfIssue, g.SubjectId, g.StudentId});
+            modelBuilder.Entity<Grade>()
+                .HasKey(g => new{g.DateOfIssue, g.StudentId, g.SubjectId});
+
+            modelBuilder.Entity<Grade>()
+                .HasOne(s => s.Student)
+                .WithMany(sg => sg.Grades)
+                .HasForeignKey(s => s.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

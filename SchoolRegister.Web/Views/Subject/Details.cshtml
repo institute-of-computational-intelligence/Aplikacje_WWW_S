@@ -1,0 +1,44 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model SubjectVm
+@{
+    ViewData["Title"] = @Localizer["Details"];
+}
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Localizer[@Html.DisplayNameFor(model => model.Name)]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Localizer[@Html.DisplayNameFor(model => model.Description)]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Localizer[@Html.DisplayNameFor(model => model.TeacherName)]
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TeacherName)
+        </dd>
+    </dl>
+    
+    <partial name="_GroupsDetailsPartial" model="@Model.Groups" />
+</div>
+
+<div>
+
+    @if (User.IsInRole("Admin"))
+    {
+         @Html.ActionLink(Localizer["Edit"].Value, "AddOrEditSubject", new {id = Model.Id}) @:|
+    }
+
+    <a asp-action="Index">@Localizer["Back to List"]</a>
+</div>

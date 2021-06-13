@@ -1,97 +1,88 @@
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SchoolRegister.DAL.EF;
+using Microsoft.AspNetCore.Identity;
 using SchoolRegister.Model.DataModels;
+using SchoolRegister.DAL.EF;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
 using System;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Net;
+using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Services
 {
     public class TeacherService : BaseService, ITeacherService
     {
-        private readonly UserManager<User> userType;
-        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) : base(dbContext, mapper, logger)
+        private readonly IEmailSenderService _emailService;
+        private readonly UserManager<User> _userManager;
+        private readonly IGroupService _groupService;
+        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager, IGroupService groupService, IEmailSenderService emailService) 
+        : base(dbContext,  mapper, logger)
         {
-            userType = userManager;
+            _userManager = userManager;
+            _emailService = emailService;
         }
-
-        public async void AddGrade(AddGradeToStudentVm addGradeVm)
+        public async Task<bool> SendEmailToParentAsync(SendEmailToParentVm sendEmailToParentVm)
         {
             try
             {
-                if (addGradeVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
-
-                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == addGradeVm.TeacherId);
-                if (await userType.IsInRoleAsync(teacher, "Teacher"))
+                if (sendEmailToParentVm == null)
                 {
-                    if (addGradeVm.TeacherId.HasValue && addGradeVm.StudentId == 0)
-                    {
-                        var student = DbContext.Users.OfType<Student>().FirstOrDefault(t => t.Id == addGradeVm.StudentId);
-                        await DbContext.Grades.AddAsync(new Grade()
-                        { DateOfIssue = DateTime.Now, GradeValue = addGradeVm.GradeValue, StudentId = addGradeVm.StudentId, SubjectId = addGradeVm.StudentId });
-                        await DbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("TeacherId or StudentId have no values!");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentNullException("You don't have permission to add grades!");
+                    throw new ArgumentNullException($"Vm is null");
                 }
 
+                var teacher = DbContext.Users.OfType<Teacher>()
+                    .FirstOrDefault(x => x.Id == sendEmailToParentVm.SenderId);
+                if (teacher == null || _userManager.IsInRoleAsync(teacher, "Teacher").Result == false)
+                {
+                    throw new InvalidOperationException("sender is not teacher");
+                }
+
+                var student = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == sendEmailToParentVm.StudentId);
+                if (student == null || !_userManager.IsInRoleAsync(student, "Student").Result)
+                {
+                    throw new InvalidOperationException("given user is not student");
+                }
+                await _emailService.SendEmailAsync(student.Parent.Email, teacher.Email, sendEmailToParentVm.Title,sendEmailToParentVm.Content);
+                return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Logger.LogError(ex, ex.Message);
-                throw;
+                return false;
             }
         }
-
-        public async void SendEmail(MailVm mailVm)
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null)
         {
-            try
+            var teacherEntities = DbContext.Users.OfType<Teacher>().AsQueryable();
+            if (filterPredicate != null)
             {
-                if (mailVm == null)
-                    throw new ArgumentNullException($"View model paramaeter is null");
-                var teacher = DbContext.Users.OfType<Teacher>().FirstOrDefault(t => t.Id == mailVm.TeacherId);
-                var parent = DbContext.Users.OfType<Parent>().FirstOrDefault(p => p.Id == mailVm.UserId);
-                if (await userType.IsInRoleAsync(teacher, "Teacher") && await userType.IsInRoleAsync(parent, "Parent"))
-                {
-                    if ((mailVm.TeacherId.HasValue) || (mailVm.UserId.HasValue))
-                    {
-                        SmtpClient client = new SmtpClient()
-                        {
-                            EnableSsl = true,
-                            Credentials = CredentialCache.DefaultNetworkCredentials
-                        };
-                        await client.SendMailAsync(teacher.Email, parent.Email, mailVm.Title, mailVm.Content);
-                        client.Dispose();
-                    }
-                    else
-                    {
-                        throw new ArgumentNullException("TeacherId or ParentId have no values!");
-                    }
-                }
-                else
-                {
-                    throw new ArgumentNullException("You have valid role to sending emails, or You are not sending email to vaild user type!");
-                }
+                teacherEntities = teacherEntities.Where(filterPredicate);
             }
-            catch (Exception ex)
+            var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
+            return teacherVms;
+        }
+        public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate)
+        {
+            var teacherEntity = DbContext.Users.OfType<Teacher>().FirstOrDefault();
+            if (teacherEntity == null)
             {
-                Logger.LogError(ex, ex.Message);
-                throw;
+                throw new InvalidOperationException("There is no such teacher");
             }
+            var teacherVm = Mapper.Map<TeacherVm>(teacherEntity);
+            return teacherVm;
+        }
+        public IEnumerable<GroupVm> GetTeachersGroups(TeachersGroupsVm getTeachersGroups)
+        {
+            if (getTeachersGroups == null)
+            {
+                throw new ArgumentNullException($"Vm is null");
+            }
+            var teacher = _userManager.Users.OfType<Teacher>().FirstOrDefault(x => x.Id == getTeachersGroups.TeacherId);
+            var teacherGroups = teacher?.Subjects.SelectMany(s=>s.SubjectGroups.Select(gr=>gr.Group));
+            var teacherGroupsVm = Mapper.Map<IEnumerable<GroupVm>>(teacherGroups); 
+            return teacherGroupsVm;
         }
     }
-} 
+}

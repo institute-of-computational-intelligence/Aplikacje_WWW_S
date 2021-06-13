@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "X+WXQvPG4OTG7K0DLVtdWqNn86CejOPU0snoJ7zZUwFSCVArxyVbsh+/KDS2YVzdsxJfO2LBv+692ZI03PF41Q==",
+  "success": true,
+  "projectFilePath": "D:\\AWWW\\Aplikacje_WWW_S\\SchoolRegister.ViewModels\\SchoolRegister.ViewModels.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.3\\microsoft.aspnetcore.cryptography.internal.5.0.3.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.3\\microsoft.aspnetcore.cryptography.keyderivation.5.0.3.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\5.0.0\\microsoft.extensions.caching.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.0\\microsoft.extensions.dependencyinjection.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.identity.core\\5.0.3\\microsoft.extensions.identity.core.5.0.3.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.identity.stores\\5.0.3\\microsoft.extensions.identity.stores.5.0.3.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
+    "C:\\Users\\damia\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

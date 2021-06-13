@@ -1,0 +1,12 @@
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.deps.json
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.dll
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\ref\SchoolRegister.Model.dll
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\bin\Debug\net5.0\SchoolRegister.Model.pdb
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csprojAssemblyReference.cache
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfoInputs.cache
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.AssemblyInfo.cs
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.csproj.CoreCompileInputs.cache
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.dll
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\ref\SchoolRegister.Model.dll
+D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Model\obj\Debug\net5.0\SchoolRegister.Model.pdb

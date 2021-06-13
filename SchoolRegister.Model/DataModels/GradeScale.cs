@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-
 namespace SchoolRegister.Model.DataModels
 {
-    public enum GradeScale
+    public enum GradeScale: int
     {
         NDST,
         DST,
         DB,
-        BDB
-
+        BDB,
     }
 }

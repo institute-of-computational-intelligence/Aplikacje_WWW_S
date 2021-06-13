@@ -16,7 +16,7 @@ namespace SchoolRegister.DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -129,16 +129,16 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SubjectId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("GradeValue")
                         .HasColumnType("int");
 
-                    b.HasKey("DateOfIssue", "SubjectId", "StudentId");
+                    b.HasKey("DateOfIssue", "StudentId", "SubjectId");
 
                     b.HasIndex("StudentId");
 
@@ -160,7 +160,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Group");
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.Role", b =>
@@ -217,7 +217,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.SubjectGroup", b =>
@@ -232,7 +232,7 @@ namespace SchoolRegister.DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjectGroup");
+                    b.ToTable("SubjectGroups");
                 });
 
             modelBuilder.Entity("SchoolRegister.Model.DataModels.User", b =>
@@ -409,7 +409,7 @@ namespace SchoolRegister.DAL.Migrations
                     b.HasOne("SchoolRegister.Model.DataModels.Student", "Student")
                         .WithMany("Grades")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SchoolRegister.Model.DataModels.Subject", "Subject")

@@ -1,0 +1,4 @@
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="_content/SchoolRegister.Web" Path="D:\AWWW\Aplikacje_WWW_S\SchoolRegister.Web\wwwroot\" />
+  <ContentRoot BasePath="/Identity" Path="C:\Users\damia\.nuget\packages\microsoft.aspnetcore.identity.ui\5.0.3\staticwebassets\V4\" />
+</StaticWebAssets>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+                                                 
+<root>                    
+               
+    <data name="Groups" xml:space="preserve">
+		<value>Grupy</value>
+	</data>
+                    
+	<data name="Name" xml:space="preserve">
+		<value>Nazwa</value>
+	</data> 
+             
+</root>

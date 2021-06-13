@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+                
+<root>
+                         
+    <data name="Details" xml:space="preserve">
+		<value>Szczegóły</value>
+	</data>
+                 
+    <data name="Name" xml:space="preserve">
+		<value>Nazwa</value>
+	</data>
+              
+    <data name="Description" xml:space="preserve">
+		<value>Opis</value>
+	</data>
+                  
+    <data name="TeacherName" xml:space="preserve">
+		<value>Nauczyciel</value>
+	</data>
+              
+	<data name="Edit" xml:space="preserve">
+		<value>Edytuj</value>
+	</data>
+                 
+    <data name="Back to List" xml:space="preserve">
+		<value>Wróć do listy</value>
+	</data>
+     
+</root>
