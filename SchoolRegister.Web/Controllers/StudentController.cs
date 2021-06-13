@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.Interfaces;
 using SchoolRegister.ViewModels.VM;
+
 
 namespace SchoolRegister.Web.Controllers
 {
@@ -36,26 +38,74 @@ namespace SchoolRegister.Web.Controllers
         }
 
         [Authorize(Roles = "Teacher, Admin, Parent")]
-        public IActionResult Index()
+          public IActionResult Index(string filterValue = null)     
         {
+            Expression<Func<Student, bool>> filterExpression = null;    
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.FirstName.Contains(filterValue);
 
-            IEnumerable<StudentVm> studentsVm = null;
-            if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Parent"))
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+
+            var user = _userManager.GetUserAsync(User).Result;     
+
+            if (_userManager.IsInRoleAsync(user, "Student").Result)
             {
-                var parent = _userManager.GetUserAsync(User).Result;
-                studentsVm = _studentService.GetStudents(s => s.ParentId == parent.Id);
+                if (user is Student student)
+                {
+                    Expression<Func<Student, bool>> filterStudentExpression = s => s.GroupId == student.GroupId;
+                    Expression finalFilterBody;
+
+                    if (filterExpression != null)
+                    {
+                        var invokeFilterExpression = Expression.Invoke(filterExpression, filterStudentExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(filterStudentExpression.Body, invokeFilterExpression);
+                    }
+
+                    else
+                        finalFilterBody = filterStudentExpression.Body;
+                    var finalFilterExpression = Expression.Lambda<Func<Student, bool>>(finalFilterBody, filterStudentExpression.Parameters);
+
+                    var studentVms = _studentService.GetStudents(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_StudentsTableDataPartial", studentVms);
+                    return View(studentVms);
+                }
+                 
+                throw new Exception("Student is assigned to role, but to the Student Type");
+            }             
+            else if (_userManager.IsInRoleAsync(user, "Parent").Result)
+            {            
+                if (user is Parent parent)
+                {
+                    Expression<Func<Student, bool>> filterStudentExpression = s => s.ParentId == parent.Id;
+                    Expression finalFilterBody;
+
+                    if (filterExpression != null)
+                    {
+                        var invokeFilterExpression = Expression.Invoke(filterExpression, filterStudentExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(filterStudentExpression.Body, invokeFilterExpression);
+                    }
+                    else
+                        finalFilterBody = filterStudentExpression.Body;
+                    var finalFilterExpression = Expression.Lambda<Func<Student, bool>>(finalFilterBody, filterStudentExpression.Parameters);
+
+                    var studentVms = _studentService.GetStudents(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_StudentsTableDataPartial", studentVms);
+                    return View(studentVms);
+                }
+                throw new Exception("Parent is assigned to role, but to the Parent Type");
             }
-            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Teacher"))
+            else if (_userManager.IsInRoleAsync(user, "Teacher").Result
+                 || _userManager.IsInRoleAsync(user, "Admin").Result
+            )     
             {
-                var teacher = _userManager.Users.OfType<Teacher>().FirstOrDefault(x => x.UserName == User.Identity.Name);
-                var student = teacher?.Subjects.SelectMany(x => x.SubjectGroups.SelectMany(y => y.Group.Students));
-                studentsVm = Mapper.Map<IEnumerable<StudentVm>>(student);
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+                return View(studentVms);
             }
-            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-            {
-                studentsVm = _studentService.GetStudents();
-            }
-            return View(studentsVm);
+            return View("Error");         
         }
 
         [Authorize(Roles = "Teacher, Admin, Parent, Student")]
