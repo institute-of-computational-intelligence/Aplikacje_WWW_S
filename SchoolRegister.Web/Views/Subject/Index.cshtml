@@ -6,6 +6,13 @@
     ViewData["Title"] = "Index";
 } 
 <h2>@Localizer["Subject"]</h2>
+<div class="row">
+        <div class ="col-4">
+            <div class ="form-group">
+                <input class = "subjects-filter-input form-control" type="text" placeholder="filter"/>
+            </div>
+        </div>
+</div>
 @if (User.IsInRole("Admin"))
 {
     <p>
@@ -16,50 +23,20 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                <label>@Localizer["Name"]</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <label>@Localizer["Description"]</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                <label>@Localizer["TeacherName"]</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TeacherName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Groups)
+                <label>@Localizer["GroupsCount"]</label>
             </th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Groups.Count)
-            </td>
-            <td>
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:|
-                    <a asp-controller="Subject" asp-action="AttachSubjectToGroup" asp-routesubjectId="@item.Id">@Localizer["AttachSubjectGroup"]</a> @:|
-                    <a asp-controller="Subject" asp-action="DetachSubjectToGroup" asp-routesubjectId="@item.Id">@Localizer["DetachSubjectGroup"]</a> @:|
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a>
-            </td>
-        </tr>
-}
+    <tbody class="subjects-table-data">
+        <partial name="_SubjectsTableDataPartial" model="Model" />
     </tbody>
 </table>

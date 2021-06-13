@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AutoMapper;
@@ -37,12 +38,20 @@ namespace SchoolRegister.Web.Controllers
         }
 
 
-        public IActionResult Index()
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Student, bool>> filterExpression = null;
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.LastName.Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
             var user = _userManager.GetUserAsync(User).Result;
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_studentService.GetStudents());
-
+            {
+                var studentVms = _studentService.GetStudents(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+                return View(studentVms);
+            }
             if (_userManager.IsInRoleAsync(user, "Student").Result)
                 return RedirectToAction("Details", "Student", new { studentId = user.Id });
 
@@ -50,8 +59,12 @@ namespace SchoolRegister.Web.Controllers
                 return View(_studentService.GetStudents(s => s.ParentId == user.Id));
 
             if (_userManager.IsInRoleAsync(user, "Teacher").Result)
-                return View(_studentService.GetStudents());
-
+            {
+                    var studentVms = _studentService.GetStudents(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_StudentsTableDataPartial", studentVms);
+                return View(studentVms);
+            }
             return View("Error");
         }
 
