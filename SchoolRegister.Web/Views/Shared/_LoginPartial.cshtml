@@ -1,9 +1,9 @@
 @using Microsoft.AspNetCore.Identity
-@using SchoolRegister.Model.DataModels
 @using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
+@using SchoolRegister.Model.DataModels
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IViewLocalizer Localizer
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

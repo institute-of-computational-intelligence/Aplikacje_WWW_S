@@ -117,19 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BacktoList" xml:space="preserve">
-    <value>Wstecz</value>
+  <data name="AttachSubjecttoGroup" xml:space="preserve">
+    <value>Dodaj przedmiot do grupy</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Opis</value>
+  <data name="DetachSubjecttoGroup" xml:space="preserve">
+    <value>Usun przedmiot z grupy</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nazwa</value>
+  <data name="Details" xml:space="preserve">
+    <value>Szczegóły</value>
   </data>
-  <data name="Subject" xml:space="preserve">
-    <value>Przedmiot</value>
-  </data>
-  <data name="Teacher" xml:space="preserve">
-    <value>Nauczyciel</value>
+  <data name="Edit" xml:space="preserve">
+    <value>Edycja</value>
   </data>
 </root>

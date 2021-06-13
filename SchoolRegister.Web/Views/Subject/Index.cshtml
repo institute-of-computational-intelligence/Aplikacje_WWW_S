@@ -1,60 +1,43 @@
 @using SchoolRegister.ViewModels.VM
 @using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
 @model IEnumerable<SubjectVm>
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer["Subject"];
 }
-<h2>@Localizer["Subject"]</h2>
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input class="subjects-filter-input form-control" type="text" placeholder="filter" />
+        </div>
+    </div>
+</div>
 @if (User.IsInRole("Admin"))
 {
     <p>
-        <a asp-action="AddOrEditSubject">@Localizer["Create New"]</a>
+        <a asp-action="AddOrEditSubject">@Localizer["CreateNew"]</a>
     </p>
 }
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Localizer[@Html.DisplayNameFor(model => model.Name)]
+                <label>@Localizer["Name"]</label>
             </th>
             <th>
-                @Localizer[@Html.DisplayNameFor(model => model.Description)]
+                <label>@Localizer["Description"]</label>
             </th>
             <th>
-                @Localizer[@Html.DisplayNameFor(model => model.TeacherName)]
+                <label>@Localizer["TeacherName"]</label>
             </th>
             <th>
-                <label>@Localizer["Groups Count"]</label>
+                <label>@Localizer["GroupsCount"]</label>
             </th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TeacherName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Groups.Count)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="AddOrEditSubject" asp-route-id="@item.Id">@Localizer["Edit"]</a> @:|
-                        <a asp-controller="Group" asp-action="AttachSubjectToGroup" asp-route-subjectId="@item.Id">@Localizer["Attach"]</a> @:|
-                        <a asp-controller="Group" asp-action="DetachSubjectToGroup" asp-route-subjectId="@item.Id">@Localizer["Detach"]</a> @:|
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">@Localizer["Details"]</a> 
-                </td>
-            </tr>
-        }
+    <tbody class="subjects-table-data">
+        <partial name="_SubjectsTableDataPartial" model="Model" />
     </tbody>
 </table>

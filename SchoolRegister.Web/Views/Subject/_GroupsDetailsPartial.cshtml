@@ -2,13 +2,14 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 @model IEnumerable<GroupVm>
+    
 <hr/>
-<label>@Localizer["Groups"]:</label>
+<label>Groups:</label>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Localizer[@Html.DisplayNameFor(model => model.Name)]
+                 @Localizer["Name"]
             </th>
         </tr>
     </thead>

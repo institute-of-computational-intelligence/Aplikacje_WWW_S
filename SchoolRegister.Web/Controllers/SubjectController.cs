@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -31,16 +32,40 @@ namespace SchoolRegister.Web.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string filterValue = null)
         {
+            Expression<Func<Subject, bool>> filterExpression = null;
+            if (!string.IsNullOrWhiteSpace(filterValue))
+                filterExpression = s => s.Name.Contains(filterValue);
+            bool isAjaxRequest = HttpContext.Request.Headers["x-requested-with"] == "XMLHttpRequest";
             var user = _userManager.GetUserAsync(User).Result;
             if (_userManager.IsInRoleAsync(user, "Admin").Result)
-                return View(_subjectService.GetSubjects());
+            {
+                var subjectVms = _subjectService.GetSubjects(filterExpression);
+                if (isAjaxRequest)
+                    return PartialView("_SubjectsTableDataPartial", subjectVms);
+                return View(subjectVms);
+            }
             else if (_userManager.IsInRoleAsync(user, "Teacher").Result)
             {
                 if (user is Teacher teacher)
-                    return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
-                throw new Exception("Teacher is assinged to role, but to the Teacher type.");
+                {
+                    Expression<Func<Subject, bool>> filterTeacherExpression = s => s.TeacherId == teacher.Id;
+                    Expression finalFilterBody;
+                    if (filterExpression != null)
+                    {
+                        var invokedFilterExpr = Expression.Invoke(filterExpression, filterTeacherExpression.Parameters);
+                        finalFilterBody = Expression.AndAlso(filterTeacherExpression.Body, invokedFilterExpr);
+                    }
+                    else
+                        finalFilterBody = filterTeacherExpression.Body;
+                    var finalFilterExpression = Expression.Lambda<Func<Subject, bool>>(finalFilterBody, filterTeacherExpression.Parameters);
+                    var subjectVms = _subjectService.GetSubjects(finalFilterExpression);
+                    if (isAjaxRequest)
+                        return PartialView("_SubjectsTableDataPartial", subjectVms);
+                    return View(subjectVms);
+                }
+                throw new Exception("Teacher is assigned to role, but to the Teacher type.");
             }
             else if (_userManager.IsInRoleAsync(user, "Student").Result)
                 return RedirectToAction("Details", "Student", new { studentId = user.Id });
@@ -48,7 +73,6 @@ namespace SchoolRegister.Web.Controllers
                 return RedirectToAction("Index", "Student");
             else
                 return View("Error");
-
         }
 
         [HttpGet]
