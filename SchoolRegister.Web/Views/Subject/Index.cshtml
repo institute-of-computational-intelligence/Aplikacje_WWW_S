@@ -7,6 +7,14 @@
     ViewData["Title"] = "Index";
 }
 <h2>@Localizer["Subject"]</h2>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <input class="subjects-filter-input form-control" type="text" placeholder="filter"/>
+        </div>
+    </div>
+</div>
+
 
 @if (User.IsInRole("Admin"))
 {
