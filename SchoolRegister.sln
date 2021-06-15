@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Web", "Schoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Tests", "SchoolRegister.Tests\SchoolRegister.Tests.csproj", "{418BCA2C-D2BA-4E22-A351-AB8BFDED0F1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRegister.Api", "SchoolRegister.Api\SchoolRegister.Api.csproj", "{CADF8F19-D679-423A-96F2-E0F33462E87A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,5 +102,17 @@ Global
 		{418BCA2C-D2BA-4E22-A351-AB8BFDED0F1B}.Release|x64.Build.0 = Release|Any CPU
 		{418BCA2C-D2BA-4E22-A351-AB8BFDED0F1B}.Release|x86.ActiveCfg = Release|Any CPU
 		{418BCA2C-D2BA-4E22-A351-AB8BFDED0F1B}.Release|x86.Build.0 = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|x64.Build.0 = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Debug|x86.Build.0 = Debug|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|x64.ActiveCfg = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|x64.Build.0 = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|x86.ActiveCfg = Release|Any CPU
+		{CADF8F19-D679-423A-96F2-E0F33462E87A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
